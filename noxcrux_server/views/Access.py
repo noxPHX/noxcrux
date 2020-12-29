@@ -4,7 +4,8 @@ from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView, View
 from django.urls import reverse
 from django.contrib import messages
-from noxcrux_server.forms.Login import LoginForm
+from noxcrux_server.forms.Login import LoginForm, RegisterForm
+from noxcrux_api.views.User import UserList
 
 
 class LoginView(TemplateView):
@@ -30,8 +31,24 @@ class LoginView(TemplateView):
         return render(request, self.template_name, {'form': form})
 
 
-#class RegisterView(TemplateView):
-#    template_name = 'register.html'
+class RegisterView(TemplateView):
+    template_name = 'register.html'
+
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, {'form': RegisterForm()})
+
+    def post(self, request, **kwargs):
+        form = RegisterForm(request.POST)
+
+        if form.is_valid():
+            request.data = form.cleaned_data
+            res = UserList().post(request)
+            if res.status_code == 201:
+                messages.success(request, 'Account created successfully!')
+                return HttpResponseRedirect(reverse('login'))
+
+        messages.error(request, 'Could not register your account')
+        return render(request, self.template_name, {'form': form})
 
 
 class LogoutView(View):

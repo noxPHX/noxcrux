@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    noxcrux - Login
+    noxcrux - Register
 {% endblock title %}
 
 {% block content %}
@@ -10,19 +10,21 @@
         <div class="card text-center">
             <div class="card-header">noxcrux</div>
             <div class="card-body">
-                <h5 class="card-title">Log in</h5>
+                <h5 class="card-title">Register</h5>
                 <p class="card-text">
-                    Login to this noxcrux server
+                    Create an account on this noxcrux server
                 </p>
-                <form method="POST" role="form" action="{% url 'login' %}">
+                <form method="POST" role="form" action="{% url 'register' %}">
                     {% csrf_token %}
                     {{ form.username }}
                     {{ form.username.errors }}
                     {{ form.password }}
                     {{ form.password.errors }}
-                    <input class="btn btn-primary" type="submit" value="Login"/>
+                    {{ form.confirm }}
+                    {{ form.confirm.errors }}
+                    <input class="btn btn-primary" type="submit" value="Submit"/>
                 </form>
-                <a href="{% url 'register' %}" class="color-main"><small>First time?</small></a>
+                <a href="{% url 'login' %}" class="color-main"><small>Nope</small></a>
             </div>
             <div class="card-footer text-muted">noxcrux web access</div>
         </div>
