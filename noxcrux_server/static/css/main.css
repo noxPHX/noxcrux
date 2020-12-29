@@ -1,0 +1,47 @@
+body {
+    background-color: #176085;
+}
+
+a, a:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+#header {
+    background-color: #0d394f;
+    color: white;
+}
+
+#footer {
+    background-color: #0d394f;
+    color: white;
+}
+
+.alert-fixed {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index:9999;
+}
+
+#logout {
+  color: #fff;
+}
+
+.color-main {
+    color: #176085;
+}
+
+.bg-main {
+    background-color: #176085;
+    border-color: #176085;
+}
+
+#trash {
+    font-size: 0.7em;
+    color: red;
+}
+
+#edit {
+    font-size: 0.7em;
+}

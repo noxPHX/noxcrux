@@ -1,0 +1,30 @@
+{% extends 'default.html' %}
+
+{% block title %}
+    noxcrux - Edit {{ name }}
+{% endblock title %}
+
+{% block content %}
+    <div class="d-flex justify-content-center align-items-center h-100">
+
+        <div class="card text-center">
+            <div class="card-header">Edit {{ name }}</div>
+            <div class="card-body">
+                <form method="POST" role="form" action="{% url 'horcrux_edit' name %}">
+                    {% csrf_token %}
+                    {{ form.name }}
+                    {{ form.name.errors }}
+                    {{ form.horcrux }}
+                    {{ form.horcrux.errors }}
+                    {{ form.site }}
+                    {{ form.site.errors }}
+                    <input class="btn btn-primary" type="submit" value="Submit"/>
+                </form>
+            </div>
+            <div class="card-footer text-muted">
+                <a href="{% url 'home' %}" class="color-main"><i class="fas fa-arrow-left"></i>&nbsp;Back</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

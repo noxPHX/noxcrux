@@ -1,0 +1,61 @@
+{% extends 'default.html' %}
+
+{% block title %}
+    noxcrux - My Horcruxes
+{% endblock title %}
+
+{% block content %}
+
+    <div class="d-flex flex-column justify-content-around align-items-center h-100">
+
+        <div class="d-flex justify-content-center align-items-center">
+
+            {% if horcruxes %}
+
+                <div class="card text-center m-1">
+                    <div class="card-header">Name</div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Horcrux
+                        </p>
+                    </div>
+                    <div class="card-footer text-muted">Site</div>
+                </div>
+
+                {% for horcrux in horcruxes %}
+
+                    <div class="card text-center m-1">
+                        <div class="card-header d-flex justify-content-between">
+                            <a href="{% url 'horcrux_edit' horcrux.name %}">
+                                <i class="fas fa-edit color-main"></i>
+                            </a>
+                            <div class="mx-3">{{ horcrux.name }}</div>
+                            <a href="{% url 'horcrux_delete' horcrux.name %}">
+                                <i id="trash" class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                {{ horcrux.horcrux }}
+                                <i class="far fa-copy color-main"></i>
+                            </p>
+                        </div>
+                        <div class="card-footer text-muted"><a href="{{ horcrux.site }}" class="color-main" target="_blank">{{ horcrux.site }}</a></div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="card text-center m-1">
+                <div class="card-header">New horcrux</div>
+                <div class="card-body">
+                    <p class="card-text">
+                        <a class="btn btn-primary bg-main" href="{% url 'horcrux_add' %}">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
