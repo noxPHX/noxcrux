@@ -1,4 +1,4 @@
-from rest_framework import permissions, status
+from rest_framework import status
 from noxcrux_api.serializers.Horcrux import HorcruxSerializer
 from noxcrux_api.models.Horcrux import Horcrux
 from django.http import Http404
@@ -10,7 +10,6 @@ class HorcruxList(APIView):
     """
     List all horcruxes, or create a new horcrux
     """
-    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         horcruxes = Horcrux.objects.filter(owner=request.user)
@@ -29,7 +28,6 @@ class HorcruxDetail(APIView):
     """
     Retrieve, update or delete a horcrux instance
     """
-    permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self, name, owner):
         try:
