@@ -1,12 +1,18 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, CurrentUserDefault
+from rest_framework import serializers
 from noxcrux_api.models.Horcrux import Horcrux
 from django.http import Http404
 
 
 class HorcruxSerializer(ModelSerializer):
+    """
+    owner needs to be declared explicitly to check against unique together constraint
+    """
+    owner = serializers.PrimaryKeyRelatedField(read_only=True, default=CurrentUserDefault())
+
     class Meta:
         model = Horcrux
-        fields = ['name', 'horcrux', 'site']
+        fields = ['name', 'horcrux', 'site', 'owner']
 
     def create(self, validated_data):
         request = self.context.get('request', None)

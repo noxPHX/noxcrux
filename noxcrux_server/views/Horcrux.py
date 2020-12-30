@@ -14,7 +14,7 @@ class HorcruxAdd(TemplateView):
         return render(request, self.template_name, {'form': HorcruxForm(initial={'site': 'https://'})})
 
     def post(self, request, **kwargs):
-        form = HorcruxForm(request.POST)
+        form = HorcruxForm(request.POST, user=request.user)
 
         if form.is_valid():
             request.data = form.cleaned_data
@@ -37,7 +37,7 @@ class HorcruxEdit(TemplateView):
 
     def post(self, request, **kwargs):
         horcrux = HorcruxDetail().get_object(kwargs['name'], request.user)
-        form = HorcruxForm(request.POST, instance=horcrux)
+        form = HorcruxForm(request.POST, instance=horcrux, user=request.user)
 
         if form.is_valid():
             request.data = form.cleaned_data

@@ -42,7 +42,7 @@ class HorcruxDetail(APIView):
 
     def put(self, request, name):
         horcrux = self.get_object(name, request.user)
-        serializer = HorcruxSerializer(horcrux, data=request.data)
+        serializer = HorcruxSerializer(horcrux, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

@@ -2,6 +2,5 @@
 ## TODO
 + Copy to clipboard
 + Horcrux generator
-+ Register
 + password / horcrux visibility
 + encrypted horcruxes

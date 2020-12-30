@@ -4,9 +4,12 @@ from django.contrib.auth.models import User
 
 class Horcrux(models.Model):
     site = models.CharField(max_length=255)
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     horcrux = models.CharField(max_length=255)
+
+    class Meta:
+        unique_together = ['name', 'owner']
 
     def __str__(self):
         return self.name
