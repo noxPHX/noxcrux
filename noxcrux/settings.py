@@ -141,6 +141,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+LOGIN_URL = '/web/login/'
+
 MESSAGE_TAGS = {
     messages.DEBUG: 'alert-info',
     messages.INFO: 'alert-info',

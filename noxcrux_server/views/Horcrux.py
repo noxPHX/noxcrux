@@ -1,4 +1,4 @@
-from django.views.generic import View, TemplateView
+from noxcrux_server.views.LoginRequired import LoginRequiredView, LoginRequiredTemplateView
 from django.http import HttpResponseRedirect
 from noxcrux_api.views.Horcrux import HorcruxDetail, HorcruxList
 from django.urls import reverse
@@ -7,7 +7,7 @@ from django.shortcuts import render
 from noxcrux_server.forms.Horcrux import HorcruxForm
 
 
-class HorcruxAdd(TemplateView):
+class HorcruxAdd(LoginRequiredTemplateView):
     template_name = 'horcrux_add.html'
 
     def get(self, request, *args, **kwargs):
@@ -27,7 +27,7 @@ class HorcruxAdd(TemplateView):
         return render(request, self.template_name, {'form': form})
 
 
-class HorcruxEdit(TemplateView):
+class HorcruxEdit(LoginRequiredTemplateView):
     template_name = 'horcrux_edit.html'
 
     def get(self, request, *args, **kwargs):
@@ -50,7 +50,7 @@ class HorcruxEdit(TemplateView):
         return render(request, self.template_name, {'form': form, 'name': kwargs['name']})
 
 
-class HorcruxDelete(View):
+class HorcruxDelete(LoginRequiredView):
 
     def get(self, request, *args, **kwargs):
         name = kwargs['name']

@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
-from django.views.generic import TemplateView, View
+from django.views.generic import TemplateView
+from noxcrux_server.views.LoginRequired import LoginRequiredView
 from django.urls import reverse
 from django.contrib import messages
 from noxcrux_server.forms.Login import LoginForm, RegisterForm
@@ -51,7 +52,7 @@ class RegisterView(TemplateView):
         return render(request, self.template_name, {'form': form})
 
 
-class LogoutView(View):
+class LogoutView(LoginRequiredView):
 
     def get(self, request, **kwargs):
         logout(request)

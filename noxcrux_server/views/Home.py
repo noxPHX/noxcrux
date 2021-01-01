@@ -1,9 +1,9 @@
-from django.views.generic import TemplateView
+from noxcrux_server.views.LoginRequired import LoginRequiredTemplateView
 from django.shortcuts import render
 from noxcrux_api.views.Horcrux import HorcruxList
 
 
-class HomeView(TemplateView):
+class HomeView(LoginRequiredTemplateView):
     template_name = 'home.html'
 
     def get(self, request, *args, **kwargs):
