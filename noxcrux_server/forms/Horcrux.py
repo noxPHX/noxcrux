@@ -20,6 +20,6 @@ class HorcruxForm(forms.ModelForm):
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
-        if Horcrux.objects.filter(name=name, owner=self.user).exists():
+        if Horcrux.objects.filter(name=name, owner=self.user).exclude(id=self.instance.id):
             raise forms.ValidationError("Horcrux with this name already exists!")
         return name
