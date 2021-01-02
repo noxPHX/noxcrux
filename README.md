@@ -4,3 +4,4 @@
 + Horcrux generator
 + password / horcrux visibility
 + encrypted horcruxes
++ style form errors

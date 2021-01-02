@@ -1,55 +1,46 @@
-from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
-from django.views.generic import TemplateView
+from django.views.generic import FormView
 from noxcrux_server.views.LoginRequired import LoginRequiredView
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from noxcrux_server.forms.Login import LoginForm, RegisterForm
 from noxcrux_api.views.User import UserList
 
 
-class LoginView(TemplateView):
+class LoginView(FormView):
     template_name = 'login.html'
+    form_class = LoginForm
+    success_url = reverse_lazy('home')
 
-    def get(self, request, **kwargs):
-        return render(request, self.template_name, {'form': LoginForm()})
+    def form_valid(self, form):
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
+        user = authenticate(username=username, password=password)
 
-    def post(self, request, **kwargs):
-        form = LoginForm(request.POST)
-
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-
-            if user is not None and user.is_active:
-                login(request, user)
-                messages.success(request, 'Logged in successfully!')
-                return HttpResponseRedirect(reverse('home'))
-
-        messages.error(request, 'Incorrect credentials')
-        return render(request, self.template_name, {'form': form})
+        if user is not None and user.is_active:
+            login(self.request, user)
+            messages.success(self.request, 'Logged in successfully!')
+            return super(LoginView, self).form_valid(form)
+        else:
+            messages.error(self.request, 'Incorrect credentials')
+            return super(LoginView, self).get(self.request, *self.args, **self.kwargs)
 
 
-class RegisterView(TemplateView):
+class RegisterView(FormView):
     template_name = 'register.html'
+    form_class = RegisterForm
+    success_url = reverse_lazy('login')
 
-    def get(self, request, **kwargs):
-        return render(request, self.template_name, {'form': RegisterForm()})
-
-    def post(self, request, **kwargs):
-        form = RegisterForm(request.POST)
-
-        if form.is_valid():
-            request.data = form.cleaned_data
-            res = UserList().post(request)
-            if res.status_code == 201:
-                messages.success(request, 'Account created successfully!')
-                return HttpResponseRedirect(reverse('login'))
-
-        messages.error(request, 'Could not register your account')
-        return render(request, self.template_name, {'form': form})
+    def form_valid(self, form):
+        self.request.data = form.cleaned_data
+        res = UserList().post(self.request)
+        if res.status_code == 201:
+            messages.success(self.request, 'Account created successfully!')
+            return super(RegisterView, self).form_valid(form)
+        else:
+            messages.error(self.request, 'Could not register your account')
+            return super(RegisterView, self).get(self.request, *self.args, **self.kwargs)
 
 
 class LogoutView(LoginRequiredView):

@@ -1,7 +1,9 @@
 from django import forms
+from django.contrib.auth.models import User
 
 
 class LoginForm(forms.Form):
+
     username = forms.CharField(max_length=255, required=True, label="",
                                widget=forms.TextInput(attrs={'class': "form-control my-1", 'placeholder': "username"}))
     password = forms.CharField(max_length=255, required=True, label="",
@@ -9,7 +11,11 @@ class LoginForm(forms.Form):
                                    attrs={'class': "form-control my-1", 'placeholder': "password"}))
 
 
-class RegisterForm(LoginForm):
+class RegisterForm(forms.ModelForm, LoginForm):
+    class Meta:
+        model = User
+        fields = ['username']
+
     confirm = forms.CharField(max_length=255, required=True, label="", widget=forms.PasswordInput(
         attrs={'class': "form-control my-1", 'placeholder': "confirm password"}))
 
