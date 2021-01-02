@@ -5,3 +5,4 @@
 + password / horcrux visibility
 + encrypted horcruxes
 + style form errors
++ detect form changes

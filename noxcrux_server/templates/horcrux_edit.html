@@ -1,16 +1,16 @@
 {% extends 'default.html' %}
 
 {% block title %}
-    noxcrux - Edit {{ name }}
+    noxcrux - Edit {{ form.instance.name }}
 {% endblock title %}
 
 {% block content %}
     <div class="d-flex justify-content-center align-items-center h-100">
 
         <div class="card text-center">
-            <div class="card-header">Edit {{ name }}</div>
+            <div class="card-header">Edit {{ form.instance.name }}</div>
             <div class="card-body">
-                <form method="POST" role="form" action="{% url 'horcrux_edit' name %}">
+                <form method="POST" role="form" action="{% url 'horcrux_edit' form.instance.name %}">
                     {% csrf_token %}
                     {{ form.name }}
                     {{ form.name.errors }}
