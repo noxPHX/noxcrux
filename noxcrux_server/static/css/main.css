@@ -1,18 +1,51 @@
+* {
+	z-index: inherit;
+}
+
+html {
+	z-index: 0;
+	height: 100%;
+}
+
 body {
+	height: inherit;
+	text-align: center;
+    overflow: hidden;
     background-color: #176085;
 }
 
-a, a:hover {
-    text-decoration: none;
-    color: inherit;
+a, a:hover, a:focus {
+	outline: 0;
+	color: inherit;
+	text-decoration: none;
+}
+
+.container-fluid {
+
+	display: flex;
+	flex-direction: column;
+	height: inherit;
+    padding: 0;
 }
 
 #header {
+    z-index: 10;
     background-color: #0d394f;
     color: white;
 }
 
+#content {
+    flex: 1;
+    height: inherit;
+    overflow: auto;
+}
+
+#horcruxes {
+    height: inherit;
+}
+
 #footer {
+    z-index: 10;
     background-color: #0d394f;
     color: white;
 }
