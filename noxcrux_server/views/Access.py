@@ -45,7 +45,7 @@ class RegisterView(FormView):
 
 class LogoutView(LoginRequiredView):
 
-    def get(self, request, **kwargs):
+    def get(self, request, *args, **kwargs):
         logout(request)
         messages.success(request, 'Logged out successfully!')
         return HttpResponseRedirect(reverse('login'))
