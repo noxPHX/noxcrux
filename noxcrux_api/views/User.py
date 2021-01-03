@@ -26,10 +26,9 @@ class UserList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# TODO user password update, user delete, and according permissions/serializers
 class UserUpdate(APIView):
     """
-    Retrieve a user or update its username or password
+    Retrieve a user or update its username
     """
     permission_classes = [UserUpdatePermissions]
 
@@ -47,6 +46,30 @@ class UserUpdate(APIView):
     def put(self, request, username):
         user = self.get_object(username)
         serializer = UserUpdateSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PasswordUpdate(APIView):
+    """
+    Update a user's password
+    """
+    permission_classes = [UserUpdatePermissions]
+
+    def get_object(self, username):
+        try:
+            return User.objects.get(username=username)
+        except User.DoesNotExist:
+            raise Http404
+
+    def put(self, request, username):
+        user = self.get_object(username)
+        data = {'username': username}
+        if request.data:
+            data.update(request.data.dict())
+        serializer = UserSerializer(user, data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
