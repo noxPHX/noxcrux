@@ -2,13 +2,15 @@ from django.urls import path
 from noxcrux_server.views.Access import LoginView, LogoutView, RegisterView
 from noxcrux_server.views.Home import HomeView
 from noxcrux_server.views.Horcrux import HorcruxAdd, HorcruxEdit, HorcruxDelete
+from noxcrux_server.views.User import UserView
 
 urlpatterns = [
     path('login/', LoginView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(), name="logout"),
     path('register/', RegisterView.as_view(), name="register"),
     path('', HomeView.as_view(), name="home"),
-    path('horcrux/delete/<str:name>/', HorcruxDelete.as_view(), name="horcrux_delete"),
-    path('horcrux/edit/<str:name>/', HorcruxEdit.as_view(), name="horcrux_edit"),
     path('horcrux/add/', HorcruxAdd.as_view(), name="horcrux_add"),
+    path('horcrux/edit/<str:name>/', HorcruxEdit.as_view(), name="horcrux_edit"),
+    path('horcrux/delete/<str:name>/', HorcruxDelete.as_view(), name="horcrux_delete"),
+    path('profile/', UserView.as_view(), name="profile"),
 ]

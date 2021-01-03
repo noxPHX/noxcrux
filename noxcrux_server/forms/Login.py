@@ -23,3 +23,12 @@ class RegisterForm(forms.ModelForm, LoginForm):
         if self.cleaned_data.get('password') != self.cleaned_data.get('confirm'):
             raise forms.ValidationError("Passwords does not match")
         return self.cleaned_data.get('confirm')
+
+
+class UsernameForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username']
+
+    username = forms.CharField(max_length=255, required=True, label="",
+                               widget=forms.TextInput(attrs={'class': "form-control my-1", 'placeholder': "new username"}))
