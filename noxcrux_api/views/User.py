@@ -1,10 +1,11 @@
 from django.contrib.auth.models import User
 from rest_framework import status
-from noxcrux_api.serializers.User import UserSerializer, UserUpdateSerializer
+from noxcrux_api.serializers.User import UserSerializer, UserUpdateSerializer, PasswordUpdateSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from noxcrux_api.permissions import UsersPermissions, UserUpdatePermissions
-from django.http import Http404
+from rest_framework.permissions import IsAuthenticated
+from noxcrux_api.permissions import UsersPermissions
+from rest_framework.authtoken.models import Token
 
 
 class UserList(APIView):
@@ -28,24 +29,12 @@ class UserList(APIView):
 
 class UserUpdate(APIView):
     """
-    Retrieve a user or update its username
+    Update a user's username
     """
-    permission_classes = [UserUpdatePermissions]
+    permission_classes = [IsAuthenticated]
 
-    def get_object(self, username):
-        try:
-            return User.objects.get(username=username)
-        except User.DoesNotExist:
-            raise Http404
-
-    def get(self, request, username):
-        user = self.get_object(username)
-        serializer = UserUpdateSerializer(user)
-        return Response(serializer.data)
-
-    def put(self, request, username):
-        user = self.get_object(username)
-        serializer = UserUpdateSerializer(user, data=request.data)
+    def put(self, request):
+        serializer = UserUpdateSerializer(request.user, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -56,21 +45,14 @@ class PasswordUpdate(APIView):
     """
     Update a user's password
     """
-    permission_classes = [UserUpdatePermissions]
+    permission_classes = [IsAuthenticated]
 
-    def get_object(self, username):
-        try:
-            return User.objects.get(username=username)
-        except User.DoesNotExist:
-            raise Http404
-
-    def put(self, request, username):
-        user = self.get_object(username)
-        data = {'username': username}
-        if request.data:
-            data.update(request.data.dict())
-        serializer = UserSerializer(user, data=data)
+    def put(self, request):
+        serializer = PasswordUpdateSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
+            user = serializer.save()
+            if hasattr(user, 'auth_token'):
+                user.auth_token.delete()
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({'token': token.key}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
