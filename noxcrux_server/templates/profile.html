@@ -9,17 +9,15 @@
     <div id="horcruxes" class="d-flex flex-wrap justify-content-center align-items-center px-3">
 
         <div class="card text-center">
-            <div class="card-header">{{ user.get_username }}</div>
-            <div class="card-body">
-                <p class="card-text">
-                    Change your username
-                </p>
-                <form method="POST" role="form" action="{% url 'profile' %}">
-                    {% csrf_token %}
-                    {{ form.username }}
-                    {{ form.username.errors }}
-                    <input class="btn btn-primary bg-main" type="submit" value="Update"/>
-                </form>
+            <div class="card-header">My profile</div>
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{ user.get_username }}</h5>
+                <a class="btn btn-primary bg-main m-1" href="{% url 'edit_username' %}">
+                    Edit my username&nbsp;<i class="fas fa-user"></i>
+                </a>
+                <a class="btn btn-primary bg-main m-1" href="{% url 'edit_username' %}">
+                    Edit my password&nbsp;<i class="fas fa-key"></i>
+                </a>
             </div>
             <div class="card-footer text-muted">
                 <a href="{% url 'home' %}" class="color-main"><i class="fas fa-arrow-left"></i>&nbsp;Back</a>
