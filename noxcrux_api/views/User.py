@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from noxcrux_api.permissions import UsersPermissions
 from rest_framework.authtoken.models import Token
+from django.contrib.auth import update_session_auth_hash
 
 
 class UserList(APIView):
@@ -54,5 +55,6 @@ class PasswordUpdate(APIView):
             if hasattr(user, 'auth_token'):
                 user.auth_token.delete()
             token, created = Token.objects.get_or_create(user=user)
+            update_session_auth_hash(request, user)
             return Response({'token': token.key}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
