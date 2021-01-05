@@ -3,7 +3,6 @@
 + Copy to clipboard
 + Horcrux generator
 + password / horcrux visibility
-+ encrypted horcruxes
 + style form errors
 + detect form changes
 + admin page (update username/password of users)
