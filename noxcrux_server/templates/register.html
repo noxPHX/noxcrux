@@ -16,12 +16,7 @@
                 </p>
                 <form method="POST" role="form" action="{% url 'register' %}">
                     {% csrf_token %}
-                    {{ form.username }}
-                    {{ form.username.errors }}
-                    {{ form.password }}
-                    {{ form.password.errors }}
-                    {{ form.confirm }}
-                    {{ form.confirm.errors }}
+                    {{ form }}
                     <input class="btn btn-primary bg-main" type="submit" value="Submit"/>
                 </form>
                 <a href="{% url 'login' %}" class="color-main"><small>Nope</small></a>

@@ -4,7 +4,7 @@ from django.views.generic import FormView
 from noxcrux_server.views.LoginRequired import LoginRequiredView
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
-from noxcrux_server.forms.Login import LoginForm, RegisterForm
+from noxcrux_server.forms.User import LoginForm, RegisterForm
 from noxcrux_api.views.User import UserList
 
 
@@ -23,7 +23,7 @@ class LoginView(FormView):
             messages.success(self.request, 'Logged in successfully!')
             return super(LoginView, self).form_valid(form)
         else:
-            messages.error(self.request, 'Incorrect credentials')
+            messages.error(self.request, 'Could not log in')
             return super(LoginView, self).get(self.request, *self.args, **self.kwargs)
 
 
@@ -33,7 +33,10 @@ class RegisterView(FormView):
     success_url = reverse_lazy('login')
 
     def form_valid(self, form):
-        self.request.data = form.cleaned_data
+        self.request.data = {
+            'username': form.cleaned_data['username'],
+            'password': form.cleaned_data['password1']
+        }
         res = UserList().post(self.request)
         if res.status_code == 201:
             messages.success(self.request, 'Account created successfully!')

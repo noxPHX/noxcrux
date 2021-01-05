@@ -1,5 +1,5 @@
 from noxcrux_server.views.LoginRequired import LoginRequiredFormView, LoginRequiredTemplateView
-from noxcrux_server.forms.Login import UsernameForm, PasswordUpdateForm
+from noxcrux_server.forms.User import UsernameForm, PasswordUpdateForm
 from django.urls import reverse_lazy
 from noxcrux_api.views.User import UserUpdate, PasswordUpdate
 from django.contrib import messages
