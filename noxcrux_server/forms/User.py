@@ -45,3 +45,19 @@ class UsernameForm(forms.ModelForm):
 
     username = forms.CharField(max_length=255, required=True, label="",
                                widget=forms.TextInput(attrs={'class': "form-control my-1", 'placeholder': "new username"}))
+
+
+class DeleteUserForm(forms.Form):
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+    password = forms.CharField(max_length=128, required=True, label="",
+                               widget=forms.PasswordInput(attrs={'class': "form-control my-1", 'placeholder': "confirm your password"}))
+
+    def clean_password(self):
+        password = self.cleaned_data["password"]
+        if not self.user.check_password(password):
+            raise forms.ValidationError("Your password was entered incorrectly. Please enter it again.", code='password_incorrect')
+        return password

@@ -1,0 +1,33 @@
+{% extends 'default.html' %}
+
+{% block title %}
+    noxcrux - Delete my account
+{% endblock title %}
+
+{% block content %}
+
+    <div id="horcruxes" class="d-flex flex-wrap justify-content-center align-items-center px-3">
+
+        <div class="card text-center">
+            <div class="card-header">{{ user.get_username }}</div>
+            <div class="card-body">
+                <h5 class="card-title">Delete your account</h5>
+                <p class="card-text">
+                    To confirm your account deletion, please confirm your credentials
+                </p>
+                <p class="card-text">
+                    Please note that it will delete all your horcruxes and you won't be able to recover them
+                </p>
+                <form method="POST" role="form" action="{% url 'delete_account' %}">
+                    {% csrf_token %}
+                    {{ form }}
+                    <input class="btn btn-danger" type="submit" value="Delete my account"/>
+                </form>
+            </div>
+            <div class="card-footer text-muted">
+                <a href="{% url 'profile' %}" class="color-main"><i class="fas fa-arrow-left"></i>&nbsp;Back</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

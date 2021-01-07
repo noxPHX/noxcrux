@@ -1,7 +1,7 @@
 from noxcrux_server.views.LoginRequired import LoginRequiredFormView, LoginRequiredTemplateView
-from noxcrux_server.forms.User import UsernameForm, PasswordUpdateForm
+from noxcrux_server.forms.User import UsernameForm, PasswordUpdateForm, DeleteUserForm
 from django.urls import reverse_lazy
-from noxcrux_api.views.User import UserUpdate, PasswordUpdate
+from noxcrux_api.views.User import UserUpdate, PasswordUpdate, Profile
 from django.contrib import messages
 
 
@@ -44,3 +44,28 @@ class PasswordUpdateView(LoginRequiredFormView):
         else:
             messages.error(self.request, 'An error occurred')
             return super(PasswordUpdateView, self).get(self.request, *self.args, **self.kwargs)
+
+
+class DeleteAccountView(LoginRequiredFormView):
+    template_name = 'delete_account.html'
+    form_class = DeleteUserForm
+    success_url = reverse_lazy('login')
+
+    def get_initial(self):
+        initial = super(DeleteAccountView, self).get_initial()
+        initial.update({'username': self.request.user.username})
+        return initial
+
+    def get_form_kwargs(self):
+        kwargs = super(DeleteAccountView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        res = Profile().delete(self.request)
+        if res.status_code == 204:
+            messages.success(self.request, 'Account removed successfully!')
+            return super(DeleteAccountView, self).form_valid(form)
+        else:
+            messages.error(self.request, 'An error occurred')
+            return super(DeleteAccountView, self).get(self.request, *self.args, **self.kwargs)

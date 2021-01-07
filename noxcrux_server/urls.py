@@ -2,7 +2,7 @@ from django.urls import path
 from noxcrux_server.views.Access import LoginView, LogoutView, RegisterView
 from noxcrux_server.views.Home import HomeView
 from noxcrux_server.views.Horcrux import HorcruxAdd, HorcruxEdit, HorcruxDelete
-from noxcrux_server.views.User import ProfileView, UsernameUpdateView, PasswordUpdateView
+from noxcrux_server.views.User import ProfileView, UsernameUpdateView, PasswordUpdateView, DeleteAccountView
 
 urlpatterns = [
     path('login/', LoginView.as_view(), name="login"),
@@ -15,4 +15,5 @@ urlpatterns = [
     path('profile/', ProfileView.as_view(), name="profile"),
     path('profile/username/', UsernameUpdateView.as_view(), name="edit_username"),
     path('profile/password/', PasswordUpdateView.as_view(), name="edit_password"),
+    path('profile/delete/', DeleteAccountView.as_view(), name="delete_account"),
 ]
