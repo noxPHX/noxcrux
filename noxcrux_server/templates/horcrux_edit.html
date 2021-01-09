@@ -11,13 +11,7 @@
             <div class="card-header">Edit {{ form.instance.name }}</div>
             <div class="card-body">
                 <form method="POST" role="form" action="{% url 'horcrux_edit' form.instance.name %}">
-                    {% csrf_token %}
-                    {{ form.name }}
-                    {{ form.name.errors }}
-                    {{ form.horcrux }}
-                    {{ form.horcrux.errors }}
-                    {{ form.site }}
-                    {{ form.site.errors }}
+                    {% include 'form.html' %}
                     <input class="btn btn-primary bg-main" type="submit" value="Submit"/>
                 </form>
             </div>

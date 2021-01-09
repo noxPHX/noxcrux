@@ -15,8 +15,7 @@
                     Create an account on this noxcrux server
                 </p>
                 <form method="POST" role="form" action="{% url 'register' %}">
-                    {% csrf_token %}
-                    {{ form }}
+                    {% include 'form.html' %}
                     <input class="btn btn-primary bg-main" type="submit" value="Submit"/>
                 </form>
                 <a href="{% url 'login' %}" class="color-main"><small>Nope</small></a>

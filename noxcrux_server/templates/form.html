@@ -1,0 +1,15 @@
+{% csrf_token %}
+{% for field in form %}
+
+    <input class="form-control my-1"
+           type="{{ field.field.widget.input_type }}"
+           name="{{ field.html_name }}"
+           placeholder="{{ field.label }}"
+           maxlength="{{ field.field.max_length }}"
+            {% if field.help_text %} title="{{ field.help_text }}" {% endif %}
+            {% if field.value %} value="{{ field.value }}" {% endif %}
+            {% if field.field.required %} required {% endif %}>
+    {{ field.errors }}
+
+{% endfor %}
+{{ form.non_field_errors }}

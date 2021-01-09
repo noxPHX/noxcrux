@@ -1,5 +1,6 @@
 from noxcrux_server.views.LoginRequired import LoginRequiredFormView, LoginRequiredTemplateView
-from noxcrux_server.forms.User import UsernameForm, PasswordUpdateForm, DeleteUserForm
+from noxcrux_server.forms.User import UsernameForm, DeleteUserForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.urls import reverse_lazy
 from noxcrux_api.views.User import UserUpdate, PasswordUpdate, Profile
 from django.contrib import messages
@@ -27,7 +28,7 @@ class UsernameUpdateView(LoginRequiredFormView):
 
 class PasswordUpdateView(LoginRequiredFormView):
     template_name = 'edit_password.html'
-    form_class = PasswordUpdateForm
+    form_class = PasswordChangeForm
     success_url = reverse_lazy('profile')
 
     def get_form_kwargs(self):

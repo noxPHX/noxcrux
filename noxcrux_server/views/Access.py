@@ -4,13 +4,13 @@ from django.views.generic import FormView
 from noxcrux_server.views.LoginRequired import LoginRequiredView
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
-from noxcrux_server.forms.User import LoginForm, RegisterForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from noxcrux_api.views.User import UserList
 
 
 class LoginView(FormView):
     template_name = 'login.html'
-    form_class = LoginForm
+    form_class = AuthenticationForm
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
@@ -29,7 +29,7 @@ class LoginView(FormView):
 
 class RegisterView(FormView):
     template_name = 'register.html'
-    form_class = RegisterForm
+    form_class = UserCreationForm
     success_url = reverse_lazy('login')
 
     def form_valid(self, form):

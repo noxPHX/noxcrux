@@ -19,8 +19,7 @@
                     Please note that it will delete all your horcruxes and you won't be able to recover them
                 </p>
                 <form method="POST" role="form" action="{% url 'delete_account' %}">
-                    {% csrf_token %}
-                    {{ form }}
+                    {% include 'form.html' %}
                     <input class="btn btn-danger" type="submit" value="Delete my account"/>
                 </form>
             </div>

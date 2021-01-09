@@ -15,9 +15,7 @@
                     Change your username
                 </p>
                 <form method="POST" role="form" action="{% url 'edit_username' %}">
-                    {% csrf_token %}
-                    {{ form.username }}
-                    {{ form.username.errors }}
+                    {% include 'form.html' %}
                     <input class="btn btn-primary bg-main" type="submit" value="Update"/>
                 </form>
             </div>

@@ -15,8 +15,7 @@
                     Login to this noxcrux server
                 </p>
                 <form method="POST" role="form" action="{% url 'login' %}">
-                    {% csrf_token %}
-                    {{ form }}
+                    {% include 'form.html' %}
                     <input class="btn btn-primary bg-main" type="submit" value="Login"/>
                 </form>
                 <a href="{% url 'register' %}" class="color-main"><small>First time?</small></a>

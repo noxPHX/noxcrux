@@ -11,12 +11,9 @@ class HorcruxForm(forms.ModelForm):
         self.user = kwargs.pop("user") if 'user' in kwargs else None
         super(HorcruxForm, self).__init__(*args, **kwargs)
 
-    name = forms.CharField(max_length=255, required=True, label="",
-                           widget=forms.TextInput(attrs={'class': "form-control my-1", 'placeholder': "Name"}))
-    horcrux = forms.CharField(max_length=255, required=True, label="",
-                              widget=forms.TextInput(attrs={'class': "form-control my-1", 'placeholder': "Horcrux"}))
-    site = forms.CharField(max_length=255, required=True, label="",
-                           widget=forms.TextInput(attrs={'class': "form-control my-1", 'placeholder': "Site"}))
+    name = forms.CharField(max_length=255, required=True, label="Name")
+    horcrux = forms.CharField(max_length=255, required=True, label="Horcrux")
+    site = forms.CharField(max_length=255, required=True, label="Site")
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
