@@ -32,11 +32,11 @@
                             <i id="trash" class="fas fa-trash"></i>
                         </a>
                     </div>
-                    <div class="card-body">
-                        <p class="card-text horcrux-copy" data-name="{{ horcrux.name }}">
+                    <div class="card-body horcrux-copy d-flex justify-content-center align-items-center">
+                        <div class="card-text mx-3 px-3" data-name="{{ horcrux.name }}">
                             {{ horcrux.horcrux }}
-                            <i class="far fa-copy color-main"></i>
-                        </p>
+                        </div>
+                        <i class="far fa-copy color-main"></i>
                     </div>
                     <div class="card-footer text-muted"><a href="{{ horcrux.site }}" class="color-main"
                                                            target="_blank">{{ horcrux.site }}</a></div>

@@ -48,6 +48,18 @@ a, a:hover, a:focus {
     cursor: pointer;
 }
 
+.horcrux-copy > .card-text {
+    background-color: rgb(200, 200, 200);
+    color: rgb(200, 200, 200);
+    border-radius: 0.5rem;
+    transition: all 0.3s ease-in;
+}
+
+.horcrux-copy > .card-text:hover {
+    background-color: rgb(230, 230, 230);
+    color: rgb(50, 50, 50);
+}
+
 #footer {
     z-index: 10;
     background-color: rgb(0, 50, 70);
