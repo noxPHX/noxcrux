@@ -54,7 +54,7 @@ a, a:hover, a:focus {
     color: white;
 }
 
-.alert-fixed {
+#messages {
     position: fixed;
     bottom: 0;
     right: 0;
