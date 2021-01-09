@@ -33,7 +33,7 @@
                         </a>
                     </div>
                     <div class="card-body">
-                        <p class="card-text">
+                        <p class="card-text horcrux-copy">
                             {{ horcrux.horcrux }}
                             <i class="far fa-copy color-main"></i>
                         </p>
@@ -57,3 +57,10 @@
     </div>
 
 {% endblock content %}
+
+{% block js %}
+
+    {%  load static %}
+    <script src="{% static 'js/clipboard.js' %}"></script>
+
+{% endblock js %}

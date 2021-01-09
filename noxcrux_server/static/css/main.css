@@ -44,6 +44,10 @@ a, a:hover, a:focus {
     height: inherit;
 }
 
+.horcrux-copy {
+    cursor: pointer;
+}
+
 #footer {
     z-index: 10;
     background-color: rgb(0, 50, 70);
