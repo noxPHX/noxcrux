@@ -94,3 +94,11 @@ a, a:hover, a:focus {
 #edit {
     font-size: 0.8em;
 }
+
+.popover-header {
+    font-weight: bold;
+}
+
+.popover {
+    box-shadow: 0 0 25px 3px black;
+}

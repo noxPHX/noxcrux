@@ -6,9 +6,15 @@
            name="{{ field.html_name }}"
            placeholder="{{ field.label }}"
            maxlength="{{ field.field.max_length }}"
-            {% if field.help_text %} title="{{ field.help_text }}" {% endif %}
             {% if field.value %} value="{{ field.value }}" {% endif %}
-            {% if field.field.required %} required {% endif %}>
+            {% if field.field.required %} required {% endif %}
+           data-toggle="popover"
+           data-trigger="hover"
+           data-html="true"
+           data-placement="right"
+           title="{{ field.label }}"
+            {% if field.help_text %} data-content="{{ field.help_text }}" {% else %}
+           data-content="Please fill out this field." {% endif %}>
     {{ field.errors }}
 
 {% endfor %}
