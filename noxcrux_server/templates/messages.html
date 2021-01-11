@@ -1,8 +1,10 @@
-<div id="messages">
+<div id="messages" class="mr-3">
 
     {% for message in messages %}
-        <div class="alert {{ message.tags }} alert-dismissible fade show me-3" role="alert">
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="alert {{ message.tags }} alert-dismissible fade show " role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
             {{ message }}
         </div>
     {% endfor %}
