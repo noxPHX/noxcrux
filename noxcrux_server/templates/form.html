@@ -1,4 +1,28 @@
 {% csrf_token %}
+{% if form.errors %}
+
+    <div class="error-popover" data-toggle="popover" data-trigger="manual" data-html="true" data-placement="left"
+         title="Errors" data-content='
+
+            {% if form.non_field_errors %}
+                <strong>Form</strong>
+                {{ form.non_field_errors }}
+            {% endif %}
+
+            {% for field in form %}
+                {% if field.errors %}
+                    <strong>{{ field.label }}</strong>
+                    {{ field.errors }}
+                {% endif %}
+            {% endfor %}
+        '>
+
+{% else %}
+
+    <div>
+
+{% endif %}
+
 {% for field in form %}
 
     <input class="form-control my-1"
@@ -15,7 +39,7 @@
            title="{{ field.label }}"
             {% if field.help_text %} data-content="{{ field.help_text }}" {% else %}
            data-content="Please fill out this field." {% endif %}>
-    {{ field.errors }}
 
 {% endfor %}
-{{ form.non_field_errors }}
+
+</div>
