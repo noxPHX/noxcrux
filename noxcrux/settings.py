@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 from django.contrib.messages import constants as messages
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +27,8 @@ SECRET_KEY = 'tj!2e^y^#)wkts0qj9&w@1v+wz^vy=26=3#)u6a)bbvv!*udcn'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+
+REGISTRATION_OPEN = os.getenv("REGISTRATION_OPEN") if os.getenv("REGISTRATION_OPEN") is not None else False
 
 CORS_ORIGIN_ALLOW_ALL = True
 

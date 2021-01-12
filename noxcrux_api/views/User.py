@@ -8,6 +8,7 @@ from noxcrux_api.permissions import UsersPermissions
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import update_session_auth_hash
 from django.http import Http404
+from django.conf import settings
 
 
 class UserList(APIView):
@@ -22,6 +23,9 @@ class UserList(APIView):
         return Response(serializer.data)
 
     def post(self, request):
+        if settings.REGISTRATION_OPEN is False:
+            return Response({"error": "Registrations are closed."}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
