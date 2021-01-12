@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'noxcrux_api.apps.NoxcruxAPIConfig',
     'noxcrux_server.apps.NoxcruxServerConfig',
+    'noxcrux_server.templatetags'
 ]
 
 MIDDLEWARE = [

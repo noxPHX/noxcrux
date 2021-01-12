@@ -1,4 +1,7 @@
+{% load FormTags %}
+
 {% csrf_token %}
+
 {% if form.errors %}
 
     <div class="error-popover" data-toggle="popover" data-trigger="manual" data-html="true" data-placement="left"
@@ -25,20 +28,34 @@
 
 {% for field in form %}
 
+    <div data-toggle="popover"
+         data-trigger="hover"
+         data-html="true"
+         data-placement="right"
+         title="{{ field.label }}"
+            {% if field.help_text %} data-content="{{ field.help_text }}"
+            {% else %} data-content="Please fill out this field." {% endif %}>
+
+    {% if field|is_password %}
+        <div class="input-group">
+    {% endif %}
+
     <input class="form-control my-1"
            type="{{ field.field.widget.input_type }}"
            name="{{ field.html_name }}"
            placeholder="{{ field.label }}"
            maxlength="{{ field.field.max_length }}"
             {% if field.value %} value="{{ field.value }}" {% endif %}
-            {% if field.field.required %} required {% endif %}
-           data-toggle="popover"
-           data-trigger="hover"
-           data-html="true"
-           data-placement="right"
-           title="{{ field.label }}"
-            {% if field.help_text %} data-content="{{ field.help_text }}" {% else %}
-           data-content="Please fill out this field." {% endif %}>
+            {% if field.field.required %} required {% endif %}>
+
+    {% if field|is_password %}
+            <div class="input-group-append my-1">
+                <a href="" class="input-group-text toggle-visibility"><i id="eye" class="fas fa-eye-slash"></i></a>
+            </div>
+        </div>
+    {% endif %}
+
+    </div>
 
 {% endfor %}
 
