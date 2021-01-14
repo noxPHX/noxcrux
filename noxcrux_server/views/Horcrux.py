@@ -1,4 +1,4 @@
-from noxcrux_server.views.LoginRequired import LoginRequiredView, LoginRequiredFormView
+from noxcrux_server.mixins.Authenticated import LoginRequiredView, LoginRequiredFormView
 from django.http import HttpResponseRedirect
 from noxcrux_api.views.Horcrux import HorcruxDetail, HorcruxList
 from django.urls import reverse, reverse_lazy

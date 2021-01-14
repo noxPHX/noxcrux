@@ -1,4 +1,4 @@
-from noxcrux_server.views.LoginRequired import LoginRequiredFormView, LoginRequiredTemplateView
+from noxcrux_server.mixins.Authenticated import LoginRequiredFormView, LoginRequiredTemplateView
 from noxcrux_server.forms.User import UsernameForm, DeleteUserForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.urls import reverse_lazy

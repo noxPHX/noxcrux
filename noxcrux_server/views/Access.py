@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.views.generic import FormView
-from noxcrux_server.views.LoginRequired import LoginRequiredView
+from noxcrux_server.mixins.Authenticated import LoginRequiredView
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm

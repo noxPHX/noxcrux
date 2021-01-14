@@ -1,4 +1,4 @@
-from noxcrux_server.views.LoginRequired import LoginRequiredTemplateView
+from noxcrux_server.mixins.Authenticated import LoginRequiredTemplateView
 from django.shortcuts import render
 from noxcrux_api.views.Horcrux import HorcruxList
 
