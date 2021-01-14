@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-REGISTRATION_OPEN = os.getenv("REGISTRATION_OPEN") if os.getenv("REGISTRATION_OPEN") is not None else False
+REGISTRATION_OPEN = os.getenv("REGISTRATION_OPEN") == 'True'
 
 CORS_ORIGIN_ALLOW_ALL = True
 

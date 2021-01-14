@@ -4,14 +4,21 @@ from django.views.generic import FormView
 from noxcrux_server.views.LoginRequired import LoginRequiredView
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
+from noxcrux_server.forms.User import RegisterForm
 from noxcrux_api.views.User import UserList
+from django.conf import settings
 
 
 class LoginView(FormView):
     template_name = 'login.html'
     form_class = AuthenticationForm
     success_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super(LoginView, self).get_context_data(**kwargs)
+        context['registration_open'] = settings.REGISTRATION_OPEN
+        return context
 
     def form_valid(self, form):
         username = form.cleaned_data.get('username')
@@ -29,8 +36,15 @@ class LoginView(FormView):
 
 class RegisterView(FormView):
     template_name = 'register.html'
-    form_class = UserCreationForm
+    form_class = RegisterForm
     success_url = reverse_lazy('login')
+
+    def dispatch(self, request, *args, **kwargs):
+        if settings.REGISTRATION_OPEN is False:
+            messages.warning(request, 'Registrations are closed.')
+            return HttpResponseRedirect(reverse('login'))
+
+        return super(RegisterView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         self.request.data = {

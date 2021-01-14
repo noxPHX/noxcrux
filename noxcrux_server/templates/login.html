@@ -5,6 +5,7 @@
 {% endblock title %}
 
 {% block content %}
+
     <div class="d-flex justify-content-center align-items-center h-100">
 
         <div class="card text-center">
@@ -18,7 +19,11 @@
                     {% include 'form.html' %}
                     <input class="btn btn-primary bg-main" type="submit" value="Login"/>
                 </form>
-                <a href="{% url 'register' %}" class="color-main"><small>First time?</small></a>
+                {% if registration_open %}
+                    <a href="{% url 'register' %}" class="color-main"><small>First time?</small></a>
+                {% else %}
+                    <small class="text-muted">Registration closed.</small>
+                {% endif %}
             </div>
             <div class="card-footer text-muted">noxcrux web access</div>
         </div>

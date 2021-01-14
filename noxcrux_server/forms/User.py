@@ -1,5 +1,15 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from django.conf import settings
+
+
+class RegisterForm(UserCreationForm):
+
+    def clean(self):
+        if settings.REGISTRATION_OPEN is False:
+            raise forms.ValidationError('Registrations are closed.')
+        return super(RegisterForm, self).clean()
 
 
 class UsernameForm(forms.ModelForm):

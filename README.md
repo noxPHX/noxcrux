@@ -4,5 +4,4 @@
 + detect form changes
 + admin page (update username/password of users)
 + refacto card template
-+ closed registration
 + 2FA
