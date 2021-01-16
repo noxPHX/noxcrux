@@ -1,1 +1,1 @@
-from noxcrux_api.models import *
+from noxcrux_api.models import Horcrux, Generator
