@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 import string
 import random
 
+ALLOWED_SYMBOLS = '!@#$%^&*'
+
 
 class Generator(models.Model):
     upper = models.BooleanField(default=True)
@@ -21,5 +23,5 @@ class Generator(models.Model):
         if self.numeric:
             candidates += string.digits
         if self.symbol:
-            candidates += '!@#$%^&*'
+            candidates += ALLOWED_SYMBOLS
         return ''.join(random.SystemRandom().choice(candidates) for _ in range(self.size))
