@@ -36,7 +36,7 @@
             {% if field.help_text %} data-content="{{ field.help_text }}"
             {% else %} data-content="Please fill out this field." {% endif %}>
 
-    {% if field|is_password %}
+    {% if field|is_password or field.label == "Horcrux" %}
         <div class="input-group">
     {% endif %}
 
@@ -51,6 +51,13 @@
     {% if field|is_password %}
             <div class="input-group-append my-1">
                 <a href="" class="input-group-text toggle-visibility"><i id="eye" class="fas fa-eye-slash"></i></a>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if field.label == "Horcrux" %}
+            <div class="input-group-append my-1">
+                <a href="" class="input-group-text text-white bg-main" id="generate" data-url="{% url 'generator' %}"><i class="fas fa-dice"></i></a>
             </div>
         </div>
     {% endif %}

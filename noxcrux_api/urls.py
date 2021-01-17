@@ -14,5 +14,5 @@ urlpatterns = [
     path('user/password/', PasswordUpdate.as_view()),
     path('horcruxes/', HorcruxList.as_view(), name='horcruxes'),
     path('horcrux/<str:name>/', HorcruxDetail.as_view()),
-    path('generator/', GeneratorDetail.as_view()),
+    path('generator/', GeneratorDetail.as_view(), name='generator'),
 ]

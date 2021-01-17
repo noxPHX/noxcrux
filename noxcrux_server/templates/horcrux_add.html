@@ -22,3 +22,10 @@
     </div>
 
 {% endblock content %}
+
+{% block js %}
+
+    {% load static %}
+    <script src="{% static 'js/generate.js' %}"></script>
+
+{% endblock js %}
