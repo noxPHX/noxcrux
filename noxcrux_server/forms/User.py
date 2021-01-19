@@ -17,7 +17,8 @@ class UsernameForm(forms.ModelForm):
         model = User
         fields = ['username']
 
-    username = forms.CharField(max_length=255, required=True, label="New username")
+    username = forms.CharField(max_length=255, required=True, label="New username",
+                               help_text="Enter your new desired username.")
 
 
 class DeleteUserForm(forms.Form):
@@ -26,10 +27,13 @@ class DeleteUserForm(forms.Form):
         self.user = user
         super().__init__(*args, **kwargs)
 
-    password = forms.CharField(max_length=128, required=True, label="Confirm your password", widget=forms.PasswordInput())
+    password = forms.CharField(max_length=128, required=True, label="Confirm your password",
+                               help_text="To confirm your action, please enter your current password",
+                               widget=forms.PasswordInput())
 
     def clean_password(self):
         password = self.cleaned_data["password"]
         if not self.user.check_password(password):
-            raise forms.ValidationError("Your password was entered incorrectly. Please enter it again.", code='password_incorrect')
+            raise forms.ValidationError("Your password was entered incorrectly. Please enter it again.",
+                                        code='password_incorrect')
         return password
