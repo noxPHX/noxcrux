@@ -36,31 +36,53 @@
             {% if field.help_text %} data-content="{{ field.help_text }}"
             {% else %} data-content="Please fill out this field." {% endif %}>
 
-    {% if field|is_password or field.label == "Horcrux" %}
-        <div class="input-group">
-    {% endif %}
+        {% if field|is_checkbox %}
 
-    <input class="form-control my-1"
-           type="{{ field.field.widget.input_type }}"
-           name="{{ field.html_name }}"
-           placeholder="{{ field.label }}"
-           maxlength="{{ field.field.max_length }}"
-            {% if field.value %} value="{{ field.value }}" {% endif %}
-            {% if field.field.required %} required {% endif %}>
+            <div class="form-check">
 
-    {% if field|is_password %}
-            <div class="input-group-append my-1">
-                <a href="" class="input-group-text toggle-visibility"><i id="eye" class="fas fa-eye-slash"></i></a>
+                <input id="{{ field.id_for_label }}"
+                       class="form-check-input"
+                       type="{{ field.field.widget.input_type }}"
+                       name="{{ field.html_name }}"
+                        {% if field.value %} checked {% endif %}
+                        {% if field.field.required %} required {% endif %}
+                        {% if field.field.disabled %} disabled {% endif %}>
+
+                <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+
             </div>
-        </div>
-    {% endif %}
 
-    {% if field.label == "Horcrux" %}
-            <div class="input-group-append my-1">
-                <a href="" class="input-group-text text-white bg-main" id="generate" data-url="{% url 'generator' %}"><i class="fas fa-dice"></i></a>
-            </div>
-        </div>
-    {% endif %}
+        {% else %}
+
+            {% if field|is_password or field.label == "Horcrux" %}
+                <div class="input-group">
+            {% endif %}
+
+            <input class="form-control my-1"
+                   type="{{ field.field.widget.input_type }}"
+                   name="{{ field.html_name }}"
+                   placeholder="{{ field.label }}"
+                   maxlength="{{ field.field.max_length }}"
+                    {% if field.value %} value="{{ field.value }}" {% endif %}
+                    {% if field.field.required %} required {% endif %}
+                    {% if field.field.disabled %} disabled {% endif %}>
+
+            {% if field|is_password %}
+                <div class="input-group-append my-1">
+                    <a href="" class="input-group-text toggle-visibility"><i id="eye" class="fas fa-eye-slash"></i></a>
+                </div>
+                </div>
+            {% endif %}
+
+            {% if field.label == "Horcrux" %}
+                <div class="input-group-append my-1">
+                    <a href="" class="input-group-text text-white bg-main" id="generate" data-url="{% url 'generate' %}"><i
+                            class="fas fa-dice"></i></a>
+                </div>
+                </div>
+            {% endif %}
+
+        {% endif %}
 
     </div>
 

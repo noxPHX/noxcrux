@@ -9,12 +9,21 @@
         <div class="col-6 d-flex justify-content-start">
             <a href="{% url 'home' %}"><h1>noxcrux</h1></a>
         </div>
+
         <div class="col-6 d-flex justify-content-end">
+
+            <div>
+                <a class="btn btn-primary bg-main m-1" href="{% url 'generator' %}">
+                    <i class="fas fa-dice"></i>&nbsp;Generator
+                </a>
+            </div>
+
             <div>
                 <a class="btn btn-primary bg-main m-1" href="{% url 'profile' %}">
                     <i class="fas fa-user"></i>&nbsp;{{ user.get_username }}
                 </a>
             </div>
+
             <div>
                 <a class="btn btn-primary bg-main m-1" href="{% url 'logout' %}">
                     Logout&nbsp;<i class="fas fa-sign-out-alt"></i>

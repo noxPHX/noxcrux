@@ -36,6 +36,7 @@ A web extension will be later developed to allow end users to easily manage thei
 + Admin page (update username/password of users)
 + Refacto card template
 + 2FA authentication
++ help_text in models?
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
