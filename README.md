@@ -81,7 +81,6 @@ python3 manage.py runserver
 ## Todo list
 Here is a list of what is left to be done:  
 
-+ Admin page (update username/password of users)
 + 2FA authentication
 + PostgreSQL
 + Deployment (Docker)

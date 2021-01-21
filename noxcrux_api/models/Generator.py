@@ -25,3 +25,6 @@ class Generator(models.Model):
         if self.symbol:
             candidates += ALLOWED_SYMBOLS
         return ''.join(random.SystemRandom().choice(candidates) for _ in range(self.size))
+
+    def __str__(self):
+        return str(self.owner)
