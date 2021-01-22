@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    noxcrux - 2FA
+{% endblock title %}
+
+{% block content %}
+
+    <div class="d-flex justify-content-center align-items-center h-i">
+
+        <div class="card text-center">
+            <div class="card-header">noxcrux</div>
+            <div class="card-body">
+                <h5 class="card-title">2FA</h5>
+                <p class="display-4"><i class="fas fa-key"></i></p>
+                <p class="card-text">
+                    Please enter your TOTP code
+                </p>
+                <form method="POST" role="form" action="{% url 'totp' %}">
+                    {% include 'form.html' %}
+                    <input class="btn btn-primary bg-main" type="submit" value="Login"/>
+                </form>
+            </div>
+            <div class="card-footer text-muted">noxcrux web access</div>
+        </div>
+    </div>
+
+{% endblock content %}

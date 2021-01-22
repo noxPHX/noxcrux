@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.conf import settings
+from noxcrux_api.views.OTP import get_user_totp_device
 
 
 class RegisterForm(UserCreationForm):
@@ -37,3 +38,21 @@ class DeleteUserForm(forms.Form):
             raise forms.ValidationError("Your password was entered incorrectly. Please enter it again.",
                                         code='password_incorrect')
         return password
+
+
+class OTPForm(forms.Form):
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+    totp_code = forms.CharField(max_length=6, required=True, label="Code",
+                               help_text="Enter the code from your TOTP application.")
+
+    def clean_totp_code(self):
+        totp_code = self.cleaned_data["totp_code"]
+        device = get_user_totp_device(self.user, confirmed=True)
+        if device.verify_token(totp_code):
+            return totp_code
+        else:
+            raise forms.ValidationError('The TOTP code you entered is incorrect.')

@@ -8,6 +8,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from noxcrux_server.forms.User import RegisterForm
 from noxcrux_api.views.User import UserList
 from django.conf import settings
+from noxcrux_api.views.OTP import get_user_totp_device
 
 
 class LoginView(FormView):
@@ -26,6 +27,13 @@ class LoginView(FormView):
         user = authenticate(username=username, password=password)
 
         if user is not None and user.is_active:
+
+            device = get_user_totp_device(user, confirmed=True)
+            if device:
+                self.request.session['username'] = username
+                self.request.session['password'] = password
+                return HttpResponseRedirect(reverse('totp'))
+
             login(self.request, user)
             messages.success(self.request, 'Logged in successfully!')
             return super(LoginView, self).form_valid(form)

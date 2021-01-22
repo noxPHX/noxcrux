@@ -4,9 +4,11 @@ from noxcrux_server.views.Home import HomeView
 from noxcrux_server.views.Horcrux import HorcruxAdd, HorcruxEdit, HorcruxDelete
 from noxcrux_server.views.User import ProfileView, UsernameUpdateView, PasswordUpdateView, DeleteAccountView
 from noxcrux_server.views.Generator import Generator
+from noxcrux_server.views.OTP import TOTPView
 
 urlpatterns = [
     path('login/', LoginView.as_view(), name="login"),
+    path('login/totp/', TOTPView.as_view(), name="totp"),
     path('logout/', LogoutView.as_view(), name="logout"),
     path('register/', RegisterView.as_view(), name="register"),
     path('', HomeView.as_view(), name="home"),
