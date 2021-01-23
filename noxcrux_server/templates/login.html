@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}
     noxcrux - Login
 {% endblock title %}
@@ -9,7 +11,7 @@
     <div class="d-flex justify-content-center align-items-center h-i">
 
         <div class="card text-center">
-            <div class="card-header">noxcrux</div>
+            <div class="card-header"><img alt="logo" id="logo-md" src="{%  static 'images/logo_black.png' %}"></div>
             <div class="card-body">
                 <h5 class="card-title">Log in</h5>
                 <p class="card-text">
@@ -25,7 +27,7 @@
                     <small class="text-muted">Registration closed.</small>
                 {% endif %}
             </div>
-            <div class="card-footer text-muted">noxcrux web access</div>
+            <div class="card-footer text-muted"><img alt="logo" id="logo-sm" src="{%  static 'images/logo_black.png' %}"> web access</div>
         </div>
     </div>
 

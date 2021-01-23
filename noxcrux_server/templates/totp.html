@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}
     noxcrux - 2FA
 {% endblock title %}
@@ -9,7 +11,7 @@
     <div class="d-flex justify-content-center align-items-center h-i">
 
         <div class="card text-center">
-            <div class="card-header">noxcrux</div>
+            <div class="card-header"><img alt="logo" id="logo-md" src="{%  static 'images/logo_black.png' %}"></div>
             <div class="card-body">
                 <h5 class="card-title">2FA</h5>
                 <p class="display-4"><i class="fas fa-key"></i></p>
@@ -21,7 +23,7 @@
                     <input class="btn btn-primary bg-main" type="submit" value="Login"/>
                 </form>
             </div>
-            <div class="card-footer text-muted">noxcrux web access</div>
+            <div class="card-footer text-muted"><img alt="logo" id="logo-sm" src="{%  static 'images/logo_black.png' %}"> web access</div>
         </div>
     </div>
 

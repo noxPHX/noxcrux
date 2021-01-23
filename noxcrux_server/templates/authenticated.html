@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{%  load static %}
+
 {% block title %}noxcrux{% endblock title %}
 
 {% block header %}
@@ -7,7 +9,7 @@
     <div class="row align-items-center p-1">
 
         <div class="col-6 d-flex justify-content-start">
-            <a href="{% url 'home' %}"><h1 class="font-weight-bold mx-3">noxcrux</h1></a>
+            <a href="{% url 'home' %}"><img alt="logo" id="logo-md" src="{%  static 'images/logo_white.png' %}"></a>
         </div>
 
         <div class="col-6 d-flex justify-content-end">
@@ -41,7 +43,8 @@
     <div class="d-flex justify-content-center align-items-center">
 
         <div>
-            <small>noxcrux web access</small>
+            <img alt="logo" id="logo-sm" src="{%  static 'images/logo_white.png' %}">
+            <small>web access</small>
         </div>
     </div>
 

@@ -38,6 +38,14 @@ a, a:hover, a:focus {
     color: white;
 }
 
+#logo-md {
+    max-height: 5vh;
+}
+
+#logo-sm {
+    max-height: 3vh;
+}
+
 #content {
     flex: 1;
     height: inherit;
