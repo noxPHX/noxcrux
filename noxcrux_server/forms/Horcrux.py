@@ -18,7 +18,8 @@ class HorcruxForm(forms.ModelForm):
         self.user = kwargs.pop("user") if 'user' in kwargs else None
         super(HorcruxForm, self).__init__(*args, **kwargs)
 
-    name = forms.CharField(max_length=255, required=True, label="Name", validators=[alphanumeric])
+    name = forms.CharField(max_length=255, required=True, label="Name", validators=[alphanumeric],
+                           widget=forms.TextInput(attrs={'autofocus': True}))
     horcrux = forms.CharField(max_length=255, required=True, label="Horcrux",
                               help_text="Please fill out this field or click on the button to generate one.",
                               validators=[horcrux_validator])

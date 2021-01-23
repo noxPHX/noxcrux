@@ -19,7 +19,8 @@ class UsernameForm(forms.ModelForm):
         fields = ['username']
 
     username = forms.CharField(max_length=255, required=True, label="New username",
-                               help_text="Enter your new desired username.")
+                               help_text="Enter your new desired username.",
+                               widget=forms.TextInput(attrs={'autofocus': True}))
 
 
 class DeleteUserForm(forms.Form):
@@ -30,7 +31,7 @@ class DeleteUserForm(forms.Form):
 
     password = forms.CharField(max_length=128, required=True, label="Confirm your password",
                                help_text="To confirm your action, please enter your current password",
-                               widget=forms.PasswordInput())
+                               widget=forms.PasswordInput(attrs={'autofocus': True}))
 
     def clean_password(self):
         password = self.cleaned_data["password"]
@@ -47,7 +48,8 @@ class OTPForm(forms.Form):
         super().__init__(*args, **kwargs)
 
     totp_code = forms.CharField(max_length=6, required=True, label="Code",
-                               help_text="Enter the code from your TOTP application.")
+                                help_text="Enter the code from your TOTP application.",
+                                widget=forms.TextInput(attrs={'autofocus': True}))
 
     def clean_totp_code(self):
         totp_code = self.cleaned_data["totp_code"]

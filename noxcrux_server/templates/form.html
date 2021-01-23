@@ -65,7 +65,8 @@
                    maxlength="{{ field.field.max_length }}"
                     {% if field.value %} value="{{ field.value }}" {% endif %}
                     {% if field.field.required %} required {% endif %}
-                    {% if field.field.disabled %} disabled {% endif %}>
+                    {% if field.field.disabled %} disabled {% endif %}
+                    {% if field.field.widget.attrs.autofocus %} autofocus {% endif %}>
 
             {% if field|is_password %}
                 <div class="input-group-append my-1">
