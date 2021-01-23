@@ -16,6 +16,11 @@ class LoginView(FormView):
     form_class = AuthenticationForm
     success_url = reverse_lazy('home')
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(self.success_url)
+        return super(LoginView, self).dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(LoginView, self).get_context_data(**kwargs)
         context['registration_open'] = settings.REGISTRATION_OPEN
@@ -48,6 +53,8 @@ class RegisterView(FormView):
     success_url = reverse_lazy('login')
 
     def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(reverse('home'))
         if settings.REGISTRATION_OPEN is False:
             messages.warning(request, 'Registrations are closed.')
             return HttpResponseRedirect(reverse('login'))
@@ -74,3 +81,8 @@ class LogoutView(LoginRequiredView):
         logout(request)
         messages.success(request, 'Logged out successfully!')
         return HttpResponseRedirect(reverse('login'))
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return HttpResponseRedirect(reverse('login'))
+        return super(LogoutView, self).dispatch(request, *args, **kwargs)
