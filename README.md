@@ -81,7 +81,7 @@ python3 manage.py runserver
 ## Todo list
 Here is a list of what is left to be done:  
 
-+ 2FA authentication
++ Ask for password to show 2FA secret
 + PostgreSQL
 + Deployment (Docker)
 + "Friend list"

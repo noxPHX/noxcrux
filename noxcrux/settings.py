@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_otp',
     'django_otp.plugins.otp_totp',
+    'qr_code',
     'noxcrux_api.apps.NoxcruxAPIConfig',
     'noxcrux_server.apps.NoxcruxServerConfig',
     'noxcrux_server.templatetags'

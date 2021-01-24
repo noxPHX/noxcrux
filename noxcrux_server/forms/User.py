@@ -43,8 +43,9 @@ class DeleteUserForm(forms.Form):
 
 class OTPForm(forms.Form):
 
-    def __init__(self, user, *args, **kwargs):
+    def __init__(self, user, verify=True, *args, **kwargs):
         self.user = user
+        self.verify = verify
         super().__init__(*args, **kwargs)
 
     totp_code = forms.CharField(max_length=6, required=True, label="Code",
@@ -53,6 +54,8 @@ class OTPForm(forms.Form):
 
     def clean_totp_code(self):
         totp_code = self.cleaned_data["totp_code"]
+        if self.verify is False:
+            return totp_code
         device = get_user_totp_device(self.user, confirmed=True)
         if device.verify_token(totp_code):
             return totp_code
