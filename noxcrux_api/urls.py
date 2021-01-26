@@ -8,8 +8,8 @@ from noxcrux_api.views.OTP import TOTPView
 urlpatterns = [
     path(r'token/', TokenDetail.as_view()),
     re_path(r'^token/(?P<totp_code>[0-9]{6})/$', TokenDetail.as_view()),
-    path('totp/setup/', TOTPView.as_view()),
-    re_path(r'^totp/confirm/(?P<totp_code>[0-9]{6})/$', TOTPView.as_view()),
+    path('totp/', TOTPView.as_view()),
+    re_path(r'^totp/(?P<totp_code>[0-9]{6})/$', TOTPView.as_view()),
     path('users/', UserList.as_view(), name='users'),
     path('user/me/', Profile.as_view()),
     path('user/username/', UserUpdate.as_view()),
