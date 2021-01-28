@@ -7,6 +7,8 @@ The persons intended by this project are people who are a minimum aware of onlin
 noxcrux was inspired by [this article](https://kaizoku.hashnode.dev/double-blind-passwords-aka-horcruxing#double-blind-passwords-aka-horcruxing) and the concept of horcruxes from the universe of Harry Potter.  
 The aim of this project is to split passwords in multiple horcruxes to mitigate the single point of failure risk induced by password managers.  
 
+**Password horcruxes are not 2FA/MFA and does not pretend to replace it at all.** A password is a sole factor (knowledge) and noxcrux allows you to distribute it across platforms.
+
 The project is still in early development stage (see the [features](#features) and the [to-do list](#todo-list) below) but the end goal is to offer to the users multiple noxcrux' servers to connect to and distribute their online accounts access security to different places.  
 At the moment there is no live demo of this project so if you are interested in using it you need to set it up yourself for one or multiple servers (see [instructions](#getting-started) below).  
 
@@ -82,7 +84,6 @@ python3 manage.py runserver
 ## Todo list
 Here is a list of what is left to be done:  
 
-+ Ask for password to show 2FA secret
 + PostgreSQL
 + Deployment (Docker)
 + "Friend list"
