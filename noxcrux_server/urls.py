@@ -4,7 +4,7 @@ from noxcrux_server.views.Home import HomeView
 from noxcrux_server.views.Horcrux import HorcruxAdd, HorcruxEdit, HorcruxDelete
 from noxcrux_server.views.User import ProfileView, UsernameUpdateView, PasswordUpdateView, DeleteAccountView
 from noxcrux_server.views.Generator import Generator
-from noxcrux_server.views.OTP import TOTPLoginView, TOTPMainView, TOTPSecretView, TOTPConfirmView
+from noxcrux_server.views.OTP import TOTPLoginView, TOTPMainView, TOTPSecretView, TOTPConfirmView, TOTPDeleteView
 
 urlpatterns = [
     path('login/', LoginView.as_view(), name="login"),
@@ -22,5 +22,6 @@ urlpatterns = [
     path('profile/2FA/', TOTPMainView.as_view(), name="2FA"),
     path('profile/2FA/secret/', TOTPSecretView.as_view(), name="2FA_secret"),
     path('profile/2FA/confirm/', TOTPConfirmView.as_view(), name="2FA_confirm"),
+    path('profile/2FA/delete/', TOTPDeleteView.as_view(), name="2FA_delete"),
     path('generator/', Generator.as_view(), name="generator"),
 ]

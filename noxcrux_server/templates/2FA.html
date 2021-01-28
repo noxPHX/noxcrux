@@ -20,6 +20,10 @@
                         <a class="btn btn-primary bg-main m-1" href="{% url '2FA_confirm' %}">
                             Confirm your device&nbsp;<i class="fas fa-user-lock"></i>
                         </a>
+                    {% else %}
+                        <a class="btn btn-danger m-1" href="{% url '2FA_delete' %}">
+                            Disable 2FA&nbsp;<i class="fas fa-user-times"></i>
+                        </a>
                     {% endif %}
                 {% else %}
                     <a class="btn btn-primary bg-main m-1" href="{% url '2FA_secret' %}">

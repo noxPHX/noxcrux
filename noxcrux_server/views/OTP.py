@@ -81,5 +81,30 @@ class TOTPConfirmView(LoginRequiredFormView):
             messages.success(self.request, '2FA confirmed successfully!')
             return super(TOTPConfirmView, self).form_valid(form)
         else:
-            messages.error(self.request, 'An error occurred')
+            messages.error(self.request, 'Invalid TOTP token.')
             return super(TOTPConfirmView, self).get(self.request, *self.args, **self.kwargs)
+
+
+class TOTPDeleteView(LoginRequiredFormView):
+    template_name = '2FA_delete.html'
+    form_class = OTPForm
+    success_url = reverse_lazy('2FA')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not get_user_totp_device(request.user, confirmed=True):
+            return HttpResponseRedirect(self.success_url)
+        return super(TOTPDeleteView, self).dispatch(request, *args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super(TOTPDeleteView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user, 'verify': False})
+        return kwargs
+
+    def form_valid(self, form):
+        res = TOTPView().delete(self.request, form.cleaned_data['totp_code'])
+        if res.status_code == 204:
+            messages.success(self.request, '2FA disabled successfully!')
+            return super(TOTPDeleteView, self).form_valid(form)
+        else:
+            messages.error(self.request, 'Invalid TOTP token.')
+            return super(TOTPDeleteView, self).get(self.request, *self.args, **self.kwargs)

@@ -3,7 +3,7 @@
 {% load qr_code %}
 
 {% block title %}
-    noxcrux - Confirm 2FA
+    noxcrux - Disable 2FA
 {% endblock title %}
 
 {% block content %}
@@ -13,13 +13,13 @@
         <div class="card text-center">
             <div class="card-header">2FA</div>
             <div class="card-body d-flex flex-column">
-                <h5 class="card-title">Confirm your 2FA setup</h5>
+                <h5 class="card-title">Disable 2FA</h5>
                 <p class="card-text">
-                    Please enter your TOTP code
+                    Please enter your TOTP code to confirm the action
                 </p>
-                <form method="POST" role="form" action="{% url '2FA_confirm' %}">
+                <form method="POST" role="form" action="{% url '2FA_delete' %}">
                     {% include 'form.html' %}
-                    <input class="btn btn-primary bg-main" type="submit" value="Confirm"/>
+                    <input class="btn btn-danger" type="submit" value="Disable"/>
                 </form>
             </div>
             <div class="card-footer text-muted">
