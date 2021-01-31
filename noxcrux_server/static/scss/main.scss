@@ -1,3 +1,5 @@
+@import "basics";
+
 * {
     z-index: inherit;
 }
@@ -11,7 +13,7 @@ body {
     height: inherit;
     text-align: center;
     overflow: hidden;
-    background-color: rgb(0, 100, 140);
+    background-color: $primary-color;
 }
 
 a, a:hover, a:focus {
@@ -34,7 +36,7 @@ a, a:hover, a:focus {
 
 #header {
     z-index: 10;
-    background-color: rgb(0, 50, 70);
+    background-color:$primary-color-dark;
     color: white;
 }
 
@@ -57,20 +59,20 @@ a, a:hover, a:focus {
 }
 
 .horcrux-copy > .card-text {
-    background-color: rgb(200, 200, 200);
-    color: rgb(200, 200, 200);
+    background-color: $grey;
+    color: $grey;
     border-radius: 0.5rem;
     transition: all 0.3s ease-in;
 }
 
 .horcrux-copy > .card-text:hover {
-    background-color: rgb(230, 230, 230);
-    color: rgb(50, 50, 50);
+    background-color: $grey-light;
+    color: $grey-dark;
 }
 
 #footer {
     z-index: 10;
-    background-color: rgb(0, 50, 70);
+    background-color: $primary-color-dark;
     color: white;
 }
 
@@ -82,21 +84,21 @@ a, a:hover, a:focus {
 }
 
 #logout {
-    color: #fff;
+    color: white;
 }
 
 .color-main {
-    color: rgb(0, 120, 150);
+    color: $primary-color;
 }
 
 .bg-main {
-    background-color: rgb(0, 120, 150);
-    border-color: rgb(0, 120, 150);
+    background-color:$primary-color;
+    border-color: $primary-color;
 }
 
 #trash {
     font-size: 0.8em;
-    color: rgb(230, 50, 50);
+    color: $red;
 }
 
 #edit {

@@ -1,4 +1,13 @@
+# IDE related
 .idea/
+
+# Virtuel Environment
 .venv/
+
+# Python files
 __pycache__
 *.sqlite*
+
+# CSS
+noxcrux_server/static/css
+!noxcrux_server/static/css/bootstrap

@@ -28,7 +28,7 @@ See below the top level parts of this README:
 
 ## Technologies
 noxcrux is powered by [Django](https://www.djangoproject.com/) a well-known python web framework and [DRF](https://www.django-rest-framework.org/) for the API.  
-It also makes use of [Bootstrap](https://getbootstrap.com/) and [jQuery](https://jquery.com/) for the web interface.  
+It also makes use of [Bootstrap](https://getbootstrap.com/), [jQuery](https://jquery.com/) and [SASS](https://sass-lang.com/) for the web interface.  
 
 Here is a table with the main technologies, and their current version:  
 
@@ -38,6 +38,7 @@ Here is a table with the main technologies, and their current version:
 | Django Rest Framework | 3.12.2    |
 | Bootstrap             | 4.5.2     |
 | jQuery                | 3.5.1     |
+| SASS                  | 1.32.5    |
 
 ## Features
 Here is a list of the main features provided by the API and the web interface:  
@@ -68,6 +69,10 @@ Install Django and the other modules.
 ```bash
 pip3 install -r requirements.txt
 ```
+As mentioned before, noxcrux makes use of SASS, so you need to compile SCSS files into regular CSS files because these files are not tracked by git.  
+In order to install it, follow the instructions from https://sass-lang.com/.  
+I personally prefer to grab the latest release from https://github.com/sass/dart-sass/releases and untar the file somewhere in my path to be able to use it.  
+
 Create the database scheme (I still use sqlite at the moment).  
 ```bash
 python3 manage.py makemigrations
