@@ -19,15 +19,15 @@
                 </p>
                 <form method="POST" role="form" action="{% url 'login' %}">
                     {% include 'form.html' %}
-                    <input class="btn btn-primary bg-main" type="submit" value="Login"/>
+                    <input class="btn btn-main" type="submit" value="Login"/>
                 </form>
                 {% if registration_open %}
-                    <a href="{% url 'register' %}" class="color-main"><small>First time?</small></a>
+                    <a href="{% url 'register' %}" class="color-warm"><small>First time?</small></a>
                 {% else %}
                     <small class="text-muted">Registration closed.</small>
                 {% endif %}
             </div>
-            <div class="card-footer text-muted"><img alt="logo" id="logo-sm" src="{%  static 'images/logo_black.png' %}"> web access</div>
+            <div class="card-footer"><img alt="logo" id="logo-sm" src="{%  static 'images/logo_black.png' %}"> web access</div>
         </div>
     </div>
 

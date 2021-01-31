@@ -19,11 +19,11 @@
                 </p>
                 <form method="POST" role="form" action="{% url '2FA_confirm' %}">
                     {% include 'form.html' %}
-                    <input class="btn btn-primary bg-main" type="submit" value="Confirm"/>
+                    <input class="btn btn-main" type="submit" value="Confirm"/>
                 </form>
             </div>
-            <div class="card-footer text-muted">
-                <a href="{% url '2FA' %}" class="color-main"><i class="fas fa-arrow-left"></i>&nbsp;Back</a>
+            <div class="card-footer">
+                <a href="{% url '2FA' %}" class="color-warm"><i class="fas fa-arrow-left"></i>&nbsp;Back</a>
             </div>
         </div>
     </div>

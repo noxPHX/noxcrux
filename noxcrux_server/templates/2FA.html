@@ -13,11 +13,11 @@
             <div class="card-body d-flex flex-column">
                 <h5 class="card-title">Manage your TOTP device</h5>
                 {% if device %}
-                    <a class="btn btn-primary bg-main m-1" href="{% url '2FA_secret' %}">
+                    <a class="btn btn-main m-1" href="{% url '2FA_secret' %}">
                         View secret&nbsp;<i class="fas fa-user-lock"></i>
                     </a>
                     {% if not device.confirmed %}
-                        <a class="btn btn-primary bg-main m-1" href="{% url '2FA_confirm' %}">
+                        <a class="btn btn-main m-1" href="{% url '2FA_confirm' %}">
                             Confirm your device&nbsp;<i class="fas fa-user-lock"></i>
                         </a>
                     {% else %}
@@ -26,13 +26,13 @@
                         </a>
                     {% endif %}
                 {% else %}
-                    <a class="btn btn-primary bg-main m-1" href="{% url '2FA_secret' %}">
+                    <a class="btn btn-main m-1" href="{% url '2FA_secret' %}">
                         Setup 2FA&nbsp;<i class="fas fa-user-lock"></i>
                     </a>
                 {% endif %}
             </div>
-            <div class="card-footer text-muted">
-                <a href="{% url 'profile' %}" class="color-main"><i class="fas fa-arrow-left"></i>&nbsp;Back</a>
+            <div class="card-footer">
+                <a href="{% url 'profile' %}" class="color-warm"><i class="fas fa-arrow-left"></i>&nbsp;Back</a>
             </div>
         </div>
     </div>

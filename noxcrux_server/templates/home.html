@@ -17,7 +17,7 @@
                         Horcrux
                     </p>
                 </div>
-                <div class="card-footer text-muted">Site</div>
+                <div class="card-footer">Site</div>
             </div>
 
             {% for horcrux in horcruxes %}
@@ -38,7 +38,7 @@
                         </div>
                         <i class="far fa-copy color-main"></i>
                     </div>
-                    <div class="card-footer text-muted"><a href="{{ horcrux.site }}" class="color-main"
+                    <div class="card-footer"><a href="{{ horcrux.site }}" class="color-warm"
                                                            target="_blank">{{ horcrux.site }}</a></div>
                 </div>
             {% endfor %}
@@ -48,7 +48,7 @@
             <div class="card-header">New horcrux</div>
             <div class="card-body">
                 <p class="card-text">
-                    <a class="btn btn-primary bg-main" href="{% url 'horcrux_add' %}">
+                    <a class="btn btn-main" href="{% url 'horcrux_add' %}">
                         <i class="fas fa-plus"></i>
                     </a>
                 </p>

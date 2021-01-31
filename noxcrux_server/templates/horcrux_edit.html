@@ -13,11 +13,11 @@
             <div class="card-body">
                 <form method="POST" role="form" action="{% url 'horcrux_edit' form.instance.name %}">
                     {% include 'form.html' %}
-                    <input class="btn btn-primary bg-main" type="submit" value="Submit"/>
+                    <input class="btn btn-main" type="submit" value="Submit"/>
                 </form>
             </div>
-            <div class="card-footer text-muted">
-                <a href="{% url 'home' %}" class="color-main"><i class="fas fa-arrow-left"></i>&nbsp;Back</a>
+            <div class="card-footer">
+                <a href="{% url 'home' %}" class="color-warm"><i class="fas fa-arrow-left"></i>&nbsp;Back</a>
             </div>
         </div>
     </div>

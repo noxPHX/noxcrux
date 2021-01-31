@@ -13,7 +13,8 @@ body {
     height: inherit;
     text-align: center;
     overflow: hidden;
-    background-color: $primary-color;
+    background-color: $primary-color-dark;
+    color: black;
 }
 
 a, a:hover, a:focus {
@@ -36,7 +37,6 @@ a, a:hover, a:focus {
 
 #header {
     z-index: 10;
-    background-color:$primary-color-dark;
     color: white;
 }
 
@@ -72,7 +72,6 @@ a, a:hover, a:focus {
 
 #footer {
     z-index: 10;
-    background-color: $primary-color-dark;
     color: white;
 }
 
@@ -83,12 +82,12 @@ a, a:hover, a:focus {
     z-index: 9999;
 }
 
-#logout {
-    color: white;
-}
-
 .color-main {
     color: $primary-color;
+}
+
+.color-warm {
+    color: $secondary-color;
 }
 
 .bg-main {
