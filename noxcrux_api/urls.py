@@ -4,6 +4,7 @@ from noxcrux_api.views.Horcrux import HorcruxList, HorcruxDetail
 from noxcrux_api.views.Token import TokenDetail
 from noxcrux_api.views.Generator import GeneratorDetail
 from noxcrux_api.views.OTP import TOTPView
+from noxcrux_api.views.Friend import FriendList
 
 urlpatterns = [
     path(r'token/', TokenDetail.as_view()),
@@ -17,4 +18,5 @@ urlpatterns = [
     path('horcruxes/', HorcruxList.as_view(), name='horcruxes'),
     path('horcrux/<str:name>/', HorcruxDetail.as_view()),
     path('generator/', GeneratorDetail.as_view(), name='generate'),
+    path('friends/', FriendList.as_view(), name='friends'),
 ]
