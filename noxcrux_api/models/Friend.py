@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.core.exceptions import ValidationError
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 
 
 class Friend(models.Model):
@@ -25,3 +27,10 @@ class Friend(models.Model):
         if self.user == self.friend:
             raise ValidationError("Users cannot be friend with themselves.")
         super(Friend, self).save(*args, **kwargs)
+
+
+@receiver(post_delete, sender=Friend)
+def delete_friendship(sender, instance, using, **kwargs):
+    reverse_friendship = Friend.objects.filter(user=instance.friend, friend=instance.user)
+    if reverse_friendship:
+        reverse_friendship.delete()

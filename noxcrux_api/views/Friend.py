@@ -8,7 +8,7 @@ from noxcrux_api.models.Friend import Friend
 
 class FriendList(APIView):
     """
-    List all friends, or request a new friendship
+    List all friends, request a new friendship or delete a friend
     """
 
     def get(self, request):
@@ -22,6 +22,14 @@ class FriendList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, username):
+        try:
+            friendship = request.user.friends.get(friend__username=username, validated=True)
+        except Friend.DoesNotExist:
+            raise Http404
+        friendship.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class FriendRequest(APIView):

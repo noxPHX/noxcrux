@@ -19,6 +19,7 @@ urlpatterns = [
     path('horcrux/<str:name>/', HorcruxDetail.as_view()),
     path('generator/', GeneratorDetail.as_view(), name='generate'),
     path('friends/', FriendList.as_view(), name='friends'),
+    path('friends/<str:username>/', FriendList.as_view(), name='friends'),
     path('friends/requests/', FriendRequest.as_view(), name='friend_requests'),
     path('friends/requests/<str:username>/', FriendRequest.as_view(), name='friend_requests'),
 ]
