@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 class Friend(models.Model):
 
     user = models.ForeignKey(User, models.CASCADE, related_name="friends")
-    friend = models.ForeignKey(User, models.CASCADE)
+    friend = models.ForeignKey(User, models.CASCADE, related_name="reverse_friends")
     created = models.DateTimeField(default=timezone.now)
     validated = models.BooleanField(default=False)
 
