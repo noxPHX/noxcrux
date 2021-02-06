@@ -1,14 +1,10 @@
-from noxcrux_server.mixins.Authenticated import LoginRequiredTemplateView
-from django.shortcuts import render
+from noxcrux_server.mixins.Authenticated import LoginRequiredListView
 from noxcrux_api.views.Horcrux import HorcruxList
 
 
-class HomeView(LoginRequiredTemplateView):
+class HomeView(LoginRequiredListView):
     template_name = 'home.html'
+    context_object_name = 'horcruxes'
 
-    def get(self, request, *args, **kwargs):
-        res = HorcruxList().get(request)
-        context = {
-            'horcruxes': res.data,
-        }
-        return render(request, self.template_name, context)
+    def get_queryset(self):
+        return HorcruxList().get(self.request).data
