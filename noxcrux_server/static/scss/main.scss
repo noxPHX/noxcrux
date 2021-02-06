@@ -95,7 +95,7 @@ a, a:hover, a:focus {
     border-color: $primary-color;
 }
 
-#trash {
+.delete-item {
     font-size: 0.8em;
     color: $red;
 }
@@ -110,4 +110,9 @@ a, a:hover, a:focus {
 
 .popover {
     box-shadow: 0 0 25px 3px black;
+}
+
+.friend-scroll {
+    max-height: 50vh;
+    overflow: auto;
 }

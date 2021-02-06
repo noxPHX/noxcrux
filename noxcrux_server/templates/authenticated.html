@@ -21,6 +21,12 @@
             </div>
 
             <div>
+                <a class="btn btn-warm m-1" href="{% url 'friend_list' %}">
+                    <i class="fas fa-users"></i>&nbsp;Friends
+                </a>
+            </div>
+
+            <div>
                 <a class="btn btn-warm m-1" href="{% url 'profile' %}">
                     <i class="fas fa-user"></i>&nbsp;{{ user.get_username }}
                 </a>
