@@ -6,39 +6,75 @@
 
 {% block content %}
 
-    <div class="d-flex flex-wrap justify-content-center align-items-center px-3 h-i">
+    <div class="d-flex flex-column h-i">
 
-        <div class="card text-center col-4 p-0">
-            <div class="card-header">Friends</div>
-            <div class="card-body row align-items-center">
+        <div class="d-flex flex-wrap justify-content-center align-items-center px-3 h-i">
 
-                {% if friends %}
+            <div class="card text-center col-4 p-0 mr-3">
+                <div class="card-header">Friend requests</div>
+                <div class="card-body row justify-content-center align-items-center">
 
-                    <ul class="list-group list-group-flush col-8 friend-scroll">
+                    {% if requests %}
 
-                        {% for object in friends %}
-                            <li class="list-group-item d-flex justify-content-between">
-                                {{ object.friend }}
-                                <a href="{% url 'friend_delete' object.friend %}">
-                                    <i class="fas fa-users-slash delete-item"></i>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <div class="col-8">
-                        No friends to show.
-                    </div>
-                {% endif %}
-                <div class="col-4">
-                    <a class="btn btn-main" href="">
-                        <i class="fas fa-user-plus"></i>
-                    </a>
+                        <ul class="list-group list-group-flush col-12 friend-scroll">
+
+                            {% for object in requests %}
+                                <li class="list-group-item d-flex justify-content-between">
+                                    {{ object.user }}
+                                    <div>
+                                        <a href="" class="m-2">
+                                            <i class="fas fa-check color-green"></i>
+                                        </a>
+                                        <a href="" class="m-2">
+                                            <i class="fas fa-times color-red"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div>
+                            No friend requests to show.
+                        </div>
+                    {% endif %}
                 </div>
             </div>
-            <div class="card-footer">
-                <a href="{% url 'home' %}" class="color-warm"><i class="fas fa-arrow-left"></i>&nbsp;Back</a>
+
+            <div class="card text-center col-4 p-0 ml-3">
+                <div class="card-header">Friends</div>
+                <div class="card-body row align-items-center">
+
+                    {% if friends %}
+
+                        <ul class="list-group list-group-flush col-8 friend-scroll">
+
+                            {% for object in friends %}
+                                <li class="list-group-item d-flex justify-content-between">
+                                    {{ object.friend }}
+                                    <a href="{% url 'friend_delete' object.friend %}">
+                                        <i class="fas fa-users-slash color-red"></i>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="col-8">
+                            No friends to show.
+                        </div>
+                    {% endif %}
+                    <div class="col-4">
+                        <a class="btn btn-main" href="">
+                            <i class="fas fa-user-plus"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
+        </div>
+
+        <div class="mb-3">
+            <a class="btn btn-warm m-1" href="{% url 'home' %}">
+                <i class="fas fa-arrow-left"></i>&nbsp;Back
+            </a>
         </div>
     </div>
 
