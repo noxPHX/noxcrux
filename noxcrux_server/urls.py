@@ -5,7 +5,7 @@ from noxcrux_server.views.Horcrux import HorcruxAdd, HorcruxEdit, HorcruxDelete
 from noxcrux_server.views.User import ProfileView, UsernameUpdateView, PasswordUpdateView, DeleteAccountView
 from noxcrux_server.views.Generator import Generator
 from noxcrux_server.views.OTP import TOTPLoginView, TOTPMainView, TOTPSecretView, TOTPConfirmView, TOTPDeleteView
-from noxcrux_server.views.Friends import FriendsView, FriendDelete, FriendRequestAccept, FriendRequestDelete
+from noxcrux_server.views.Friends import FriendsView, FriendDelete, FriendRequestAccept, FriendRequestDelete, FriendAdd
 
 urlpatterns = [
     path('login/', LoginView.as_view(), name="login"),
@@ -26,6 +26,7 @@ urlpatterns = [
     path('profile/2FA/delete/', TOTPDeleteView.as_view(), name="2FA_delete"),
     path('generator/', Generator.as_view(), name="generator"),
     path('friends/', FriendsView.as_view(), name="friend_list"),
+    path('friends/add/', FriendAdd.as_view(), name="friend_add"),
     path('friends/delete/<str:username>/', FriendDelete.as_view(), name="friend_delete"),
     path('friends/request/accept/<str:username>/', FriendRequestAccept.as_view(), name="friend_request_accept"),
     path('friends/request/delete/<str:username>/', FriendRequestDelete.as_view(), name="friend_request_delete"),

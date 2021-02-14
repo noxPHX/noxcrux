@@ -1,0 +1,28 @@
+{% extends 'authenticated.html' %}
+
+{% block title %}
+    noxcrux - Add a friend
+{% endblock title %}
+
+{% block content %}
+
+    <div class="d-flex flex-wrap justify-content-center align-items-center px-3 h-i">
+
+        <div class="card text-center">
+            <div class="card-header">Send a friend request</div>
+            <div class="card-body">
+                <p class="card-text">
+                    Enter the username of your friend
+                </p>
+                <form method="POST" role="form" action="{% url 'friend_add' %}">
+                    {% include 'form.html' %}
+                    <input class="btn btn-main" type="submit" value="Send request"/>
+                </form>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'friend_list' %}" class="color-warm"><i class="fas fa-arrow-left"></i>&nbsp;Back</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

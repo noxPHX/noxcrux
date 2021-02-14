@@ -61,3 +61,27 @@ class OTPForm(forms.Form):
             return totp_code
         else:
             raise forms.ValidationError('The TOTP code you entered is incorrect.')
+
+
+class FriendForm(forms.Form):
+
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super().__init__(*args, **kwargs)
+
+    friend = forms.CharField(max_length=255, required=True, label="Friend username",
+                               help_text="Enter your friend's username",
+                               widget=forms.TextInput(attrs={'autofocus': True}))
+
+    def clean_friend(self):
+        try:
+            friend = User.objects.get(username=self.cleaned_data['friend'])
+        except User.DoesNotExist:
+            raise forms.ValidationError("User with that username does not exists")
+        if self.request.user == friend:
+            raise forms.ValidationError("Users cannot be friend with themselves.")
+        if self.request.user.friends.filter(friend=friend, validated=False).exists():
+            raise forms.ValidationError(f"A friend request was already sent to {friend}")
+        if self.request.user.friends.filter(friend=friend, validated=True).exists():
+            raise forms.ValidationError(f"You already are friend with {friend}")
+        return self.cleaned_data['friend']
