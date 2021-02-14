@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load RequestTags %}
+
 {%  load static %}
 
 {% block title %}noxcrux{% endblock title %}
@@ -21,8 +23,11 @@
             </div>
 
             <div>
-                <a class="btn btn-warm m-1" href="{% url 'friend_list' %}">
+                <a class="btn btn-warm m-1 position-relative" href="{% url 'friend_list' %}">
                     <i class="fas fa-users"></i>&nbsp;Friends
+                    {% if request.user.reverse_friends|get_friend_requests %}
+                        <div id="friend-count">{{ request.user.reverse_friends|get_friend_requests }}</div>
+                    {% endif %}
                 </a>
             </div>
 
