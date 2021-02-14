@@ -22,10 +22,10 @@
                                 <li class="list-group-item d-flex justify-content-between">
                                     {{ object.user }}
                                     <div>
-                                        <a href="" class="m-2">
+                                        <a href="{% url 'friend_request_accept' object.user %}" class="m-2">
                                             <i class="fas fa-check color-green"></i>
                                         </a>
-                                        <a href="" class="m-2">
+                                        <a href="{% url 'friend_request_delete' object.user %}" class="m-2">
                                             <i class="fas fa-times color-red"></i>
                                         </a>
                                     </div>

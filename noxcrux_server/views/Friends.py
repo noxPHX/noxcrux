@@ -28,3 +28,28 @@ class FriendDelete(LoginRequiredView):
         else:
             messages.error(request, 'An error occurred')
         return HttpResponseRedirect(reverse('friend_list'))
+
+
+class FriendRequestAccept(LoginRequiredView):
+
+    def get(self, request, *args, **kwargs):
+        username = kwargs['username']
+        request.data = {'validated': True}
+        res = FriendRequest().put(request, username)
+        if res.status_code == 200:
+            messages.success(request, '%s added successfully!' % username)
+        else:
+            messages.error(request, 'An error occurred')
+        return HttpResponseRedirect(reverse('friend_list'))
+
+
+class FriendRequestDelete(LoginRequiredView):
+
+    def get(self, request, *args, **kwargs):
+        username = kwargs['username']
+        res = FriendRequest().delete(request, username)
+        if res.status_code == 204:
+            messages.success(request, '%s denied successfully!' % username)
+        else:
+            messages.error(request, 'An error occurred')
+        return HttpResponseRedirect(reverse('friend_list'))

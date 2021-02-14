@@ -37,9 +37,9 @@ class FriendRequest(APIView):
     List all friend requests, respond to a request, or delete a request
     """
 
-    def get_object(self, username):
+    def get_object(self, request, username):
         try:
-            return self.request.user.reverse_friends.get(user__username=username, validated=False)
+            return request.user.reverse_friends.get(user__username=username, validated=False)
         except Friend.DoesNotExist:
             raise Http404
 
@@ -49,7 +49,7 @@ class FriendRequest(APIView):
         return Response(serializer.data)
 
     def put(self, request, username):
-        friendship = self.get_object(username)
+        friendship = self.get_object(request, username)
         serializer = FriendRequestSerializer(friendship, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
@@ -57,6 +57,6 @@ class FriendRequest(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, username):
-        friendship = self.get_object(username)
+        friendship = self.get_object(request, username)
         friendship.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

@@ -95,6 +95,9 @@ Here is a list of what is left to be done:
 + Horcrux sharing
 + Themes
 + Horcrux lookup
++ Delegated authentication
++ Import / Export Horcruxes
++ Landing page
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
