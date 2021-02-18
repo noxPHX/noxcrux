@@ -52,3 +52,14 @@ class HorcruxDetail(APIView):
         horcrux = self.get_object(name, request.user)
         horcrux.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class HorcruxGrantedList(APIView):
+    """
+    List all granted horcruxes
+    """
+
+    def get(self, request):
+        horcruxes = request.user.shared_horcruxes.all()
+        serializer = HorcruxSerializer(horcruxes, many=True)
+        return Response(serializer.data)

@@ -8,6 +8,7 @@ class Horcrux(models.Model):
     name = models.CharField(max_length=255)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     horcrux = encrypt(models.CharField(max_length=255))
+    grantees = models.ManyToManyField(User, related_name='shared_horcruxes')
 
     class Meta:
         unique_together = ['name', 'owner']

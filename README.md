@@ -93,6 +93,7 @@ Here is a list of what is left to be done:
 + PostgreSQL
 + Deployment (Docker)
 + Horcrux sharing
++ User groups sharing
 + Themes
 + Horcrux lookup
 + Delegated authentication
