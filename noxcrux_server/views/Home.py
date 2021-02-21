@@ -1,5 +1,5 @@
 from noxcrux_server.mixins.Authenticated import LoginRequiredListView
-from noxcrux_api.views.Horcrux import HorcruxList
+from noxcrux_api.views.Horcrux import HorcruxList, HorcruxGrantedList
 
 
 class HomeView(LoginRequiredListView):
@@ -7,4 +7,8 @@ class HomeView(LoginRequiredListView):
     context_object_name = 'horcruxes'
 
     def get_queryset(self):
-        return HorcruxList().get(self.request).data
+        horcruxes = {
+            'mines': HorcruxList().get(self.request).data,
+            'shared': HorcruxGrantedList().get(self.request).data
+        }
+        return horcruxes

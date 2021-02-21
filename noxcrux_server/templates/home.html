@@ -20,27 +20,12 @@
                 <div class="card-footer">Site</div>
             </div>
 
-            {% for horcrux in horcruxes %}
+            {% for horcrux in horcruxes.mines %}
+                {% include 'horcrux.html' with horcrux=horcrux shared=False %}
+            {% endfor %}
 
-                <div class="card text-center m-1">
-                    <div class="card-header d-flex justify-content-between">
-                        <a href="{% url 'horcrux_edit' horcrux.name %}">
-                            <i class="fas fa-edit color-main"></i>
-                        </a>
-                        <div class="mx-3">{{ horcrux.name }}</div>
-                        <a href="{% url 'horcrux_delete' horcrux.name %}">
-                            <i class="fas fa-trash delete-item"></i>
-                        </a>
-                    </div>
-                    <div class="card-body horcrux-copy d-flex justify-content-center align-items-center">
-                        <div class="card-text mx-3 px-3" data-name="{{ horcrux.name }}">
-                            {{ horcrux.horcrux }}
-                        </div>
-                        <i class="far fa-copy color-main"></i>
-                    </div>
-                    <div class="card-footer"><a href="{{ horcrux.site }}" class="color-warm"
-                                                           target="_blank">{{ horcrux.site }}</a></div>
-                </div>
+            {% for horcrux in horcruxes.shared %}
+                {% include 'horcrux.html' with horcrux=horcrux shared=True %}
             {% endfor %}
         {% endif %}
 
@@ -60,7 +45,7 @@
 
 {% block js %}
 
-    {%  load static %}
+    {% load static %}
     <script src="{% static 'js/clipboard.js' %}"></script>
 
 {% endblock js %}

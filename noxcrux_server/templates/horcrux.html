@@ -1,0 +1,53 @@
+<div class="card text-center m-1">
+
+    <div class="card-header d-flex">
+
+        {% if not shared %}
+
+            <a class="col-3" href="">
+                <i class="fas fa-share-alt color-main"></i>
+            </a>
+
+        {% else %}
+
+            <div class="col-3">
+                <small><i class="fas fa-share color-grey"></i></small>
+            </div>
+
+        {% endif %}
+
+        <div class="col-6">{{ horcrux.name }}</div>
+
+        <div class="col-3 d-flex">
+
+            {% if not shared %}
+
+                <a class="mx-1" href="{% url 'horcrux_edit' horcrux.name %}">
+                    <i class="fas fa-edit color-main"></i>
+                </a>
+
+                <a class="mx-1" href="{% url 'horcrux_delete' horcrux.name %}">
+                    <i class="fas fa-trash delete-item"></i>
+                </a>
+
+            {% else %}
+
+                <small class="color-grey">{{ horcrux.owner }}</small>
+
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card-body horcrux-copy d-flex justify-content-center align-items-center">
+
+        <div class="card-text mx-3 px-3" data-name="{{ horcrux.name }}">
+            {{ horcrux.horcrux }}
+        </div>
+
+        <i class="far fa-copy color-main"></i>
+    </div>
+
+    <div class="card-footer">
+        <a href="{{ horcrux.site }}" class="color-warm" target="_blank">{{ horcrux.site }}</a>
+    </div>
+</div>
