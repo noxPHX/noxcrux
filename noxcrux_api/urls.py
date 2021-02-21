@@ -1,6 +1,6 @@
 from django.urls import path, re_path
 from noxcrux_api.views.User import UserList, UserUpdate, PasswordUpdate, Profile
-from noxcrux_api.views.Horcrux import HorcruxList, HorcruxDetail, HorcruxGrantedList
+from noxcrux_api.views.Horcrux import HorcruxList, HorcruxDetail, HorcruxGrantedList, HorcruxGrant
 from noxcrux_api.views.Token import TokenDetail
 from noxcrux_api.views.Generator import GeneratorDetail
 from noxcrux_api.views.OTP import TOTPView
@@ -17,7 +17,8 @@ urlpatterns = [
     path('user/password/', PasswordUpdate.as_view()),
     path('horcruxes/', HorcruxList.as_view(), name='horcruxes'),
     path('horcruxes/granted/', HorcruxGrantedList.as_view()),
-    #path('horcrux/shared/<str:name>/', HorcruxDetail.as_view()),
+    path('horcrux/shared/<str:name>/', HorcruxGrant.as_view()),
+    path('horcrux/shared/<str:name>/<str:username>/', HorcruxGrant.as_view()),
     path('horcrux/<str:name>/', HorcruxDetail.as_view()),
     path('generator/', GeneratorDetail.as_view(), name='generate'),
     path('friends/', FriendList.as_view()),
