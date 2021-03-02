@@ -10,16 +10,6 @@
 
         {% if horcruxes %}
 
-            <div class="card text-center m-1">
-                <div class="card-header">Name</div>
-                <div class="card-body">
-                    <p class="card-text">
-                        Horcrux
-                    </p>
-                </div>
-                <div class="card-footer">Site</div>
-            </div>
-
             {% for horcrux in horcruxes.mines %}
                 {% include 'horcrux.html' with horcrux=horcrux shared=False %}
             {% endfor %}
