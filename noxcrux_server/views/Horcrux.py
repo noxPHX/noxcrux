@@ -1,9 +1,10 @@
 from noxcrux_server.mixins.Authenticated import LoginRequiredView, LoginRequiredFormView
 from django.http import HttpResponseRedirect
-from noxcrux_api.views.Horcrux import HorcruxDetail, HorcruxList
+from noxcrux_api.views.Horcrux import HorcruxDetail, HorcruxList, HorcruxGrant
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from noxcrux_server.forms.Horcrux import HorcruxForm
+from noxcrux_server.forms.User import ShareForm
 
 
 class HorcruxAdd(LoginRequiredFormView):
@@ -64,3 +65,31 @@ class HorcruxDelete(LoginRequiredView):
         else:
             messages.error(request, 'An error occurred')
         return HttpResponseRedirect(reverse('home'))
+
+
+class HorcruxShare(LoginRequiredFormView):
+    template_name = 'share_horcrux.html'
+    form_class = ShareForm
+    success_url = reverse_lazy('home')
+
+    def get_form_kwargs(self):
+        kwargs = super(HorcruxShare, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super(HorcruxShare, self).get_context_data()
+        context['horcrux'] = self.kwargs['name']
+        return context
+
+    def form_valid(self, form):
+        self.request.data = {
+            'granted': form.cleaned_data['friend']
+        }
+        res = HorcruxGrant().put(self.request, self.kwargs['name'])
+        if res.status_code == 200:
+            messages.success(self.request, f"{self.kwargs['name']} shared successfully with {form.cleaned_data['friend']}!")
+            return super(HorcruxShare, self).form_valid(form)
+        else:
+            messages.error(self.request, 'An error occurred')
+            return super(HorcruxShare, self).get(self.request, *self.args, **self.kwargs)

@@ -4,7 +4,7 @@
 
         {% if not shared %}
 
-            <a class="col-3" href="">
+            <a class="col-3" href="{% url 'horcrux_share' horcrux.name %}">
                 <i class="fas fa-share-alt color-main"></i>
             </a>
 

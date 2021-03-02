@@ -85,3 +85,17 @@ class FriendForm(forms.Form):
         if self.request.user.friends.filter(friend=friend, validated=True).exists():
             raise forms.ValidationError(f"You already are friend with {friend}")
         return self.cleaned_data['friend']
+
+
+class ShareForm(FriendForm):
+
+    def clean_friend(self):
+        try:
+            friend = User.objects.get(username=self.cleaned_data['friend'])
+        except User.DoesNotExist:
+            raise forms.ValidationError("User with that username does not exists")
+        if self.request.user == friend:
+            raise forms.ValidationError("Users cannot grant themselves horcruxes.")
+        if not self.request.user.friends.filter(friend=friend, validated=True).exists():
+            raise forms.ValidationError(f"You are not friend with {friend}")
+        return self.cleaned_data['friend']
