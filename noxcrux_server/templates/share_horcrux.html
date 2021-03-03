@@ -35,7 +35,7 @@
                                 <li class="list-group-item d-flex justify-content-between">
                                     {{ username }}
                                     <div>
-                                        <a href="" class="m-2">
+                                        <a href="{% url 'horcrux_unshare' horcrux username %}" class="m-2">
                                             <i class="fas fa-user-times color-red"></i>
                                         </a>
                                     </div>

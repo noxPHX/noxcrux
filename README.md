@@ -47,6 +47,7 @@ Here is a list of the main features provided by the API and the web interface:
 + Horcrux generator
 + 2-Factor Authentication
 + Friendship
++ Horcrux sharing
 
 ## Getting Started
 Here is what you need to do to get a noxcrux server up & running.
@@ -92,7 +93,6 @@ Here is a list of what is left to be done:
 
 + PostgreSQL
 + Deployment (Docker)
-+ Horcrux sharing
 + User groups sharing
 + Themes
 + Horcrux lookup

@@ -1,7 +1,7 @@
 from django.urls import path
 from noxcrux_server.views.Access import LoginView, LogoutView, RegisterView
 from noxcrux_server.views.Home import HomeView
-from noxcrux_server.views.Horcrux import HorcruxAdd, HorcruxEdit, HorcruxDelete, HorcruxShare
+from noxcrux_server.views.Horcrux import HorcruxAdd, HorcruxEdit, HorcruxDelete, HorcruxShare, HorcruxUnshare
 from noxcrux_server.views.User import ProfileView, UsernameUpdateView, PasswordUpdateView, DeleteAccountView
 from noxcrux_server.views.Generator import Generator
 from noxcrux_server.views.OTP import TOTPLoginView, TOTPMainView, TOTPSecretView, TOTPConfirmView, TOTPDeleteView
@@ -17,6 +17,7 @@ urlpatterns = [
     path('horcrux/edit/<str:name>/', HorcruxEdit.as_view(), name="horcrux_edit"),
     path('horcrux/delete/<str:name>/', HorcruxDelete.as_view(), name="horcrux_delete"),
     path('horcrux/share/<str:name>/', HorcruxShare.as_view(), name="horcrux_share"),
+    path('horcrux/unshare/<str:name>/<str:username>/', HorcruxUnshare.as_view(), name="horcrux_unshare"),
     path('profile/', ProfileView.as_view(), name="profile"),
     path('profile/username/', UsernameUpdateView.as_view(), name="edit_username"),
     path('profile/password/', PasswordUpdateView.as_view(), name="edit_password"),

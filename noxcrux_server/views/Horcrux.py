@@ -70,7 +70,9 @@ class HorcruxDelete(LoginRequiredView):
 class HorcruxShare(LoginRequiredFormView):
     template_name = 'share_horcrux.html'
     form_class = ShareForm
-    success_url = reverse_lazy('home')
+
+    def get_success_url(self):
+        return self.request.META.get('HTTP_REFERER')
 
     def get_form_kwargs(self):
         kwargs = super(HorcruxShare, self).get_form_kwargs()
@@ -94,3 +96,16 @@ class HorcruxShare(LoginRequiredFormView):
         else:
             messages.error(self.request, 'An error occurred')
             return super(HorcruxShare, self).get(self.request, *self.args, **self.kwargs)
+
+
+class HorcruxUnshare(LoginRequiredView):
+
+    def get(self, request, *args, **kwargs):
+        name = kwargs['name']
+        username = kwargs['username']
+        res = HorcruxGrant().delete(request, name, username)
+        if res.status_code == 204:
+            messages.success(request, f"{name} unshared successfully to {username}!")
+        else:
+            messages.error(request, 'An error occurred')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
