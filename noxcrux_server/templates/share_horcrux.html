@@ -6,22 +6,55 @@
 
 {% block content %}
 
-    <div class="d-flex flex-wrap justify-content-center align-items-center px-3 h-i">
+    <div class="d-flex flex-column h-i">
 
-        <div class="card text-center">
-            <div class="card-header">Share {{ horcrux }}</div>
-            <div class="card-body">
-                <p class="card-text">
-                    Enter the username of your friend
-                </p>
-                <form method="POST" role="form" action="{% url 'horcrux_share' horcrux %}">
-                    {% include 'form.html' %}
-                    <input class="btn btn-main" type="submit" value="Share {{ horcrux }}"/>
-                </form>
+        <div class="d-flex flex-wrap justify-content-center align-items-center px-3 h-i">
+
+            <div class="card text-center col-3 p-0 mr-3">
+                <div class="card-header">Share {{ horcrux }}</div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Enter the username of your friend
+                    </p>
+                    <form method="POST" role="form" action="{% url 'horcrux_share' horcrux %}">
+                        {% include 'form.html' %}
+                        <input class="btn btn-main" type="submit" value="Share {{ horcrux }}"/>
+                    </form>
+                </div>
             </div>
-            <div class="card-footer">
-                <a href="{% url 'home' %}" class="color-warm"><i class="fas fa-arrow-left"></i>&nbsp;Back</a>
+
+            <div class="card text-center col-3 p-0 mr-3">
+                <div class="card-header">{{ horcrux }} grantees</div>
+                <div class="card-body row justify-content-center align-items-center">
+
+                    {% if grantees %}
+
+                        <ul class="list-group list-group-flush col-12 friend-scroll">
+
+                            {% for username in grantees %}
+                                <li class="list-group-item d-flex justify-content-between">
+                                    {{ username }}
+                                    <div>
+                                        <a href="" class="m-2">
+                                            <i class="fas fa-user-times color-red"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div>
+                            No friend grantees to show for {{ horcrux }}.
+                        </div>
+                    {% endif %}
+                </div>
             </div>
+        </div>
+
+        <div class="mb-3">
+            <a class="btn btn-warm m-1" href="{% url 'home' %}">
+                <i class="fas fa-arrow-left"></i>&nbsp;Back
+            </a>
         </div>
     </div>
 
