@@ -1,7 +1,6 @@
 from rest_framework.serializers import ModelSerializer, Serializer, CharField, ValidationError
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
-from noxcrux_api.models.Generator import Generator
 
 
 class UserSerializer(ModelSerializer):
@@ -14,7 +13,6 @@ class UserSerializer(ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(validated_data['username'], password=validated_data['password'])
-        Generator.objects.create(owner=user)
         return user
 
 
