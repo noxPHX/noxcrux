@@ -24,7 +24,7 @@ class HorcruxAdd(LoginRequiredFormView):
 
     def form_valid(self, form):
         self.request.data = form.cleaned_data
-        res = HorcruxList().post(self.request)
+        res = HorcruxList().as_view()(self.request)
         if res.status_code == 201:
             messages.success(self.request, 'Horcrux created successfully!')
             return super(HorcruxAdd, self).form_valid(form)
@@ -40,13 +40,14 @@ class HorcruxEdit(LoginRequiredFormView):
 
     def get_form_kwargs(self):
         kwargs = super(HorcruxEdit, self).get_form_kwargs()
-        horcrux = HorcruxDetail().get_object(self.kwargs['name'], self.request.user)
+        horcrux = HorcruxDetail().get_horcrux(self.kwargs['name'], self.request.user)
         kwargs.update({'instance': horcrux, 'user': self.request.user})
         return kwargs
 
     def form_valid(self, form):
         self.request.data = form.cleaned_data
-        res = HorcruxDetail().put(self.request, self.kwargs['name'])
+        self.request.method = 'PUT'
+        res = HorcruxDetail().as_view()(self.request, name=self.kwargs['name'])
         if res.status_code == 200:
             messages.success(self.request, 'Horcrux updated successfully!')
             return super(HorcruxEdit, self).form_valid(form)
@@ -59,7 +60,8 @@ class HorcruxDelete(LoginRequiredView):
 
     def get(self, request, *args, **kwargs):
         name = kwargs['name']
-        res = HorcruxDetail().delete(request, name)
+        self.request.method = 'DELETE'
+        res = HorcruxDetail().as_view()(request, name=name)
         if res.status_code == 204:
             messages.success(request, '%s removed successfully!' % name)
         else:

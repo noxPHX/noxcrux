@@ -8,7 +8,7 @@ class HomeView(LoginRequiredListView):
 
     def get_queryset(self):
         horcruxes = {
-            'mines': HorcruxList().get(self.request).data,
+            'mines': HorcruxList().as_view()(self.request).data,
             'shared': HorcruxGrantedList().get(self.request).data
         }
         return horcruxes

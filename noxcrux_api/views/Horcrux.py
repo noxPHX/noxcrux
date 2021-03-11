@@ -3,61 +3,52 @@ from noxcrux_api.serializers.Horcrux import HorcruxSerializer, GranteeSerializer
 from noxcrux_api.models.Horcrux import Horcrux
 from django.http import Http404
 from rest_framework.views import APIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 
 
-class HorcruxList(APIView):
+class HorcruxList(ListCreateAPIView):
     """
-    List all horcruxes, or create a new horcrux
+    get:
+    List all your personal horcruxes.
+
+    post:
+    Create a new horcrux.
     """
+    serializer_class = HorcruxSerializer
 
-    def get(self, request):
-        horcruxes = Horcrux.objects.filter(owner=request.user)
-        serializer = HorcruxSerializer(horcruxes, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        serializer = HorcruxSerializer(data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get_queryset(self):
+        return Horcrux.objects.filter(owner=self.request.user)
 
 
-class HorcruxDetail(APIView):
+class HorcruxDetail(RetrieveUpdateDestroyAPIView):
     """
-    Retrieve, update or delete a horcrux instance
-    """
+    get:
+    Retrieve an horcrux instance.
 
-    def get_object(self, name, owner):
+    put:
+    Update an horcrux instance.
+
+    delete:
+    Remove an horcrux instance.
+    """
+    serializer_class = HorcruxSerializer
+
+    def get_object(self):
+        return self.get_horcrux(self.kwargs['name'], self.request.user)
+
+    def get_horcrux(self, name, owner):
         try:
             return Horcrux.objects.get(name=name, owner=owner)
         except Horcrux.DoesNotExist:
             raise Http404
 
-    def get(self, request, name):
-        horcrux = self.get_object(name, request.user)
-        serializer = HorcruxSerializer(horcrux)
-        return Response(serializer.data)
-
-    def put(self, request, name):
-        horcrux = self.get_object(name, request.user)
-        serializer = HorcruxSerializer(horcrux, data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, name):
-        horcrux = self.get_object(name, request.user)
-        horcrux.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
 
 class HorcruxGrantedList(APIView):
     """
-    List all granted horcruxes
+    get:
+    List all your granted horcruxes.
     """
 
     def get(self, request):
@@ -68,6 +59,16 @@ class HorcruxGrantedList(APIView):
 
 # FIXME better way to handle those serializers ?
 class HorcruxGrant(APIView):
+    """
+    get:
+    Display all the grantees for the given horcrux.
+
+    put:
+    Add a grantee for the given horcrux.
+
+    delete:
+    Delete a grantee for the given horcrux.
+    """
 
     def get_object(self, name, owner):
         try:
