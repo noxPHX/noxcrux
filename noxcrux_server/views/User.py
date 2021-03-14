@@ -63,7 +63,8 @@ class DeleteAccountView(LoginRequiredFormView):
         return kwargs
 
     def form_valid(self, form):
-        res = Profile().delete(self.request)
+        self.request.method = 'DELETE'
+        res = Profile().as_view()(self.request)
         if res.status_code == 204:
             messages.success(self.request, 'Account removed successfully!')
             return super(DeleteAccountView, self).form_valid(form)

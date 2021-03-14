@@ -2,8 +2,8 @@ from django.contrib.auth.models import User
 from rest_framework import status
 from noxcrux_api.serializers.User import UserSerializer, UserUpdateSerializer, PasswordUpdateSerializer
 from rest_framework.views import APIView
+from rest_framework.generics import RetrieveDestroyAPIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from noxcrux_api.permissions import UsersPermissions
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import update_session_auth_hash
@@ -33,34 +33,23 @@ class UserList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class Profile(APIView):
+class Profile(RetrieveDestroyAPIView):
     """
     Get a user or delete it's account
     """
-    permission_classes = [IsAuthenticated]
+    serializer_class = UserSerializer
 
-    def get_object(self, user):
+    def get_object(self):
         try:
-            return User.objects.get(id=user.id)
+            return User.objects.get(id=self.request.user.id)
         except User.DoesNotExist:
             raise Http404
-
-    def get(self, request):
-        user = self.get_object(request.user)
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
-
-    def delete(self, request):
-        user = self.get_object(request.user)
-        user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class UserUpdate(APIView):
     """
     Update a user's username
     """
-    permission_classes = [IsAuthenticated]
 
     def put(self, request):
         serializer = UserUpdateSerializer(request.user, data=request.data)
@@ -74,7 +63,6 @@ class PasswordUpdate(APIView):
     """
     Update a user's password
     """
-    permission_classes = [IsAuthenticated]
 
     def put(self, request):
         serializer = PasswordUpdateSerializer(data=request.data, context={'request': request})
