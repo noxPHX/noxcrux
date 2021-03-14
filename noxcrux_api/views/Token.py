@@ -4,8 +4,18 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from noxcrux_api.views.OTP import get_user_totp_device
 from django.contrib.auth.models import User
+from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiParameter
 
 
+@extend_schema_view(
+    post=extend_schema(
+        description='Setup 2FA',
+        parameters=[
+            OpenApiParameter(name='totp_code', type=str)
+        ]
+    ),
+    delete=extend_schema(description='Remove 2FA'),
+)
 class TokenDetail(ObtainAuthToken):
 
     def post(self, request, *args, **kwargs):

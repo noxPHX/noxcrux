@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from django_otp import devices_for_user
+from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiParameter
 
 
 def get_user_totp_device(user, confirmed=None):
@@ -12,19 +13,28 @@ def get_user_totp_device(user, confirmed=None):
             return device
 
 
+@extend_schema_view(
+    get=extend_schema(description='Set up a new TOTP device'),
+    post=extend_schema(
+        description='Verify/Enable a TOTP device',
+        parameters=[
+            OpenApiParameter(name='totp_code', type=str)
+        ]
+    ),
+    delete=extend_schema(
+        description='Remove a TOTP device',
+        parameters=[
+            OpenApiParameter(name='totp_code', type=str)
+        ]),
+)
 class TOTPView(APIView):
-    """
-    Set up a new TOTP device
-    """
     def get(self, request):
         device = get_user_totp_device(request.user)
         if not device:
             device = request.user.totpdevice_set.create(confirmed=False)
         url = device.config_url
         return Response(url, status=status.HTTP_201_CREATED)
-    """
-    Verify/Enable a TOTP device
-    """
+
     def post(self, request, totp_code):
         device = get_user_totp_device(request.user)
         if not device:

@@ -6,33 +6,26 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from django.contrib.auth.models import User
+from drf_spectacular.utils import extend_schema, extend_schema_view
 
 
+@extend_schema_view(
+    get=extend_schema(description='List all your personal horcruxes.'),
+    post=extend_schema(description='Create a new horcrux.'),
+)
 class HorcruxList(ListCreateAPIView):
-    """
-    get:
-    List all your personal horcruxes.
-
-    post:
-    Create a new horcrux.
-    """
     serializer_class = HorcruxSerializer
 
     def get_queryset(self):
         return Horcrux.objects.filter(owner=self.request.user)
 
 
+@extend_schema_view(
+    get=extend_schema(description='Retrieve an horcrux instance.'),
+    put=extend_schema(description='Update an horcrux instance.'),
+    delete=extend_schema(description='Remove an horcrux instance.'),
+)
 class HorcruxDetail(RetrieveUpdateDestroyAPIView):
-    """
-    get:
-    Retrieve an horcrux instance.
-
-    put:
-    Update an horcrux instance.
-
-    delete:
-    Remove an horcrux instance.
-    """
     serializer_class = HorcruxSerializer
 
     def get_object(self):

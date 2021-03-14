@@ -9,6 +9,7 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import update_session_auth_hash
 from django.http import Http404
 from django.conf import settings
+from drf_spectacular.utils import extend_schema, extend_schema_view
 
 
 class UserList(APIView):
@@ -33,10 +34,10 @@ class UserList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@extend_schema_view(
+    get=extend_schema(description='Get a user or delete it\'s account'),
+)
 class Profile(RetrieveDestroyAPIView):
-    """
-    Get a user or delete it's account
-    """
     serializer_class = UserSerializer
 
     def get_object(self):
