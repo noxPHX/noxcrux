@@ -5,8 +5,11 @@ from noxcrux_api.views.Token import TokenDetail
 from noxcrux_api.views.Generator import GeneratorDetail
 from noxcrux_api.views.OTP import TOTPView
 from noxcrux_api.views.Friend import FriendList, FriendRequest
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
+    path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('docs/schema/', SpectacularAPIView.as_view(), name='schema'),
     path(r'token/', TokenDetail.as_view()),
     re_path(r'^token/(?P<totp_code>[0-9]{6})/$', TokenDetail.as_view()),
     path('totp/', TOTPView.as_view()),
