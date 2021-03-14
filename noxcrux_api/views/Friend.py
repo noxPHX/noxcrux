@@ -1,62 +1,45 @@
 from rest_framework import status
 from noxcrux_api.serializers.Friend import FriendSerializer, FriendRequestSerializer
-from rest_framework.views import APIView
+from noxcrux_api.mixins.Generics import ListCreateDestroyAPIView, ListUpdateDestroyAPIView
 from rest_framework.response import Response
 from django.http import Http404
 from noxcrux_api.models.Friend import Friend
+from drf_spectacular.utils import extend_schema, extend_schema_view
 
 
-class FriendList(APIView):
-    """
-    List all friends, request a new friendship or delete a friend
-    """
+@extend_schema_view(
+    get=extend_schema(description='List all your friends.'),
+    post=extend_schema(description='Send a friend request.'),
+    delete=extend_schema(description='Remove a friendship.'),
+)
+class FriendList(ListCreateDestroyAPIView):
+    serializer_class = FriendSerializer
 
-    def get(self, request):
-        friends = request.user.friends.filter(validated=True)
-        serializer = FriendSerializer(friends, many=True)
-        return Response(serializer.data)
+    def get_queryset(self):
+        return self.request.user.friends.filter(validated=True)
 
-    def post(self, request):
-        serializer = FriendSerializer(data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, username):
+    def delete(self, request, *args, **kwargs):
         try:
-            friendship = request.user.friends.get(friend__username=username, validated=True)
+            friendship = request.user.friends.get(friend__username=self.kwargs['username'], validated=True)
         except Friend.DoesNotExist:
             raise Http404
         friendship.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class FriendRequest(APIView):
-    """
-    List all friend requests, respond to a request, or delete a request
-    """
+@extend_schema_view(
+    get=extend_schema(description='List all your friend requests.'),
+    put=extend_schema(description='Accept or deny a friend request.'),
+    delete=extend_schema(description='Delete a request.'),
+)
+class FriendRequest(ListUpdateDestroyAPIView):
+    serializer_class = FriendRequestSerializer
 
-    def get_object(self, request, username):
+    def get_queryset(self):
+        return self.request.user.reverse_friends.filter(validated=False)
+
+    def get_object(self):
         try:
-            return request.user.reverse_friends.get(user__username=username, validated=False)
+            return self.request.user.reverse_friends.get(user__username=self.kwargs['username'], validated=False)
         except Friend.DoesNotExist:
             raise Http404
-
-    def get(self, request):
-        friends = request.user.reverse_friends.filter(validated=False)
-        serializer = FriendRequestSerializer(friends, many=True)
-        return Response(serializer.data)
-
-    def put(self, request, username):
-        friendship = self.get_object(request, username)
-        serializer = FriendRequestSerializer(friendship, data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, username):
-        friendship = self.get_object(request, username)
-        friendship.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)

@@ -40,14 +40,12 @@ class FriendRequestSerializer(ModelSerializer):
         fields = ['user', 'validated']
 
     user = SlugRelatedField(slug_field='username', read_only=True)
-    validated = BooleanField(required=True)
+    validated = BooleanField(required=False, default=True)
 
     def update(self, instance, validated_data):
         request = self.context.get('request', None)
         if not request:
             raise Http404
-        if validated_data['validated'] is not True:
-            raise ValidationError("Please accept the request or delete it")
-        # Create the reversion relationship
+        # Create the reverse relationship
         Friend.objects.create(user=request.user, friend=instance.user, validated=True)
         return super().update(instance, validated_data)

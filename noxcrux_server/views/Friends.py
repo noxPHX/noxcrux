@@ -13,8 +13,8 @@ class FriendsView(LoginRequiredListView):
 
     def get(self, request, *args, **kwargs):
         context = {
-            'friends': FriendList().get(request).data,
-            'requests': FriendRequest().get(request).data
+            'friends': FriendList().as_view()(request).data,
+            'requests': FriendRequest().as_view()(request).data
         }
         return render(request, self.template_name, context)
 
@@ -31,7 +31,7 @@ class FriendAdd(LoginRequiredFormView):
 
     def form_valid(self, form):
         self.request.data = form.cleaned_data
-        res = FriendList().post(self.request)
+        res = FriendList().as_view()(self.request)
         if res.status_code == 201:
             messages.success(self.request, 'Friend request sent successfully!')
             return super(FriendAdd, self).form_valid(form)
@@ -44,7 +44,8 @@ class FriendDelete(LoginRequiredView):
 
     def get(self, request, *args, **kwargs):
         username = kwargs['username']
-        res = FriendList().delete(request, username)
+        request.method = 'DELETE'
+        res = FriendList().as_view()(request, username=username)
         if res.status_code == 204:
             messages.success(request, '%s removed successfully!' % username)
         else:
@@ -56,8 +57,8 @@ class FriendRequestAccept(LoginRequiredView):
 
     def get(self, request, *args, **kwargs):
         username = kwargs['username']
-        request.data = {'validated': True}
-        res = FriendRequest().put(request, username)
+        request.method = 'PUT'
+        res = FriendRequest().as_view()(request, username=username)
         if res.status_code == 200:
             messages.success(request, '%s added successfully!' % username)
         else:
@@ -69,7 +70,8 @@ class FriendRequestDelete(LoginRequiredView):
 
     def get(self, request, *args, **kwargs):
         username = kwargs['username']
-        res = FriendRequest().delete(request, username)
+        request.method = 'DELETE'
+        res = FriendRequest().as_view()(request, username=username)
         if res.status_code == 204:
             messages.success(request, '%s denied successfully!' % username)
         else:
