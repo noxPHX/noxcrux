@@ -34,18 +34,18 @@ class GranteesSerializer(ModelSerializer):
 
 class GranteeSerializer(Serializer):
 
-    granted = CharField(required=True, max_length=150)
+    friend = CharField(required=True, max_length=150)
 
     def validate(self, data):
         request = self.context.get('request', None)
         if not request:
             raise Http404
-        if request.user.username == data['granted']:
+        if request.user.username == data['friend']:
             raise ValidationError("Users cannot grant themselves horcruxes.")
-        if not request.user.friends.filter(friend__username=data['granted'], validated=True).exists():
-            raise ValidationError(f"You are not friend with {data['granted']}")
+        if not request.user.friends.filter(friend__username=data['friend'], validated=True).exists():
+            raise ValidationError(f"You are not friend with {data['friend']}")
         return super().validate(data)
 
     def update(self, instance, validated_data):
-        self.instance.grantees.add(User.objects.get(username=validated_data['granted']))
+        self.instance.grantees.add(User.objects.get(username=validated_data['friend']))
         return instance

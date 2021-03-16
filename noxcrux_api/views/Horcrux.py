@@ -2,8 +2,7 @@ from rest_framework import status
 from noxcrux_api.serializers.Horcrux import HorcruxSerializer, GranteeSerializer, GranteesSerializer
 from noxcrux_api.models.Horcrux import Horcrux
 from django.http import Http404
-from rest_framework.views import APIView
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from drf_spectacular.utils import extend_schema, extend_schema_view
@@ -38,51 +37,39 @@ class HorcruxDetail(RetrieveUpdateDestroyAPIView):
             raise Http404
 
 
-class HorcruxGrantedList(APIView):
-    """
-    get:
-    List all your granted horcruxes.
-    """
+@extend_schema_view(
+    get=extend_schema(description='List all your granted horcruxes.'),
+)
+class HorcruxGrantedList(ListAPIView):
+    serializer_class = HorcruxSerializer
 
-    def get(self, request):
-        horcruxes = request.user.shared_horcruxes.all()
-        serializer = HorcruxSerializer(horcruxes, many=True)
-        return Response(serializer.data)
+    def get_queryset(self):
+        return self.request.user.shared_horcruxes.all()
 
 
-# FIXME better way to handle those serializers ?
-class HorcruxGrant(APIView):
-    """
-    get:
-    Display all the grantees for the given horcrux.
+@extend_schema_view(
+    get=extend_schema(description='Display all the grantees for the given horcrux.'),
+    put=extend_schema(description='Add a grantee for the given horcrux.'),
+    delete=extend_schema(description='Delete a grantee for the given horcrux.'),
+)
+class HorcruxGrant(RetrieveUpdateDestroyAPIView):
+    serializer_class = GranteesSerializer
 
-    put:
-    Add a grantee for the given horcrux.
-
-    delete:
-    Delete a grantee for the given horcrux.
-    """
-
-    def get_object(self, name, owner):
+    def get_object(self):
         try:
-            return Horcrux.objects.get(name=name, owner=owner)
+            return Horcrux.objects.get(name=self.kwargs['name'], owner=self.request.user)
         except Horcrux.DoesNotExist:
             raise Http404
 
-    def get(self, request, name):
-        horcrux = self.get_object(name, request.user)
-        serializer = GranteesSerializer(horcrux)
-        return Response(serializer.data)
-
-    def put(self, request, name):
-        horcrux = self.get_object(name, request.user)
+    def put(self, request, *args, **kwargs):
+        horcrux = self.get_object()
         serializer = GranteeSerializer(horcrux, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(GranteesSerializer(horcrux).data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, name, username):
-        horcrux = self.get_object(name, request.user)
-        horcrux.grantees.remove(User.objects.get(username=username))
+    def delete(self, request, *args, **kwargs):
+        horcrux = self.get_object()
+        horcrux.grantees.remove(User.objects.get(username=self.kwargs['username']))
         return Response(status=status.HTTP_204_NO_CONTENT)

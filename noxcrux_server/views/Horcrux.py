@@ -84,14 +84,14 @@ class HorcruxShare(LoginRequiredFormView):
     def get_context_data(self, **kwargs):
         context = super(HorcruxShare, self).get_context_data()
         context['horcrux'] = self.kwargs['name']
-        context['grantees'] = HorcruxGrant().get(self.request, self.kwargs['name']).data['grantees']
+        res = HorcruxGrant().as_view()(self.request, name=self.kwargs['name']).data
+        if 'grantees' in res:
+            context['grantees'] = res['grantees']
         return context
 
     def form_valid(self, form):
-        self.request.data = {
-            'granted': form.cleaned_data['friend']
-        }
-        res = HorcruxGrant().put(self.request, self.kwargs['name'])
+        self.request.method = 'PUT'
+        res = HorcruxGrant().as_view()(self.request, name=self.kwargs['name'])
         if res.status_code == 200:
             messages.success(self.request, f"{self.kwargs['name']} shared successfully with {form.cleaned_data['friend']}!")
             return super(HorcruxShare, self).form_valid(form)
@@ -105,7 +105,8 @@ class HorcruxUnshare(LoginRequiredView):
     def get(self, request, *args, **kwargs):
         name = kwargs['name']
         username = kwargs['username']
-        res = HorcruxGrant().delete(request, name, username)
+        self.request.method = 'DELETE'
+        res = HorcruxGrant().as_view()(request, name=name, username=username)
         if res.status_code == 204:
             messages.success(request, f"{name} unshared successfully to {username}!")
         else:
