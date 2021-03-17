@@ -4,7 +4,7 @@ from noxcrux_api.views.Horcrux import HorcruxList, HorcruxDetail, HorcruxGranted
 from noxcrux_api.views.Token import TokenDetail
 from noxcrux_api.views.Generator import GeneratorDetail
 from noxcrux_api.views.OTP import TOTPView
-from noxcrux_api.views.Friend import FriendList, FriendRequest
+from noxcrux_api.views.Friend import FriendList, FriendDestroy, FriendRequestsList, FriendRequestUpdate
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
@@ -25,7 +25,7 @@ urlpatterns = [
     path('horcrux/<str:name>/', HorcruxDetail.as_view()),
     path('generator/', GeneratorDetail.as_view(), name='generate'),
     path('friends/', FriendList.as_view()),
-    path('friends/requests/', FriendRequest.as_view()),
-    path('friends/requests/<str:username>/', FriendRequest.as_view()),
-    path('friends/<str:username>/', FriendList.as_view()),
+    path('friends/requests/', FriendRequestsList.as_view()),
+    path('friends/requests/<str:username>/', FriendRequestUpdate.as_view()),
+    path('friends/<str:username>/', FriendDestroy.as_view()),
 ]

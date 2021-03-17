@@ -1,5 +1,5 @@
 from noxcrux_server.mixins.Authenticated import LoginRequiredListView, LoginRequiredView, LoginRequiredFormView
-from noxcrux_api.views.Friend import FriendList, FriendRequest
+from noxcrux_api.views.Friend import FriendList, FriendDestroy, FriendRequestsList, FriendRequestUpdate
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
@@ -14,7 +14,7 @@ class FriendsView(LoginRequiredListView):
     def get(self, request, *args, **kwargs):
         context = {
             'friends': FriendList().as_view()(request).data,
-            'requests': FriendRequest().as_view()(request).data
+            'requests': FriendRequestsList().as_view()(request).data
         }
         return render(request, self.template_name, context)
 
@@ -45,7 +45,7 @@ class FriendDelete(LoginRequiredView):
     def get(self, request, *args, **kwargs):
         username = kwargs['username']
         request.method = 'DELETE'
-        res = FriendList().as_view()(request, username=username)
+        res = FriendDestroy().as_view()(request, username=username)
         if res.status_code == 204:
             messages.success(request, '%s removed successfully!' % username)
         else:
@@ -58,7 +58,7 @@ class FriendRequestAccept(LoginRequiredView):
     def get(self, request, *args, **kwargs):
         username = kwargs['username']
         request.method = 'PUT'
-        res = FriendRequest().as_view()(request, username=username)
+        res = FriendRequestUpdate().as_view()(request, username=username)
         if res.status_code == 200:
             messages.success(request, '%s added successfully!' % username)
         else:
@@ -71,7 +71,7 @@ class FriendRequestDelete(LoginRequiredView):
     def get(self, request, *args, **kwargs):
         username = kwargs['username']
         request.method = 'DELETE'
-        res = FriendRequest().as_view()(request, username=username)
+        res = FriendRequestUpdate().as_view()(request, username=username)
         if res.status_code == 204:
             messages.success(request, '%s denied successfully!' % username)
         else:
