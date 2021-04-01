@@ -9,12 +9,12 @@ from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiPara
 
 @extend_schema_view(
     post=extend_schema(
-        description='Setup 2FA',
+        description='Retrieve authentication token',
         parameters=[
             OpenApiParameter(name='totp_code', type=str)
         ]
     ),
-    delete=extend_schema(description='Remove 2FA'),
+    delete=extend_schema(description='Remove authentication token'),
 )
 class TokenDetail(ObtainAuthToken):
 
@@ -22,14 +22,14 @@ class TokenDetail(ObtainAuthToken):
         res = super(TokenDetail, self).post(request, *args, **kwargs)
         device = get_user_totp_device(User.objects.get(username=request.POST.get('username')), confirmed=True)
         if device:
-            if 'totp_code' in kwargs and device.verify_token(kwargs['totp_code']):
+            if 'totp_code' in request.POST and device.verify_token(request.POST.get('totp_code')):
                 return res
             else:
-                return Response(dict(errors=dict(token=['Invalid TOTP Token'])), status=status.HTTP_400_BAD_REQUEST)
+                return Response(dict(errors=dict(totp_code=['Invalid TOTP Token'])), status=status.HTTP_400_BAD_REQUEST)
         else:
             return res
 
-    def delete(self, request):
+    def delete(self, request, *args, **kwargs):
         token = Token.objects.get(user=request.user)
         token.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
