@@ -1,6 +1,6 @@
 from noxcrux_server.mixins.Authenticated import LoginRequiredView, LoginRequiredFormView
 from django.http import HttpResponseRedirect
-from noxcrux_api.views.Horcrux import HorcruxDetail, HorcruxList, HorcruxGrant
+from noxcrux_api.views.Horcrux import HorcruxDetail, HorcruxList, HorcruxGrant, HorcruxRevoke
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from noxcrux_server.forms.Horcrux import HorcruxForm
@@ -106,7 +106,7 @@ class HorcruxUnshare(LoginRequiredView):
         name = kwargs['name']
         username = kwargs['username']
         self.request.method = 'DELETE'
-        res = HorcruxGrant().as_view()(request, name=name, username=username)
+        res = HorcruxRevoke().as_view()(request, name=name, username=username)
         if res.status_code == 204:
             messages.success(request, f"{name} unshared successfully to {username}!")
         else:
