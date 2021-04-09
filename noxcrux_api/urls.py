@@ -10,9 +10,8 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 urlpatterns = [
     path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('docs/schema/', SpectacularAPIView.as_view(), name='schema'),
-    path(r'token/', TokenDetail.as_view()),
+    path('token/', TokenDetail.as_view()),
     path('totp/', TOTPView.as_view()),
-    re_path(r'^totp/(?P<totp_code>[0-9]{6})/$', TOTPView.as_view()),
     path('users/', UserList.as_view(), name='users'),
     path('user/me/', Profile.as_view()),
     path('user/username/', UserUpdate.as_view()),
