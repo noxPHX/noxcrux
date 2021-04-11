@@ -50,7 +50,7 @@ class TOTPSecretView(LoginRequiredTemplateView):
     template_name = '2FA_secret.html'
 
     def get(self, request, *args, **kwargs):
-        res = TOTPView().get(request)
+        res = TOTPView().as_view()(request)
         context = {
             'url': res.data,
         }
@@ -76,7 +76,8 @@ class TOTPConfirmView(LoginRequiredFormView):
         return kwargs
 
     def form_valid(self, form):
-        res = TOTPView().post(self.request, form.cleaned_data['totp_code'])
+        self.request.method = 'PUT'
+        res = TOTPView().as_view()(self.request)
         if res.status_code == 200:
             messages.success(self.request, '2FA confirmed successfully!')
             return super(TOTPConfirmView, self).form_valid(form)
@@ -101,7 +102,8 @@ class TOTPDeleteView(LoginRequiredFormView):
         return kwargs
 
     def form_valid(self, form):
-        res = TOTPView().delete(self.request, form.cleaned_data['totp_code'])
+        self.request.method = 'DELETE'
+        res = TOTPView().as_view()(self.request)
         if res.status_code == 204:
             messages.success(self.request, '2FA disabled successfully!')
             return super(TOTPDeleteView, self).form_valid(form)

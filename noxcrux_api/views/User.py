@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import status
 from noxcrux_api.serializers.User import UserSerializer, PasswordUpdateSerializer, UserUpdateSerializer
-from rest_framework.views import APIView
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView, UpdateAPIView
 from rest_framework.response import Response
 from noxcrux_api.permissions import UsersPermissions
