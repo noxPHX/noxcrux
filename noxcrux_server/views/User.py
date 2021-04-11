@@ -39,7 +39,8 @@ class PasswordUpdateView(LoginRequiredFormView):
 
     def form_valid(self, form):
         self.request.data = form.cleaned_data
-        res = PasswordUpdate().put(self.request)
+        self.request.method = 'PUT'
+        res = PasswordUpdate().as_view()(self.request)
         if res.status_code == 200:
             messages.success(self.request, 'Password updated successfully!')
             return super(PasswordUpdateView, self).form_valid(form)

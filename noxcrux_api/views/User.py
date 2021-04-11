@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import status
 from noxcrux_api.serializers.User import UserSerializer, PasswordUpdateSerializer, UserUpdateSerializer
 from rest_framework.views import APIView
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView, UpdateAPIView
 from rest_framework.response import Response
 from noxcrux_api.permissions import UsersPermissions
 from rest_framework.authtoken.models import Token
@@ -38,13 +38,19 @@ class Profile(RetrieveUpdateDestroyAPIView):
         return self.request.user
 
 
-class PasswordUpdate(APIView):
-    """
-    Update a user's password
-    """
+@extend_schema_view(
+    put=extend_schema(description='Update my password'),
+)
+class PasswordUpdate(UpdateAPIView):
+    serializer_class = PasswordUpdateSerializer
 
-    def put(self, request):
-        serializer = PasswordUpdateSerializer(data=request.data, context={'request': request})
+    def get_object(self):
+        return self.request.user
+
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        user = self.get_object()
+        serializer = self.get_serializer(user, data=request.data, partial=partial)
         if serializer.is_valid():
             user = serializer.save()
             if hasattr(user, 'auth_token'):
