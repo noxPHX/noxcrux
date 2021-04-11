@@ -2,7 +2,7 @@ from noxcrux_server.mixins.Authenticated import LoginRequiredFormView, LoginRequ
 from noxcrux_server.forms.User import UsernameForm, DeleteUserForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.urls import reverse_lazy
-from noxcrux_api.views.User import UserUpdate, PasswordUpdate, Profile
+from noxcrux_api.views.User import PasswordUpdate, Profile
 from django.contrib import messages
 
 
@@ -17,7 +17,8 @@ class UsernameUpdateView(LoginRequiredFormView):
 
     def form_valid(self, form):
         self.request.data = form.cleaned_data
-        res = UserUpdate().put(self.request)
+        self.request.method = 'PUT'
+        res = Profile().as_view()(self.request)
         if res.status_code == 200:
             messages.success(self.request, 'Username updated successfully!')
             return super(UsernameUpdateView, self).form_valid(form)

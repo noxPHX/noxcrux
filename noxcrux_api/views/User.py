@@ -1,13 +1,12 @@
 from django.contrib.auth.models import User
 from rest_framework import status
-from noxcrux_api.serializers.User import UserSerializer, UserUpdateSerializer, PasswordUpdateSerializer
+from noxcrux_api.serializers.User import UserSerializer, PasswordUpdateSerializer, UserUpdateSerializer
 from rest_framework.views import APIView
-from rest_framework.generics import RetrieveDestroyAPIView, ListCreateAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework.response import Response
 from noxcrux_api.permissions import UsersPermissions
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import update_session_auth_hash
-from django.http import Http404
 from django.conf import settings
 from drf_spectacular.utils import extend_schema, extend_schema_view
 
@@ -28,29 +27,15 @@ class UserList(ListCreateAPIView):
 
 
 @extend_schema_view(
-    get=extend_schema(description='Get a user or delete it\'s account'),
+    get=extend_schema(description='Get my account information'),
+    put=extend_schema(description='Update my username'),
+    delete=extend_schema(description='Delete my account'),
 )
-class Profile(RetrieveDestroyAPIView):
-    serializer_class = UserSerializer
+class Profile(RetrieveUpdateDestroyAPIView):
+    serializer_class = UserUpdateSerializer
 
     def get_object(self):
-        try:
-            return User.objects.get(id=self.request.user.id)
-        except User.DoesNotExist:
-            raise Http404
-
-
-class UserUpdate(APIView):
-    """
-    Update a user's username
-    """
-
-    def put(self, request):
-        serializer = UserUpdateSerializer(request.user, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return self.request.user
 
 
 class PasswordUpdate(APIView):
