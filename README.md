@@ -48,6 +48,7 @@ Here is a list of the main features provided by the API and the web interface:
 + 2-Factor Authentication
 + Friendship
 + Horcrux sharing
++ Self API Reference
 
 ## Getting Started
 Here is what you need to do to get a noxcrux server up & running.
@@ -88,19 +89,24 @@ python3 manage.py runserver
 ### Docker
 ## Usage
 ## API Reference
+Running the application provides your own API reference, you can find it browsing the */api/docs* endpoint.
+
 ## Todo list
 Here is a list of what is left to be done:  
 
 + PostgreSQL
 + Deployment (Docker)
-+ User groups sharing
-+ Themes
-+ Horcrux lookup
-+ Delegated authentication
++ Horcrux / Friend lookup
 + Import / Export Horcruxes
-+ Landing page
++ User groups sharing (?)
++ Themes (?)
++ Delegated authentication (?)
++ Landing page (?)
+
+*(?) marked features are unsure to be implemented yet*
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
 ## Licence
 [GPL-3.0](https://github.com/noxPHX/noxcrux/blob/main/LICENSE)

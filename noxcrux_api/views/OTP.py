@@ -5,6 +5,7 @@ from noxcrux_api.serializers.OTP import TOTPSerializer
 from django_otp.plugins.otp_totp.models import TOTPDevice
 from django_otp import devices_for_user
 from drf_spectacular.utils import extend_schema, extend_schema_view
+from drf_spectacular.types import OpenApiTypes
 
 
 def get_user_totp_device(user, confirmed=None):
@@ -15,9 +16,12 @@ def get_user_totp_device(user, confirmed=None):
 
 
 @extend_schema_view(
-    get=extend_schema(description='Set up a new TOTP device'),
-    put=extend_schema(description='Verify/Enable a TOTP device'),
-    delete=extend_schema(description='Remove a TOTP device')
+    get=extend_schema(
+        description='Set up a new TOTP device, returns the 2FA secret.',
+        responses={(200, 'application/json'): OpenApiTypes.STR}
+    ),
+    put=extend_schema(description='Verify/Enable a TOTP device.'),
+    delete=extend_schema(description='Remove a TOTP device.')
 )
 class TOTPView(RetrieveUpdateDestroyAPIView):
     serializer_class = TOTPSerializer

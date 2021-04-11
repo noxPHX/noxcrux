@@ -49,7 +49,10 @@ class HorcruxGrantedList(ListAPIView):
 
 @extend_schema_view(
     get=extend_schema(description='Display all the grantees for the given horcrux.'),
-    put=extend_schema(description='Add a grantee for the given horcrux.'),
+    put=extend_schema(
+        description='Add a grantee for the given horcrux.',
+        request=GranteeSerializer
+    ),
 )
 class HorcruxGrant(RetrieveUpdateAPIView):
     serializer_class = GranteesSerializer

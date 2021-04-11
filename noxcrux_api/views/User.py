@@ -11,8 +11,8 @@ from drf_spectacular.utils import extend_schema, extend_schema_view
 
 
 @extend_schema_view(
-    get=extend_schema(description='List all users'),
-    post=extend_schema(description='Register a new user'),
+    get=extend_schema(description='List all users.'),
+    post=extend_schema(description='Register a new user.'),
 )
 class UserList(ListCreateAPIView):
     serializer_class = UserSerializer
@@ -26,9 +26,9 @@ class UserList(ListCreateAPIView):
 
 
 @extend_schema_view(
-    get=extend_schema(description='Get my account information'),
-    put=extend_schema(description='Update my username'),
-    delete=extend_schema(description='Delete my account'),
+    get=extend_schema(description='Get my account information.'),
+    put=extend_schema(description='Update my username.'),
+    delete=extend_schema(description='Delete my account.'),
 )
 class Profile(RetrieveUpdateDestroyAPIView):
     serializer_class = UserUpdateSerializer
@@ -38,7 +38,7 @@ class Profile(RetrieveUpdateDestroyAPIView):
 
 
 @extend_schema_view(
-    put=extend_schema(description='Update my password'),
+    put=extend_schema(description='Update my password.'),
 )
 class PasswordUpdate(UpdateAPIView):
     serializer_class = PasswordUpdateSerializer

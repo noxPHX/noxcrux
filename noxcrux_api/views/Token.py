@@ -8,13 +8,8 @@ from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiPara
 
 
 @extend_schema_view(
-    post=extend_schema(
-        description='Retrieve authentication token',
-        parameters=[
-            OpenApiParameter(name='totp_code', type=str)
-        ]
-    ),
-    delete=extend_schema(description='Remove authentication token'),
+    post=extend_schema(description='Retrieve authentication token.'),
+    delete=extend_schema(description='Remove authentication token.'),
 )
 class TokenDetail(ObtainAuthToken):
 
