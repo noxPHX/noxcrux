@@ -62,11 +62,7 @@ class RegisterView(FormView):
         return super(RegisterView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        self.request.data = {
-            'username': form.cleaned_data['username'],
-            'password': form.cleaned_data['password1']
-        }
-        res = UserList().post(self.request)
+        res = UserList().as_view()(self.request)
         if res.status_code == 201:
             messages.success(self.request, 'Account created successfully!')
             return super(RegisterView, self).form_valid(form)

@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import status
 from noxcrux_api.serializers.User import UserSerializer, UserUpdateSerializer, PasswordUpdateSerializer
 from rest_framework.views import APIView
-from rest_framework.generics import RetrieveDestroyAPIView
+from rest_framework.generics import RetrieveDestroyAPIView, ListCreateAPIView
 from rest_framework.response import Response
 from noxcrux_api.permissions import UsersPermissions
 from rest_framework.authtoken.models import Token
@@ -12,26 +12,19 @@ from django.conf import settings
 from drf_spectacular.utils import extend_schema, extend_schema_view
 
 
-class UserList(APIView):
-    """
-    List all users, or create a new user
-    """
+@extend_schema_view(
+    get=extend_schema(description='List all users'),
+    post=extend_schema(description='Register a new user'),
+)
+class UserList(ListCreateAPIView):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
     permission_classes = [UsersPermissions]
 
-    def get(self, request):
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         if settings.REGISTRATION_OPEN is False:
             return Response({"error": "Registrations are closed."}, status=status.HTTP_400_BAD_REQUEST)
-
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return super(UserList, self).post(request, *args, **kwargs)
 
 
 @extend_schema_view(
