@@ -2,7 +2,7 @@
 
 {% load RequestTags %}
 
-{%  load static %}
+{% load static %}
 
 {% block title %}noxcrux{% endblock title %}
 
@@ -11,7 +11,7 @@
     <div class="row align-items-center p-1">
 
         <div class="col-6 d-flex justify-content-start">
-            <a href="{% url 'home' %}"><img alt="logo" id="logo-md" src="{%  static 'images/logo_white.png' %}"></a>
+            <a href="{% url 'home' %}"><img alt="logo" id="logo-md" src="{% static 'images/logo_white.png' %}"></a>
         </div>
 
         <div class="col-6 d-flex justify-content-end">
@@ -51,12 +51,21 @@
 
 {% block footer %}
 
-    <div class="d-flex justify-content-center align-items-center">
+    <div class="d-flex justify-content-around align-items-center">
+
+        <a href="https://github.com/noxPHX/noxcrux" target="_blank">
+            <i class="fab fa-github"></i>&nbsp;Source
+        </a>
 
         <div>
-            <img alt="logo" id="logo-sm" src="{%  static 'images/logo_white.png' %}">
+            <img alt="logo" id="logo-sm" src="{% static 'images/logo_white.png' %}">
             <small>web access</small>
         </div>
+
+        <a href="{% url 'swagger-ui' %}" target="_blank">
+            <i class="fas fa-plug"></i>&nbsp;API
+        </a>
+
     </div>
 
 {% endblock footer %}
