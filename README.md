@@ -27,15 +27,16 @@ See below the top level parts of this README:
 + [Licence](#licence)
 
 ## Technologies
-noxcrux is powered by [Django](https://www.djangoproject.com/) a well-known python web framework and [DRF](https://www.django-rest-framework.org/) for the API.  
+noxcrux is powered by [Django](https://www.djangoproject.com/) a well-known python web framework and [DRF](https://www.django-rest-framework.org/) for the API ([Spectacular](https://github.com/tfranzel/drf-spectacular) for the reference).  
 It also makes use of [Bootstrap](https://getbootstrap.com/), [jQuery](https://jquery.com/) and [SASS](https://sass-lang.com/) for the web interface.  
 
 Here is a table with the main technologies, and their current version:  
 
 | Technology            | Version   |
 |-----------------------|:---------:|
-| Django                | 3.1.4     |
-| Django Rest Framework | 3.12.2    |
+| Django                | 3.2       |
+| Django Rest Framework | 3.12.4    |
+| DRF Spectacular       | 0.15.1    |
 | Bootstrap             | 4.5.2     |
 | jQuery                | 3.5.1     |
 | SASS                  | 1.32.5    |
