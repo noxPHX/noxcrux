@@ -4,8 +4,10 @@ cffi==1.14.5
 cryptography==3.4.7
 Django==3.2
 django-appconf==1.0.4
+django-axes==5.14.0
 django-cors-headers==3.7.0
 django-cryptography==1.0
+django-ipware==3.0.2
 django-otp==1.0.3
 django-qr-code==2.1.0
 djangorestframework==3.12.4

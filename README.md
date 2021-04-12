@@ -50,6 +50,7 @@ Here is a list of the main features provided by the API and the web interface:
 + Friendship
 + Horcrux sharing
 + Self API Reference
++ Brute-force protection
 
 ## Getting Started
 Here is what you need to do to get a noxcrux server up & running.

@@ -21,6 +21,11 @@ class LoginView(FormView):
             return HttpResponseRedirect(self.success_url)
         return super(LoginView, self).dispatch(request, *args, **kwargs)
 
+    def get_form_kwargs(self):
+        kwargs = super(LoginView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
     def get_context_data(self, **kwargs):
         context = super(LoginView, self).get_context_data(**kwargs)
         context['registration_open'] = settings.REGISTRATION_OPEN
@@ -29,7 +34,7 @@ class LoginView(FormView):
     def form_valid(self, form):
         username = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password')
-        user = authenticate(username=username, password=password)
+        user = authenticate(request=self.request, username=username, password=password)
 
         if user is not None and user.is_active:
 
