@@ -1,7 +1,7 @@
 # noxcrux
 noxcrux is a Django web app and API which allows you to create and store passwords horcruxes to improve your online security.  
 
-## Introduction
+## Introduction 🖋️
 The persons intended by this project are people who are a minimum aware of online security risks and at least use a password manager.  
 
 noxcrux was inspired by [this article](https://kaizoku.hashnode.dev/double-blind-passwords-aka-horcruxing#double-blind-passwords-aka-horcruxing) and the concept of horcruxes from the universe of Harry Potter.  
@@ -14,7 +14,7 @@ At the moment there is no live demo of this project so if you are interested in 
 
 A web extension will be later developed to allow end users to easily manage their noxcrux' servers and to retrieve and assemble their complete password when they want to login to a website.  
 
-## Table of contents
+## Table of contents 📋
 See below the top level parts of this README:  
 
 + [Technologies](#technologies)
@@ -26,7 +26,7 @@ See below the top level parts of this README:
 + [Contributing](#contributing)
 + [Licence](#licence)
 
-## Technologies
+## Technologies ⚙️
 noxcrux is powered by [Django](https://www.djangoproject.com/) a well-known python web framework and [DRF](https://www.django-rest-framework.org/) for the API ([Spectacular](https://github.com/tfranzel/drf-spectacular) for the reference).  
 It also makes use of [Bootstrap](https://getbootstrap.com/), [jQuery](https://jquery.com/) and [SASS](https://sass-lang.com/) for the web interface.  
 
@@ -41,18 +41,18 @@ Here is a table with the main technologies, and their current version:
 | jQuery                | 3.5.1     |
 | SASS                  | 1.32.5    |
 
-## Features
+## Features ✅
 Here is a list of the main features provided by the API and the web interface:  
-+ CRUD on horcruxes
-+ Personal account management
-+ Horcrux generator
-+ 2-Factor Authentication
-+ Friendship
-+ Horcrux sharing
-+ Self API Reference
-+ Brute-force protection
++ [x] CRUD on horcruxes
++ [x] Personal account management
++ [x] Horcrux generator
++ [x] 2-Factor Authentication
++ [x] Friendship
++ [x] Horcrux sharing
++ [x] Self API Reference
++ [x] Brute-force protection
 
-## Getting Started
+## Getting Started 🛠️
 Here is what you need to do to get a noxcrux server up & running.
 
 ### Prerequisites
@@ -89,26 +89,25 @@ python3 manage.py runserver
 ```
 
 ### Docker
-## Usage
-## API Reference
+## API Reference 🔌
 Running the application provides your own API reference, you can find it browsing the */api/docs* endpoint.
 
-## Todo list
+## Todo list 📝
 Here is a list of what is left to be done:  
 
-+ PostgreSQL
-+ Deployment (Docker)
-+ Horcrux / Friend lookup
-+ Import / Export Horcruxes
-+ User groups sharing (?)
-+ Themes (?)
-+ Delegated authentication (?)
-+ Landing page (?)
++ [ ] PostgreSQL
++ [ ] Deployment (Docker)
++ [ ] Horcrux / Friend lookup
++ [ ] Import / Export Horcruxes
++ [ ] User groups sharing (?)
++ [ ] Themes (?)
++ [ ] Delegated authentication (?)
++ [ ] Landing page (?)
 
 *(?) marked features are unsure to be implemented yet*
 
-## Contributing
+## Contributing 🤝
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-## Licence
+## Licence 📃
 [GPL-3.0](https://github.com/noxPHX/noxcrux/blob/main/LICENSE)
