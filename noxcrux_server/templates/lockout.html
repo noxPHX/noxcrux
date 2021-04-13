@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    noxcrux - Lockout
+{% endblock title %}
+
+{% block content %}
+
+    <div class="d-flex justify-content-center align-items-center h-i">
+
+        <div class="card text-center">
+            <div class="card-header"><img alt="logo" id="logo-md" src="{%  static 'images/logo_black.png' %}"></div>
+            <div class="card-body">
+                <h5 class="card-title">Lockout</h5>
+                <p class="display-4 color-red"><i class="fas fa-ban"></i></p>
+                <p class="card-text">
+                    Too many failed login attempts.
+                </p>
+                <p class="card-text">
+                    Lockout time: 1h
+                </p>
+            </div>
+            <div class="card-footer"><img alt="logo" id="logo-sm" src="{%  static 'images/logo_black.png' %}"> web access</div>
+        </div>
+    </div>
+
+{% endblock content %}
