@@ -2,7 +2,7 @@
   <img src="noxcrux_server/static/images/logo_readme.svg">
 </div>
 
-# noxcrux <img src="noxcrux_server/static/images/favicon.svg">
+# noxcrux <img style="width:1em;" src="noxcrux_server/static/images/favicon.svg">
 noxcrux is a Django web app and API which allows you to create and store passwords horcruxes to improve your online security.  
 
 ## Introduction 🖋️
