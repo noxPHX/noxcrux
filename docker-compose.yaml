@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:
+  noxcrux_db:
+    image: postgres:13
+    container_name: noxcrux_db
+    restart: always
+    networks:
+      - noxcrux_db_net
+    environment:
+      POSTGRES_DB: noxcrux
+      POSTGRES_USER: noxcrux
+      POSTGRES_PASSWORD: noxcrux
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
+    name: noxcrux_db
+
+networks:
+  noxcrux_db_net:
+    name: noxcrux_db_net
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.26.0.72/29"
+    driver_opts:
+      com.docker.network.bridge.name: dbr-noxcrux_db

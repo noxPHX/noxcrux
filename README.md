@@ -65,12 +65,15 @@ noxcrux is being developed and tested on debian-based distro, so you will see be
 
 Django is a python web framework so first you need python and pip to later install modules.  
 I bet you already have them both installed but just in case, here are the commands.  
+
+⚠️ **python3 is required and noxcrux is being developed and tested on python 3.8** ⚠️
 ```bash
 sudo apt update && sudo apt upgrade
 sudo apt install python3 python3-pip
 ```
+Feel free to use a virtual environment.
 
-### Installing
+### Modules
 Fetch the code from the repository and enter the folder.  
 ```bash
 git clone https://github.com/noxPHX/noxcrux.git && cd noxcrux
@@ -79,13 +82,25 @@ Install Django and the other modules.
 ```bash
 pip3 install -r requirements.txt
 ```
+
+### SASS
 As mentioned before, noxcrux makes use of SASS, so you need to compile SCSS files into regular CSS files because these files are not tracked by git.  
 In order to install it, follow the instructions from https://sass-lang.com/.  
 I personally prefer to grab the latest release from https://github.com/sass/dart-sass/releases and untar the file somewhere in my path to be able to use it.  
 
-Create the database scheme (I still use sqlite at the moment).  
+### Configuration
+TODO  
+(env var REGISTRATION / DB)
+
+### Database
+noxcrux uses PostgreSQL as database engine, for an easy setup you can use [Docker](https://docs.docker.com/get-docker/) and [Compose](https://docs.docker.com/compose/) and simply running the following command in the current directory:
 ```bash
-python3 manage.py makemigrations
+docker-compose up -d
+```
+Otherwise, you can check how to install and configure PostgreSQL manually [here](https://www.postgresqltutorial.com/postgresql-getting-started/).
+
+Once the database is running, create the database scheme.  
+```bash
 python3 manage.py migrate
 ```
 Finally, start the server.  
@@ -93,7 +108,7 @@ Finally, start the server.
 python3 manage.py runserver
 ```
 
-### Docker
+## Docker 🐳
 I do not provide (yet) an image on the [Docker hub](https://hub.docker.com/) so you need to build your image locally.  
 First you need to fetch the code if you do not have already and enter the folder.  
 ```bash
@@ -104,6 +119,7 @@ Then, if you have [Docker Compose](https://docs.docker.com/compose/) installed, 
 docker-compose build
 docker-compose up -d
 ```
+You might want to change the environment variables to suits your needs.
 
 ## API Reference 🔌
 ### Swagger UI
@@ -118,17 +134,16 @@ python3 manage.py spectacular --file schema.yaml
 ## Todo list 📝
 Here is a list of what is left to be done:  
 
-+ [ ] PostgreSQL
 + [ ] Deployment (Docker)
 + [ ] Horcrux / Friend lookup
 + [ ] Import / Export Horcruxes
 + [ ] Password / TOTP recovery
-+ [ ] User groups sharing (?)
-+ [ ] Themes (?)
-+ [ ] Delegated authentication (?)
-+ [ ] Landing page (?)
++ [ ] User groups sharing ❔
++ [ ] Themes ❔
++ [ ] Delegated authentication ❔
++ [ ] Landing page ❔
 
-*(?) marked features are unsure to be implemented yet*
+*❔ marked features are unsure to be implemented yet*
 
 ## Contributing 🤝
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
