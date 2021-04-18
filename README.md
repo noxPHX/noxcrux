@@ -57,7 +57,8 @@ Here is a list of the main features provided by the API and the web interface:
 + [x] Brute-force protection
 
 ## Getting Started 🛠️
-Here is what you need to do to get a noxcrux server up & running.
+Here is what you need to do to get a noxcrux server up & running.  
+Here are the commands to build the application straight from the sources, find below the [Docker instructions](#docker).
 
 ### Prerequisites
 noxcrux is being developed and tested on debian-based distro, so you will see below the commands for these OSes.
@@ -93,8 +94,26 @@ python3 manage.py runserver
 ```
 
 ### Docker
+I do not provide (yet) an image on the [Docker hub](https://hub.docker.com/) so you need to build your image locally.  
+First you need to fetch the code if you do not have already and enter the folder.  
+```bash
+git clone https://github.com/noxPHX/noxcrux.git && cd noxcrux
+```
+Then, if you have [Docker Compose](https://docs.docker.com/compose/) installed, these commands will suffice to build an image and run the application. 
+```bash
+docker-compose build
+docker-compose up -d
+```
+
 ## API Reference 🔌
-Running the application provides your own API reference, you can find it browsing the */api/docs* endpoint.
+### Swagger UI
+[Swagger UI](https://swagger.io/tools/swagger-ui/) is a tool which facilitates interaction with an API. Integrated in [DRF-Spectacular](https://github.com/tfranzel/drf-spectacular), simply running the application provides your own API reference, you can find it browsing the */api/docs* URL.
+
+### Schema
+If you want to build your own OpenAPI schema, for instance to import it in your development tools, execute the following command.
+```bash
+python3 manage.py spectacular --file schema.yaml
+```
 
 ## Todo list 📝
 Here is a list of what is left to be done:  
@@ -103,6 +122,7 @@ Here is a list of what is left to be done:
 + [ ] Deployment (Docker)
 + [ ] Horcrux / Friend lookup
 + [ ] Import / Export Horcruxes
++ [ ] Password / TOTP recovery
 + [ ] User groups sharing (?)
 + [ ] Themes (?)
 + [ ] Delegated authentication (?)
