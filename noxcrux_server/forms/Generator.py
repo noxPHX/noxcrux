@@ -10,7 +10,7 @@ class GeneratorForm(forms.ModelForm):
         help_texts = {
             'upper': 'Upper case letters.',
             'numeric': 'Numeric characters.',
-            'symbol': 'Special characters among %s' % ALLOWED_SYMBOLS
+            'symbol': f'Special characters among {ALLOWED_SYMBOLS}'
         }
 
     lower = forms.BooleanField(required=False, disabled=True, help_text="Lower case letters, required.")

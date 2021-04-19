@@ -16,9 +16,9 @@ class Friend(models.Model):
 
     def __str__(self):
         if self.validated:
-            return "User %s is friend with %s" % (self.user, self.friend)
+            return f"User {self.user} is friend with {self.friend}"
         else:
-            return "User %s is waiting to be friend with %s" % (self.user, self.friend)
+            return f"User {self.user} is waiting to be friend with {self.friend}"
 
     def save(self, *args, **kwargs):
         # Ensure users can't be friends with themselves

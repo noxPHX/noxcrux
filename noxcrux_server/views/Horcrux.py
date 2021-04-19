@@ -63,7 +63,7 @@ class HorcruxDelete(LoginRequiredView):
         self.request.method = 'DELETE'
         res = HorcruxDetail().as_view()(request, name=name)
         if res.status_code == 204:
-            messages.success(request, '%s removed successfully!' % name)
+            messages.success(request, f'{name} removed successfully!')
         else:
             messages.error(request, 'An error occurred')
         return HttpResponseRedirect(reverse('home'))

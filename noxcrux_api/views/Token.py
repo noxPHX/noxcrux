@@ -4,7 +4,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from noxcrux_api.views.OTP import get_user_totp_device
 from django.contrib.auth.models import User
-from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiParameter
+from drf_spectacular.utils import extend_schema, extend_schema_view
 
 
 @extend_schema_view(

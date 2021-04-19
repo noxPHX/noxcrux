@@ -47,7 +47,7 @@ class FriendDelete(LoginRequiredView):
         request.method = 'DELETE'
         res = FriendDestroy().as_view()(request, username=username)
         if res.status_code == 204:
-            messages.success(request, '%s removed successfully!' % username)
+            messages.success(request, f'{username} removed successfully!')
         else:
             messages.error(request, 'An error occurred')
         return HttpResponseRedirect(reverse('friend_list'))
@@ -60,7 +60,7 @@ class FriendRequestAccept(LoginRequiredView):
         request.method = 'PUT'
         res = FriendRequestUpdate().as_view()(request, username=username)
         if res.status_code == 200:
-            messages.success(request, '%s added successfully!' % username)
+            messages.success(request, f'{username} added successfully!')
         else:
             messages.error(request, 'An error occurred')
         return HttpResponseRedirect(reverse('friend_list'))
@@ -73,7 +73,7 @@ class FriendRequestDelete(LoginRequiredView):
         request.method = 'DELETE'
         res = FriendRequestUpdate().as_view()(request, username=username)
         if res.status_code == 204:
-            messages.success(request, '%s denied successfully!' % username)
+            messages.success(request, f'{username} denied successfully!')
         else:
             messages.error(request, 'An error occurred')
         return HttpResponseRedirect(reverse('friend_list'))
