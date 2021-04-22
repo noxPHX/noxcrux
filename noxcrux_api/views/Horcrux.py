@@ -20,6 +20,16 @@ class HorcruxList(ListCreateAPIView):
 
 
 @extend_schema_view(
+    get=extend_schema(description='List all the horcrux which names match the search query.'),
+)
+class HorcruxSearch(ListAPIView):
+    serializer_class = HorcruxSerializer
+
+    def get_queryset(self):
+        return Horcrux.objects.filter(owner=self.request.user, name__icontains=self.kwargs['name'])
+
+
+@extend_schema_view(
     get=extend_schema(description='Retrieve an horcrux instance.'),
     put=extend_schema(description='Update an horcrux instance.'),
     delete=extend_schema(description='Remove an horcrux instance.'),
