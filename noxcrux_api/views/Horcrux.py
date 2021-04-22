@@ -26,7 +26,9 @@ class HorcruxSearch(ListAPIView):
     serializer_class = HorcruxSerializer
 
     def get_queryset(self):
-        return Horcrux.objects.filter(owner=self.request.user, name__icontains=self.kwargs['name'])
+        mines = Horcrux.objects.filter(owner=self.request.user, name__icontains=self.kwargs['name'])
+        granted = self.request.user.shared_horcruxes.filter(name__icontains=self.kwargs['name'])
+        return mines.union(granted)
 
 
 @extend_schema_view(
