@@ -1,5 +1,5 @@
 from noxcrux_server.mixins.Authenticated import LoginRequiredListView
-from noxcrux_api.views.Horcrux import HorcruxList, HorcruxGrantedList
+from noxcrux_api.views.Horcrux import HorcruxList, HorcruxGrantedList, HorcruxSearch, HorcruxGrantedSearch
 
 
 class HomeView(LoginRequiredListView):
@@ -7,8 +7,14 @@ class HomeView(LoginRequiredListView):
     context_object_name = 'horcruxes'
 
     def get_queryset(self):
-        horcruxes = {
-            'mines': HorcruxList().as_view()(self.request).data,
-            'shared': HorcruxGrantedList().as_view()(self.request).data
-        }
+        if self.request.GET.get("search"):
+            horcruxes = {
+                'mines': HorcruxSearch().as_view()(self.request, name=self.request.GET.get("search")).data,
+                'granted': HorcruxGrantedSearch().as_view()(self.request, name=self.request.GET.get("search")).data,
+            }
+        else:
+            horcruxes = {
+                'mines': HorcruxList().as_view()(self.request).data,
+                'granted': HorcruxGrantedList().as_view()(self.request).data
+            }
         return horcruxes

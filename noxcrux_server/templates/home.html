@@ -6,27 +6,39 @@
 
 {% block content %}
 
-    <div class="d-flex flex-wrap justify-content-center align-items-center px-3 h-i">
+    <div class="d-flex flex-column justify-content-center align-items-center h-i">
 
-        {% if horcruxes %}
+        <form method="GET" role="form" action="{% url 'home' %}">
+            <div class='input-group'>
+                <input type='text' name="search" class='form-control' placeholder='Search...'/>
+                <div class="input-group-append">
+                    <button type="submit" class="btn input-group-text color-warm"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </form>
 
-            {% for horcrux in horcruxes.mines %}
-                {% include 'horcrux.html' with horcrux=horcrux shared=False %}
-            {% endfor %}
+        <div class="d-flex flex-wrap justify-content-center align-items-center px-3 h-i">
 
-            {% for horcrux in horcruxes.shared %}
-                {% include 'horcrux.html' with horcrux=horcrux shared=True %}
-            {% endfor %}
-        {% endif %}
+            {% if horcruxes %}
 
-        <div class="card text-center m-1">
-            <div class="card-header">New horcrux</div>
-            <div class="card-body">
-                <p class="card-text">
-                    <a class="btn btn-main" href="{% url 'horcrux_add' %}">
-                        <i class="fas fa-plus"></i>
-                    </a>
-                </p>
+                {% for horcrux in horcruxes.mines %}
+                    {% include 'horcrux.html' with horcrux=horcrux shared=False %}
+                {% endfor %}
+
+                {% for horcrux in horcruxes.granted %}
+                    {% include 'horcrux.html' with horcrux=horcrux shared=True %}
+                {% endfor %}
+            {% endif %}
+
+            <div class="card text-center m-1">
+                <div class="card-header">New horcrux</div>
+                <div class="card-body">
+                    <p class="card-text">
+                        <a class="btn btn-main" href="{% url 'horcrux_add' %}">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
