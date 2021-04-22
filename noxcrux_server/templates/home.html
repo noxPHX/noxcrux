@@ -10,12 +10,16 @@
 
         <form method="GET" role="form" action="{% url 'home' %}">
             <div class='input-group'>
-                <input type='text' name="search" class='form-control' placeholder='Search...'/>
+                <div class="input-group-prepend">
+                    <a href="{% url 'home' %}" class="btn input-group-text color-warm"><i class="fas fa-times"></i></a>
+                </div>
+                <input type='text' name="search" class='form-control' placeholder='Search...' value="{{ request.GET.search }}"/>
                 <div class="input-group-append">
                     <button type="submit" class="btn input-group-text color-warm"><i class="fas fa-search"></i></button>
                 </div>
             </div>
         </form>
+
 
         <div class="d-flex flex-wrap justify-content-center align-items-center px-3 h-i">
 
