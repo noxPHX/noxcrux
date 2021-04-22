@@ -20,15 +20,13 @@ class HorcruxList(ListCreateAPIView):
 
 
 @extend_schema_view(
-    get=extend_schema(description='List all the horcrux which names match the search query.'),
+    get=extend_schema(description='List all the horcruxes which names match the search query.'),
 )
 class HorcruxSearch(ListAPIView):
     serializer_class = HorcruxSerializer
 
     def get_queryset(self):
-        mines = Horcrux.objects.filter(owner=self.request.user, name__icontains=self.kwargs['name'])
-        granted = self.request.user.shared_horcruxes.filter(name__icontains=self.kwargs['name'])
-        return mines.union(granted)
+        return Horcrux.objects.filter(owner=self.request.user, name__icontains=self.kwargs['name'])
 
 
 @extend_schema_view(
@@ -57,6 +55,16 @@ class HorcruxGrantedList(ListAPIView):
 
     def get_queryset(self):
         return self.request.user.shared_horcruxes.all()
+
+
+@extend_schema_view(
+    get=extend_schema(description='List all your granted horcruxes which names match the search query.'),
+)
+class HorcruxGrantedSearch(ListAPIView):
+    serializer_class = HorcruxSerializer
+
+    def get_queryset(self):
+        return self.request.user.shared_horcruxes.filter(name__icontains=self.kwargs['name'])
 
 
 @extend_schema_view(
