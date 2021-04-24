@@ -13,8 +13,11 @@
             <div class="card-body">
                 <form method="POST" role="form" action="{% url 'generator' %}">
                     {% include 'form.html' %}
+                    <button id="copy-generated" class="btn btn-main" type="button">
+                        Copy&nbsp;<i class="far fa-copy"></i>
+                    </button>
                     <button class="btn btn-main" type="submit">
-                        <i class="fas fa-dice"></i>
+                        Save&nbsp;<i class="fas fa-dice"></i>
                     </button>
                 </form>
             </div>
@@ -25,3 +28,10 @@
     </div>
 
 {% endblock content %}
+
+{% block js %}
+
+    {% load static %}
+    <script src="{% static 'js/generator.js' %}"></script>
+
+{% endblock js %}

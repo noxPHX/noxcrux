@@ -135,7 +135,6 @@ python3 manage.py spectacular --file schema.yaml
 Here is a list of what is left to be done:  
 
 + [ ] Deployment (Docker)
-+ [ ] Horcrux / Friend lookup
 + [ ] Import / Export Horcruxes
 + [ ] Password / TOTP recovery
 + [ ] User groups sharing ❔
