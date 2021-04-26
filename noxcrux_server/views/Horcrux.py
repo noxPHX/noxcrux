@@ -5,6 +5,7 @@ from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from noxcrux_server.forms.Horcrux import HorcruxForm
 from noxcrux_server.forms.User import ShareForm
+from django.shortcuts import render
 
 
 class HorcruxAdd(LoginRequiredFormView):
@@ -59,6 +60,14 @@ class HorcruxEdit(LoginRequiredFormView):
 class HorcruxDelete(LoginRequiredView):
 
     def get(self, request, *args, **kwargs):
+        horcrux = HorcruxDetail().get_horcrux(self.kwargs['name'], self.request.user)
+        context = {'horcrux': horcrux}
+        grantees = HorcruxGrant().as_view()(self.request, name=self.kwargs['name']).data
+        if 'grantees' in grantees:
+            context['grantees'] = grantees['grantees']
+        return render(self.request, 'horcrux_delete.html', context)
+
+    def post(self, request, *args, **kwargs):
         name = kwargs['name']
         self.request.method = 'DELETE'
         res = HorcruxDetail().as_view()(request, name=name)
