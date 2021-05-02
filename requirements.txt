@@ -10,6 +10,7 @@ django-cryptography==1.0
 django-ipware==3.0.2
 django-otp==1.0.3
 django-qr-code==2.1.0
+django-split-settings==1.0.1
 djangorestframework==3.12.4
 drf-spectacular==0.15.1
 inflection==0.5.1
