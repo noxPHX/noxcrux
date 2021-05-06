@@ -28,6 +28,7 @@ WSGI_APPLICATION = 'noxcrux.wsgi.application'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/web/login/'
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static/'
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'

@@ -1,10 +1,13 @@
-version: "3.7"
+version: "3.9"
 
 services:
+
   noxcrux_db:
     image: postgres:13
     container_name: noxcrux_db
     restart: always
+    expose:
+      - "5432"
     networks:
       - noxcrux_db_net
     environment:
@@ -13,6 +16,38 @@ services:
       POSTGRES_PASSWORD: noxcrux
     volumes:
       - db:/var/lib/postgresql/data
+    user: postgres:postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U noxcrux"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges
+
+  noxcrux:
+    build: .
+    image: noxcrux:latest
+    container_name: noxcrux
+    restart: always
+    ports:
+      - "8000:8000"
+    networks:
+      - noxcrux_db_net
+    environment:
+      DEBUG: 0
+      REGISTRATION_OPEN: 1
+      DB_HOST: noxcrux_db
+      DB_PORT: "5432"
+      DB_NAME: noxcrux
+      DB_USER: noxcrux
+      DB_PASSWORD: noxcrux
+      ALLOWED_HOSTS: "localhost,127.0.0.1,0.0.0.0"
+    depends_on:
+      noxcrux_db:
+        condition: service_healthy
 
 volumes:
   db:
