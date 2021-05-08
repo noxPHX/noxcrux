@@ -14,3 +14,4 @@ noxcrux_server/static/css
 
 # Secrets
 secret_key.txt
+ssl/*

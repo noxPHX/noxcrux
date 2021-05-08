@@ -27,15 +27,18 @@ services:
     security_opt:
       - no-new-privileges
 
-  noxcrux:
-    build: .
-    image: noxcrux:latest
-    container_name: noxcrux
+  noxcrux_web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: noxcrux:web
+    container_name: noxcrux_web
     restart: always
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     networks:
       - noxcrux_db_net
+      - noxcrux_web_net
     environment:
       DEBUG: 0
       REGISTRATION_OPEN: 1
@@ -45,15 +48,38 @@ services:
       DB_USER: noxcrux
       DB_PASSWORD: noxcrux
       ALLOWED_HOSTS: "localhost,127.0.0.1,0.0.0.0"
+    volumes:
+      - static_files:/usr/src/app/static/
     depends_on:
       noxcrux_db:
         condition: service_healthy
 
+  noxcrux_nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    image: noxcrux:nginx
+    container_name: noxcrux_nginx
+    restart: always
+    ports:
+      - "80:8080"
+      - "443:44380"
+    networks:
+      - noxcrux_web_net
+    volumes:
+      - static_files:/srv/static/
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges
+
 volumes:
   db:
     name: noxcrux_db
+  static_files:
 
 networks:
+
   noxcrux_db_net:
     name: noxcrux_db_net
     ipam:
@@ -62,3 +88,12 @@ networks:
         - subnet: "172.26.0.72/29"
     driver_opts:
       com.docker.network.bridge.name: dbr-noxcrux_db
+
+  noxcrux_web_net:
+    name: noxcrux_web_net
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.26.0.80/29"
+    driver_opts:
+      com.docker.network.bridge.name: dbr-noxcrux_web

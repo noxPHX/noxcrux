@@ -27,7 +27,8 @@ RUN pip install --upgrade pip && \
 
 COPY . /usr/src/app/
 
-RUN chown -R $USER:$USER .
+RUN mkdir static && \
+    chown -R $USER:$USER .
 
 USER $USER
 

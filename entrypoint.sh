@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+chown -R "$USER:$USER" static/
+
 python3 manage.py migrate
 
 ./scripts/compile_scss.sh
