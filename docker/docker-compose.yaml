@@ -50,6 +50,10 @@ services:
       ALLOWED_HOSTS: "localhost,127.0.0.1,0.0.0.0"
     volumes:
       - static_files:/usr/src/app/static/
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges
     depends_on:
       noxcrux_db:
         condition: service_healthy
