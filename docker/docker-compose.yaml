@@ -29,8 +29,8 @@ services:
 
   noxcrux_web:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: docker/Dockerfile
     image: noxcrux:web
     container_name: noxcrux_web
     restart: always
@@ -56,8 +56,8 @@ services:
 
   noxcrux_nginx:
     build:
-      context: .
-      dockerfile: Dockerfile.nginx
+      context: ../
+      dockerfile: docker/Dockerfile.nginx
     image: noxcrux:nginx
     container_name: noxcrux_nginx
     restart: always

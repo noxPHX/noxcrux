@@ -6,9 +6,9 @@ RUN apt-get update && \
 
 WORKDIR /etc/nginx
 
-COPY nginx.conf .
-COPY proxy_noxcrux sites-available/
-COPY ssl /srv/certificates
+COPY docker/nginx.conf .
+COPY docker/proxy_noxcrux sites-available/
+COPY docker/ssl /srv/certificates
 
 RUN touch /tmp/nginx.pid && \
     chown -R www-data:www-data /var/log/nginx && \

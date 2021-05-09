@@ -32,4 +32,4 @@ RUN mkdir static && \
 
 USER $USER
 
-ENTRYPOINT [ "/usr/src/app/entrypoint.sh" ]
+ENTRYPOINT [ "/usr/src/app/docker/entrypoint.sh" ]
