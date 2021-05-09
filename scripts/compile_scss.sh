@@ -13,3 +13,4 @@ cd "$this_script_path/../" || exit 1
 sass --stop-on-error noxcrux_server/static/scss/basics.scss noxcrux_server/static/css/basics.css;
 sass --stop-on-error noxcrux_server/static/scss/main.scss noxcrux_server/static/css/main.css;
 sass --stop-on-error noxcrux_server/static/scss/buttons.scss noxcrux_server/static/css/buttons.css;
+sass --stop-on-error noxcrux_server/static/scss/swagger.scss noxcrux_server/static/css/swagger.css;

@@ -6,8 +6,10 @@ from noxcrux_server.views.User import ProfileView, UsernameUpdateView, PasswordU
 from noxcrux_server.views.Generator import Generator
 from noxcrux_server.views.OTP import TOTPLoginView, TOTPMainView, TOTPSecretView, TOTPConfirmView, TOTPDeleteView
 from noxcrux_server.views.Friends import FriendsView, FriendDelete, FriendRequestAccept, FriendRequestDelete, FriendAdd
+from noxcrux_server.views.Swagger import APIDocView
 
 urlpatterns = [
+    path('api/docs/', APIDocView.as_view(url_name='schema'), name='swagger-ui'),
     path('login/', LoginView.as_view(), name="login"),
     path('login/totp/', TOTPLoginView.as_view(), name="totp"),
     path('logout/', LogoutView.as_view(), name="logout"),

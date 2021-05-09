@@ -1,0 +1,39 @@
+@import "basics";
+
+* {
+  z-index: unset;
+}
+
+#swagger-ui {
+  text-align: left;
+}
+
+.scheme-container {
+  background: $primary-color-dark !important;
+  box-shadow: 0 0 3px 3px #000000 !important;
+}
+
+.title,
+.opblock-tag,
+.opblock-summary-path,
+.opblock-description-wrapper p,
+.responses-header td,
+.response td, .tabitem,
+.model-title,
+.model,
+.authorization__btn,
+.models h4,
+.parameters th,
+.parameters-col_name div,
+.response-col_description h5,
+.opblock-control__btn,
+.responses-inner h4 {
+  color: white !important;
+}
+
+#unlocked,
+#locked,
+#large-arrow,
+#large-arrow-down {
+  fill: white;
+}
