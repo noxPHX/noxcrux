@@ -4,11 +4,16 @@ RUN apt-get update && \
     apt-get -y install wget
 
 RUN wget -qO /tmp/sass.tar.gz https://github.com/sass/dart-sass/releases/download/1.32.12/dart-sass-1.32.12-linux-x64.tar.gz && \
-    tar -xzf /tmp/sass.tar.gz -C /usr/local/bin/
+    tar -xzf /tmp/sass.tar.gz -C /usr/local/bin/ && \
+    mv /usr/local/bin/dart-sass/* /usr/local/bin/
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+RUN ./scripts/compile_scss.sh
 
 FROM python:3.8-slim-buster
-
-COPY --from=sass /usr/local/bin/dart-sass/* /usr/local/bin/
 
 ENV USER nocks
 
@@ -25,7 +30,8 @@ COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
-COPY . /usr/src/app/
+COPY . .
+COPY --from=sass /usr/src/app/noxcrux_server/static/css/ noxcrux_server/static/css/
 
 RUN mkdir static && \
     chown -R $USER:$USER .
