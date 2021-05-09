@@ -77,6 +77,10 @@ volumes:
   db:
     name: noxcrux_db
   static_files:
+    name: noxcrux_static_files
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
 
 networks:
 
