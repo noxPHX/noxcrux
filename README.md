@@ -24,7 +24,7 @@ See below the top level parts of this README:
 + [Technologies](#technologies)
 + [Features](#features)
 + [Getting Started](#getting-started)
-+ [Usage](#usage)
++ [Docker](#docker)
 + [API Reference](#api-reference)
 + [Todo list](#todo-list)
 + [Contributing](#contributing)
@@ -46,7 +46,7 @@ Here is a table with the main technologies, and their current version:
 | SASS                  | 1.32.5    |
 
 ## Features ✅
-Here is a list of the main features provided by the API and the web interface:  
+Here is a list of the main features provided by this project:  
 + [x] CRUD on horcruxes
 + [x] Personal account management
 + [x] Horcrux generator
@@ -55,23 +55,24 @@ Here is a list of the main features provided by the API and the web interface:
 + [x] Horcrux sharing
 + [x] Self API Reference
 + [x] Brute-force protection
++ [x] Easy & Secure deployment with Docker
 
 ## Getting Started 🛠️
-Here is what you need to do to get a noxcrux server up & running.  
-Here are the commands to build the application straight from the sources, find below the [Docker instructions](#docker).
+Here is what you need to do to get a noxcrux server up & running. This is also the recommended way to install it for a development setup.
+
+Here are the commands to build the application straight from the sources, find below the [Docker instructions](#docker) for a production-ready environment or to just quickly get a server running.
 
 ### Prerequisites
-noxcrux is being developed and tested on debian-based distro, so you will see below the commands for these OSes.
+noxcrux is being developed and tested on debian-based distro, so you will see below the commands for these distributions.
 
 Django is a python web framework so first you need python and pip to later install modules.  
 I bet you already have them both installed but just in case, here are the commands.  
 
-⚠️ **python3 is required and noxcrux is being developed and tested on python 3.8** ⚠️
+⚠️ **python3 is required and noxcrux is being developed and tested against python 3.8** ⚠️
 ```bash
 sudo apt update && sudo apt upgrade
 sudo apt install python3 python3-pip
 ```
-Feel free to use a virtual environment.
 
 ### Modules
 Fetch the code from the repository and enter the folder.  
@@ -82,24 +83,43 @@ Install Django and the other modules.
 ```bash
 pip3 install -r requirements.txt
 ```
+Feel free to use a virtual environment.
 
 ### SASS
-As mentioned before, noxcrux makes use of SASS, so you need to compile SCSS files into regular CSS files because these files are not tracked by git.  
+As mentioned before, noxcrux makes use of [SASS](https://sass-lang.com/), so you need to compile SCSS files into regular CSS files because these files are not tracked by git.  
 In order to install it, follow the instructions from https://sass-lang.com/.  
 I personally prefer to grab the latest release from https://github.com/sass/dart-sass/releases and untar the file somewhere in my path to be able to use it.  
 
-### Configuration
-TODO  
-(env var REGISTRATION / DB)
-
 ### Database
-noxcrux uses PostgreSQL as database engine, for an easy setup you can use [Docker](https://docs.docker.com/get-docker/) and [Compose](https://docs.docker.com/compose/) and simply running the following command in the current directory:
+noxcrux uses PostgreSQL as database engine, for an easy setup you can use [Docker](https://docs.docker.com/get-docker/) and [Compose](https://docs.docker.com/compose/) and simply running the following command in the docker directory:
 ```bash
-docker-compose up -d
+cd docker
+docker-compose up -d noxcrux_db
 ```
 Otherwise, you can check how to install and configure PostgreSQL manually [here](https://www.postgresqltutorial.com/postgresql-getting-started/).
 
-Once the database is running, create the database scheme.  
+### Configuration
+In order to properly run the application, you might want to define some environment variables.  
+Find below a table with each variable, their description, type and default value.  
+
+| Variable          | Description                             | Type                                                        | Default   |
+|-------------------|-----------------------------------------|-------------------------------------------------------------|-----------|
+| DEBUG             | Enable or disable debug mode            | Boolean                                                     | True      |
+| REGISTRATION_OPEN | Enable or disable user registration     | Boolean                                                     | True      |
+| ALLOWED_HOSTS     | Allowed hosts to access the application | Comma-separated values (eg "localhost,127.0.0.1,0.0.0.0")   | *         |
+| DB_HOST           | Database IP address or hostname         | String (eg "172.26.0.74" if using the noxcrux_db container) | localhost |
+| DB_PORT           | Database port                           | String                                                      | 5432      |
+| DB_NAME           | Database name                           | String                                                      | noxcrux   |
+| DB_USER           | Database user                           | String                                                      | noxcrux   |
+| DB_PASSWORD       | Database password                       | String                                                      | noxcrux   |
+
+For the last step of the configuration, you need to generate your secret key for Django, the following command will suffice:
+```bash
+python3 -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())' > secret_key.txt
+```
+
+### Final steps
+Before running the server there are only the database migrations left:
 ```bash
 python3 manage.py migrate
 ```
@@ -109,21 +129,55 @@ python3 manage.py runserver
 ```
 
 ## Docker 🐳
+### Requirements
+For a quick & easy setup you can use [Docker](https://docs.docker.com/get-docker/) and [Compose](https://docs.docker.com/compose/), the following versions are the minimal requirements:
+
+| Tool          | Version |
+|:-------------:|:-------:|
+| Docker        | 19      |
+| Compose       | 1.29    |
+
+### Stack
+The `docker-compose.yaml` file defines 3 services:
++ **noxcrux_db**, which is a PostgreSQL container with a volume to persists the database
++ **noxcrux_web**, which contains gunicorn serving the python application
++ **noxcrux_nginx**, a nginx container which handles SSL and serve static files thanks to a shared volume with **noxcrux_web**
+
+### Setup
 I do not provide (yet) an image on the [Docker hub](https://hub.docker.com/) so you need to build your image locally.  
+
+The instructions below are also valid for a production deployment.  
 First you need to fetch the code if you do not have already and enter the folder.  
 ```bash
 git clone https://github.com/noxPHX/noxcrux.git && cd noxcrux
 ```
-Then, if you have [Docker Compose](https://docs.docker.com/compose/) installed, these commands will suffice to build an image and run the application. 
+
+As of earlier, you need to generate the secret key, and you might want to adjust the environment variables in the `docker-compose.yaml` file. Please refer to the [Configuration](#configuration) section.
+
+### SSL
+The Compose stack comes with a nginx container which needs a certificate and it's private key as well as Diffie-Hellman parameters.
+For the certificate, you can retrieve a free one from [Let's Encrypt](https://letsencrypt.org/) and place it in the `docker/ssl` folder.  
+
+Otherwise, you can quickly generate a self-signed certificate for testing purposes (for a production environment you need a valid certificate):
+```bash
+```
+
+Regarding the D-H parameters you can generate them as follows:
+```bash
+openssl dhparams -out docker/ssl/dhparams.pem 4096
+```
+
+###Run!
+
+When you are ready, these commands will suffice to build the images and run the application. 
 ```bash
 docker-compose build
 docker-compose up -d
 ```
-You might want to change the environment variables to suits your needs.
 
 ## API Reference 🔌
 ### Swagger UI
-[Swagger UI](https://swagger.io/tools/swagger-ui/) is a tool which facilitates interaction with an API. Integrated in [DRF-Spectacular](https://github.com/tfranzel/drf-spectacular), simply running the application provides your own API reference, you can find it browsing the */api/docs* URL.
+[Swagger UI](https://swagger.io/tools/swagger-ui/) is a tool which facilitates interaction with an API. Integrated in [DRF-Spectacular](https://github.com/tfranzel/drf-spectacular), simply running the application provides your own API reference, you can find it browsing the */web/api/docs* URL.
 
 ### Schema
 If you want to build your own OpenAPI schema, for instance to import it in your development tools, execute the following command.
@@ -134,9 +188,10 @@ python3 manage.py spectacular --file schema.yaml
 ## Todo list 📝
 Here is a list of what is left to be done:  
 
-+ [ ] Deployment (Docker)
++ [ ] Custom 404 / 500 pages
 + [ ] Import / Export Horcruxes
 + [ ] Password / TOTP recovery
++ [ ] Tests
 + [ ] User groups sharing ❔
 + [ ] Themes ❔
 + [ ] Delegated authentication ❔
