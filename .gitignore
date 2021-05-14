@@ -15,3 +15,4 @@ noxcrux_server/static/css
 # Secrets
 secret_key.txt
 docker/ssl/*
+!docker/ssl/.gitkeep
