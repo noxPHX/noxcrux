@@ -16,7 +16,8 @@ RUN ./scripts/compile_scss.sh
 FROM python:3.8-slim-buster
 
 RUN apt-get update && \
-    apt-get -y install curl
+    apt-get -y install curl && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV USER nocks
 
@@ -31,7 +32,8 @@ WORKDIR /usr/src/app
 COPY requirements.txt .
 
 RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+    pip install -r requirements.txt && \
+    rm -rf /root/.cache/pip/
 
 COPY . .
 COPY --from=sass /usr/src/app/noxcrux_server/static/css/ noxcrux_server/static/css/
