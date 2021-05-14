@@ -15,6 +15,9 @@ RUN ./scripts/compile_scss.sh
 
 FROM python:3.8-slim-buster
 
+RUN apt-get update && \
+    apt-get -y install curl
+
 ENV USER nocks
 
 RUN groupadd --system -g 1000 $USER && \

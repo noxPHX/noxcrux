@@ -50,6 +50,11 @@ services:
       ALLOWED_HOSTS: "localhost,127.0.0.1,0.0.0.0"
     volumes:
       - static_files:/usr/src/app/static/
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:8000/web/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     cap_drop:
       - ALL
     security_opt:
@@ -72,6 +77,11 @@ services:
       - noxcrux_web_net
     volumes:
       - static_files:/srv/static/
+    healthcheck:
+      test: ["CMD-SHELL", "service nginx status"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     cap_drop:
       - ALL
     security_opt:
