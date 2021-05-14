@@ -4,6 +4,7 @@ from pathlib import Path
 import os
 
 include('settings_drf.py')
+include('settings_cors.py')
 include('settings_axes.py')
 
 
@@ -19,9 +20,6 @@ with open(BASE_DIR / 'secret_key.txt') as f:
 DEBUG = get_bool_env("DEBUG", 'True')
 REGISTRATION_OPEN = get_bool_env("REGISTRATION_OPEN", 'True')
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
-
-# TODO check
-CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'noxcrux.urls'
 WSGI_APPLICATION = 'noxcrux.wsgi.application'

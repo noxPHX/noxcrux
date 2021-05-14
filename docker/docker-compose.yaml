@@ -48,6 +48,8 @@ services:
       DB_USER: noxcrux
       DB_PASSWORD: noxcrux
       ALLOWED_HOSTS: "localhost,127.0.0.1,0.0.0.0"
+      CORS_ALLOW_ALL_ORIGINS: 0
+      CORS_ALLOWED_ORIGINS: "https://localhost,https://127.0.0.1,https://0.0.0.0"
     volumes:
       - static_files:/usr/src/app/static/
     healthcheck:
