@@ -90,7 +90,7 @@ DATABASES = {
         'NAME': os.getenv("DB_NAME", "noxcrux"),
         'USER': os.getenv("DB_USER", "noxcrux"),
         'PASSWORD': os.getenv("DB_PASSWORD", "noxcrux"),
-        'HOST': os.getenv("DB_HOST", "localhost"),
+        'HOST': os.getenv("DB_HOST", "172.26.0.74"),
         'PORT': os.getenv("DB_PORT", "5432"),
     }
 }

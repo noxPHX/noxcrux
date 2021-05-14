@@ -107,7 +107,7 @@ Find below a table with each variable, their description, type and default value
 | DEBUG                  | Enable or disable debug mode            | Boolean                                                           | True             |
 | REGISTRATION_OPEN      | Enable or disable user registration     | Boolean                                                           | True             |
 | ALLOWED_HOSTS          | Allowed hosts to access the application | Comma-separated values (eg "localhost,127.0.0.1")                 | *                |
-| DB_HOST                | Database IP address or hostname         | String (eg "172.26.0.74" if using the noxcrux_db container)       | localhost        |
+| DB_HOST                | Database IP address or hostname         | String (eg "172.26.0.74" if using the noxcrux_db container)       | 172.26.0.74      |
 | DB_PORT                | Database port                           | String                                                            | 5432             |
 | DB_NAME                | Database name                           | String                                                            | noxcrux          |
 | DB_USER                | Database user                           | String                                                            | noxcrux          |
