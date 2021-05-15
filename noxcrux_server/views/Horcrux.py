@@ -83,7 +83,7 @@ class HorcruxShare(LoginRequiredFormView):
     form_class = ShareForm
 
     def get_success_url(self):
-        return self.request.META.get('HTTP_REFERER')
+        return reverse('horcrux_share', args=(self.kwargs['name'],))
 
     def get_form_kwargs(self):
         kwargs = super(HorcruxShare, self).get_form_kwargs()
@@ -120,4 +120,4 @@ class HorcruxUnshare(LoginRequiredView):
             messages.success(request, f"{name} unshared successfully to {username}!")
         else:
             messages.error(request, 'An error occurred')
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        return HttpResponseRedirect(reverse('horcrux_share', args=(name,)))
