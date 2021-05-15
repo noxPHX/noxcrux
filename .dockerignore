@@ -11,3 +11,7 @@ __pycache__
 # CSS
 noxcrux_server/static/css
 !noxcrux_server/static/css/bootstrap
+
+# Git stuff
+.git/
+.gitignore
