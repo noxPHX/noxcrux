@@ -131,6 +131,17 @@ a, a:hover, a:focus {
 
 .popover {
   box-shadow: 0 0 25px 3px black;
+
+  @include phone {
+
+    top: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+
+    & .arrow {
+      display: none !important;
+    }
+  }
 }
 
 .friend-scroll {
