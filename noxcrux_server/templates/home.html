@@ -6,7 +6,7 @@
 
 {% block content %}
 
-    <div class="d-flex flex-column justify-content-center align-items-center h-i">
+    <div class="d-flex flex-column justify-content-between align-items-center h-i">
 
         <form method="GET" role="form" action="{% url 'home' %}">
             <div class='input-group'>
@@ -20,8 +20,7 @@
             </div>
         </form>
 
-
-        <div class="d-flex flex-wrap justify-content-center align-items-center px-3 h-i">
+        <div class="d-flex flex-wrap justify-content-center align-items-center px-3">
 
             {% if horcruxes %}
 
@@ -45,6 +44,7 @@
                 </div>
             </div>
         </div>
+        <div></div>
     </div>
 
 {% endblock content %}

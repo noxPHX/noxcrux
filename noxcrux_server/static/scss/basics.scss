@@ -6,3 +6,15 @@ $grey-light: #D6D6D6;
 $grey: #999999;
 $grey-dark: #474747;
 $red: rgb(230, 50, 50);
+
+@mixin phone {
+   @media (max-width: 575.98px) {
+       @content;
+   }
+}
+
+@mixin desktop {
+   @media (min-width: 576px) {
+       @content;
+   }
+}

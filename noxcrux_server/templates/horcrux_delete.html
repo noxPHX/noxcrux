@@ -10,7 +10,7 @@
 
         <div class="d-flex flex-wrap justify-content-center align-items-center px-3 h-i">
 
-            <div class="card text-center p-0 mr-3">
+            <div class="card text-center col-sm-4 col-12 p-0 m-2">
                 <div class="card-header">Delete {{ horcrux.name }}</div>
                 <div class="card-body">
                     <form method="POST" role="form" action="{% url 'horcrux_delete' horcrux.name %}">
@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <div class="card text-center p-0 mr-3">
+            <div class="card text-center col-sm-4 col-12 p-0 m-2">
                 <div class="card-header">{{ horcrux.name }} grantees</div>
                 <div class="card-body row justify-content-center align-items-center">
 
