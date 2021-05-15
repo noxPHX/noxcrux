@@ -70,14 +70,14 @@
 
             {% if field|is_password %}
                 <div class="input-group-append my-1">
-                    <a class="input-group-text toggle-visibility"><i id="eye" class="fas fa-eye-slash"></i></a>
+                    <a href="" tabindex="-1" class="input-group-text toggle-visibility"><i id="eye" class="fas fa-eye-slash"></i></a>
                 </div>
                 </div>
             {% endif %}
 
             {% if field.label == "Horcrux" %}
                 <div class="input-group-append my-1">
-                    <a class="input-group-text text-white bg-main" id="generate" data-url="{% url 'generate' %}"><i
+                    <a href="" tabindex="-1" class="input-group-text text-white bg-main" id="generate" data-url="{% url 'generate' %}"><i
                             class="fas fa-dice"></i></a>
                 </div>
                 </div>
