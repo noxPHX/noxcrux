@@ -18,6 +18,10 @@ with open(BASE_DIR / 'secret_key.txt') as f:
     SECRET_KEY = f.read().strip()
 
 DEBUG = get_bool_env("DEBUG", 'True')
+
+if not DEBUG:
+    include('settings_security.py')
+
 REGISTRATION_OPEN = get_bool_env("REGISTRATION_OPEN", 'True')
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
