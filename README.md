@@ -14,9 +14,15 @@ The aim of this project is to split passwords in multiple horcruxes to mitigate 
 **Password horcruxes are not 2FA/MFA and does not pretend to replace it at all.** A password is a sole factor (knowledge) and noxcrux allows you to distribute it across platforms.
 
 The project is still in early development stage (see the [features](#features) and the [to-do list](#todo-list) below) but the end goal is to offer to the users multiple noxcrux' servers to connect to and distribute their online accounts access security to different places.  
-At the moment there is no live demo of this project so if you are interested in using it you need to set it up yourself for one or multiple servers (see [instructions](#getting-started) below).  
 
 A web extension will be later developed to allow end users to easily manage their noxcrux' servers and to retrieve and assemble their complete password when they want to login to a website.  
+
+### Demo
+Here is a link of a live demo of this project:  
+https://hydrogen.noxcrux.com/
+
+⚠️ **This is for demonstration purposes only, you should not rely on it.** ⚠️  
+⚠️ **I do not guarantee any SLA and I may shutdown the service or wipe the database without any warrant.** ⚠️
 
 ## Table of contents 📋
 See below the top level parts of this README:  
