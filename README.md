@@ -21,7 +21,7 @@ A web extension will be later developed to allow end users to easily manage thei
 ## Table of contents 📋
 See below the top level parts of this README:  
 
-+ [Technologies](#technologies)
++ [Technologies](#technologies-)
 + [Features](#features)
 + [Getting Started](#getting-started)
 + [Docker](#docker)
@@ -83,7 +83,13 @@ Install Django and the other modules.
 ```bash
 pip3 install -r requirements.txt
 ```
-Feel free to use a virtual environment.
+Ideally, you may setup a virtual environment if you do not want to mess with your host dependencies.
+```bash
+sudo apt install python3-venv
+python3 -m venv ./.venv/
+source .venv/bin/activate
+pip3 install -r requirements.txt
+```
 
 ### SASS
 As mentioned before, noxcrux makes use of [SASS](https://sass-lang.com/), so you need to compile SCSS files into regular CSS files because these files are not tracked by git.  
@@ -198,6 +204,7 @@ Here is a list of what is left to be done:
 + [ ] Themes ❔
 + [ ] Delegated authentication ❔
 + [ ] Landing page ❔
++ [ ] & More
 
 *❔ marked features are unsure to be implemented yet*
 
