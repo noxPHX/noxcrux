@@ -21,14 +21,14 @@ A web extension will be later developed to allow end users to easily manage thei
 ## Table of contents 📋
 See below the top level parts of this README:  
 
-+ [Technologies](#technologies-)
-+ [Features](#features)
-+ [Getting Started](#getting-started)
-+ [Docker](#docker)
-+ [API Reference](#api-reference)
-+ [Todo list](#todo-list)
-+ [Contributing](#contributing)
-+ [Licence](#licence)
++ [Technologies](#technologies-%EF%B8%8F)
++ [Features](#features-)
++ [Getting Started](#getting-started-%EF%B8%8F)
++ [Docker](#docker-)
++ [API Reference](#api-reference-)
++ [Todo list](#todo-list-)
++ [Contributing](#contributing-)
++ [Licence](#licence-)
 
 ## Technologies ⚙️
 noxcrux is powered by [Django](https://www.djangoproject.com/) a well-known python web framework and [DRF](https://www.django-rest-framework.org/) for the API ([Spectacular](https://github.com/tfranzel/drf-spectacular) for the reference).  
