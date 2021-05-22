@@ -202,7 +202,8 @@ docker-compose up -d
 
 ## API Reference 🔌
 ### Swagger UI
-[Swagger UI](https://swagger.io/tools/swagger-ui/) is a tool which facilitates interaction with an API. Integrated in [DRF-Spectacular](https://github.com/tfranzel/drf-spectacular), simply running the application provides your own API reference, you can find it browsing the */web/api/docs* URL.
+[Swagger UI](https://swagger.io/tools/swagger-ui/) is a tool which facilitates interaction with an API. Integrated in [DRF-Spectacular](https://github.com/tfranzel/drf-spectacular), simply running the application provides your own API reference, you can find it browsing the */web/api/docs* URL.  
+Alternatively, you can find it here : https://hydrogen.noxcrux.com/web/api/docs/
 
 ### Schema
 If you want to build your own OpenAPI schema, for instance to import it in your development tools, execute the following command.
@@ -213,6 +214,7 @@ python3 manage.py spectacular --file schema.yaml
 ## Todo list 📝
 Here is a list of what is left to be done:  
 
++ [ ] CSP Headers
 + [ ] Custom 404 / 500 pages
 + [ ] Import / Export Horcruxes
 + [ ] Password / TOTP recovery
