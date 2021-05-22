@@ -1,3 +1,4 @@
+from django.contrib import admin
 from django.urls import path
 from noxcrux_server.views.Access import LoginView, LogoutView, RegisterView
 from noxcrux_server.views.Home import HomeView
@@ -9,6 +10,7 @@ from noxcrux_server.views.Friends import FriendsView, FriendDelete, FriendReques
 from noxcrux_server.views.Swagger import APIDocView
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('api/docs/', APIDocView.as_view(url_name='schema'), name='swagger-ui'),
     path('login/', LoginView.as_view(), name="login"),
     path('login/totp/', TOTPLoginView.as_view(), name="totp"),
