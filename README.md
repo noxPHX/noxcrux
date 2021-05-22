@@ -95,6 +95,12 @@ pip3 install -r requirements.txt
 As mentioned before, noxcrux makes use of [SASS](https://sass-lang.com/), so you need to compile SCSS files into regular CSS files because these files are not tracked by git.  
 In order to install it, follow the instructions from https://sass-lang.com/.  
 I personally prefer to grab the latest release from https://github.com/sass/dart-sass/releases and untar the file somewhere in my path to be able to use it.  
+```bash
+wget -O /tmp/sass.tgz https://github.com/sass/dart-sass/releases/download/1.32.5/dart-sass-1.32.5-linux-x64.tar.gz
+tar -xzf /tmp/sass.tgz -C /tmp
+mv /tmp/dart-sass/* /usr/local/bin
+rm -r /tmp/sass.tgz /tmp/dart-sass
+```
 
 ### Database
 noxcrux uses PostgreSQL as database engine, for an easy setup you can use [Docker](https://docs.docker.com/get-docker/) and [Compose](https://docs.docker.com/compose/) and simply running the following command in the docker directory:
@@ -125,6 +131,10 @@ For the last step of the configuration, you need to generate your secret key for
 ```bash
 python3 -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())' > secret_key.txt
 ```
+If you cannot use python (eg with Docker setup), you can use this plain bash command:
+```bash
+cat /dev/urandom | tr -dc 'a-z0-9\!\@\#\$\%\^\&\*\(\-\_\=\+\)' | head -c 50 > secret_key.txt
+```
 
 ### Final steps
 Before running the server there are only the database migrations left:
@@ -137,6 +147,12 @@ python3 manage.py runserver
 ```
 
 ## Docker 🐳
+### Stack
+The `docker-compose.yaml` file defines 3 services:
++ **noxcrux_db**, which is a PostgreSQL container with a volume to persists the database
++ **noxcrux_web**, which contains gunicorn serving the python application
++ **noxcrux_nginx**, a nginx container which handles SSL and serve static files thanks to a shared volume with **noxcrux_web**
+
 ### Requirements
 For a quick & easy setup you can use [Docker](https://docs.docker.com/get-docker/) and [Compose](https://docs.docker.com/compose/), the following versions are the minimal requirements:
 
@@ -144,12 +160,6 @@ For a quick & easy setup you can use [Docker](https://docs.docker.com/get-docker
 |:-------------:|:-------:|
 | Docker        | 19      |
 | Compose       | 1.29    |
-
-### Stack
-The `docker-compose.yaml` file defines 3 services:
-+ **noxcrux_db**, which is a PostgreSQL container with a volume to persists the database
-+ **noxcrux_web**, which contains gunicorn serving the python application
-+ **noxcrux_nginx**, a nginx container which handles SSL and serve static files thanks to a shared volume with **noxcrux_web**
 
 ### Setup
 I do not provide (yet) an image on the [Docker hub](https://hub.docker.com/) so you need to build your image locally.  
@@ -168,6 +178,7 @@ For the certificate, you can retrieve a free one from [Let's Encrypt](https://le
 
 Otherwise, you can quickly generate a self-signed certificate for testing purposes (for a production environment you need a valid certificate):
 ```bash
+openssl req -x509 -newkey rsa:4096 -nodes -keyout docker/ssl/privkey.pem -out docker/ssl/fullchain.pem -days 365 -subj '/CN=localhost' -addext "subjectAltName=IP:127.0.0.1,IP:0.0.0.0"
 ```
 
 Regarding the D-H parameters you can generate them as follows:
