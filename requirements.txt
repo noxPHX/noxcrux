@@ -2,7 +2,7 @@ asgiref==3.3.4
 attrs==20.3.0
 cffi==1.14.5
 cryptography==3.4.7
-Django==3.2
+Django==3.2.1
 django-appconf==1.0.4
 django-axes==5.14.0
 django-cors-headers==3.7.0
