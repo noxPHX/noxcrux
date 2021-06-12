@@ -15,3 +15,6 @@ noxcrux_server/static/css
 # Git stuff
 .git/
 .gitignore
+
+# Secrets
+docker/secrets/

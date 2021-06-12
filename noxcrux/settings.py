@@ -88,12 +88,18 @@ TEMPLATES = [
     },
 ]
 
+try:
+    with open('/run/secrets/noxcrux_db_passwd') as f:
+        DB_PASSWORD = f.read().strip()
+except FileNotFoundError:
+    DB_PASSWORD = os.getenv("DB_PASSWORD", "noxcrux")
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.getenv("DB_NAME", "noxcrux"),
         'USER': os.getenv("DB_USER", "noxcrux"),
-        'PASSWORD': os.getenv("DB_PASSWORD", "noxcrux"),
+        'PASSWORD': DB_PASSWORD,
         'HOST': os.getenv("DB_HOST", "172.26.0.74"),
         'PORT': os.getenv("DB_PORT", "5432"),
     }

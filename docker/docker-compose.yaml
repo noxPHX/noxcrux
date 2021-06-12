@@ -13,9 +13,11 @@ services:
     environment:
       POSTGRES_DB: noxcrux
       POSTGRES_USER: noxcrux
-      POSTGRES_PASSWORD: noxcrux
+      POSTGRES_PASSWORD_FILE: /run/secrets/noxcrux_db_passwd
     volumes:
       - db:/var/lib/postgresql/data
+    secrets:
+      - noxcrux_db_passwd
     user: postgres:postgres
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U noxcrux"]
@@ -46,12 +48,13 @@ services:
       DB_PORT: "5432"
       DB_NAME: noxcrux
       DB_USER: noxcrux
-      DB_PASSWORD: noxcrux
       ALLOWED_HOSTS: "localhost,127.0.0.1,0.0.0.0"
       CORS_ALLOW_ALL_ORIGINS: 0
       CORS_ALLOWED_ORIGINS: "https://localhost,https://127.0.0.1,https://0.0.0.0"
     volumes:
       - static_files:/usr/src/app/static/
+    secrets:
+      - noxcrux_db_passwd
     healthcheck:
       test: ["CMD-SHELL", "curl --fail http://localhost:8000/web/ || exit 1"]
       interval: 10s
@@ -90,13 +93,19 @@ services:
       - no-new-privileges
 
 volumes:
+
   db:
     name: noxcrux_db
+
   static_files:
     name: noxcrux_static_files
     driver_opts:
       type: tmpfs
       device: tmpfs
+
+secrets:
+  noxcrux_db_passwd:
+    file: ./secrets/noxcrux_db_passwd.txt
 
 networks:
 

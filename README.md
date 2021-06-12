@@ -109,9 +109,10 @@ rm -r /tmp/sass.tgz /tmp/dart-sass
 ```
 
 ### Database
-noxcrux uses PostgreSQL as database engine, for an easy setup you can use [Docker](https://docs.docker.com/get-docker/) and [Compose](https://docs.docker.com/compose/) and simply running the following command in the docker directory:
+noxcrux uses PostgreSQL as database engine, for an easy setup you can use [Docker](https://docs.docker.com/get-docker/) and [Compose](https://docs.docker.com/compose/) and simply running the following commands in the docker directory:
 ```bash
 cd docker
+echo 'noxcrux_db_passwd' > secrets/noxcrux_db_passwd.txt
 docker-compose up -d noxcrux_db
 ```
 Otherwise, you can check how to install and configure PostgreSQL manually [here](https://www.postgresqltutorial.com/postgresql-getting-started/).

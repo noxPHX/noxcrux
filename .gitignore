@@ -16,3 +16,5 @@ noxcrux_server/static/css
 secret_key.txt
 docker/ssl/*
 !docker/ssl/.gitkeep
+docker/secrets/*
+!docker/secrets/.gitkeep
