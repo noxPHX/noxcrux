@@ -18,3 +18,4 @@ noxcrux_server/static/css
 
 # Secrets
 docker/secrets/
+docker/ssl/

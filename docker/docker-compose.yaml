@@ -82,6 +82,13 @@ services:
       - noxcrux_web_net
     volumes:
       - static_files:/srv/static/
+    secrets:
+      - source: certificate
+        target: /srv/certificates/fullchain.pem
+      - source: private_key
+        target: /srv/certificates/privkey.pem
+      - source: dh_params
+        target: /srv/certificates/dhparams.pem
     healthcheck:
       test: ["CMD-SHELL", "service nginx status"]
       interval: 10s
@@ -104,8 +111,18 @@ volumes:
       device: tmpfs
 
 secrets:
+
   noxcrux_db_passwd:
     file: ./secrets/noxcrux_db_passwd.txt
+
+  certificate:
+    file: ./ssl/fullchain.pem
+
+  private_key:
+    file: ./ssl/privkey.pem
+
+  dh_params:
+    file: ./ssl/dhparams.pem
 
 networks:
 
