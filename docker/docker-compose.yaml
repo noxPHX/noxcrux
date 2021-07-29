@@ -55,11 +55,6 @@ services:
       - static_files:/usr/src/app/static/
     secrets:
       - noxcrux_db_passwd
-    healthcheck:
-      test: ["CMD-SHELL", "curl --fail http://localhost:8000/web/ || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
     cap_drop:
       - ALL
     security_opt:
@@ -89,11 +84,6 @@ services:
         target: /srv/certificates/privkey.pem
       - source: dh_params
         target: /srv/certificates/dhparams.pem
-    healthcheck:
-      test: ["CMD-SHELL", "service nginx status"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
     cap_drop:
       - ALL
     security_opt:

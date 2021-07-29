@@ -26,3 +26,5 @@ STOPSIGNAL SIGTERM
 USER www-data
 
 CMD [ "nginx", "-g", "daemon off;" ]
+
+HEALTHCHECK --interval=10s --timeout=5s --retries=10 CMD service nginx status
