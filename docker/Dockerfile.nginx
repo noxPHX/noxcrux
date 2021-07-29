@@ -1,7 +1,9 @@
 FROM debian:buster-slim
 
 RUN apt-get update && \
-    apt-get -y install nginx && \
+    apt-get -y install \
+    curl \
+    nginx && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /etc/nginx
@@ -27,4 +29,4 @@ USER www-data
 
 CMD [ "nginx", "-g", "daemon off;" ]
 
-HEALTHCHECK --interval=10s --timeout=5s --retries=10 CMD service nginx status
+HEALTHCHECK --interval=10s --timeout=5s --retries=10 CMD curl -sfk https://localhost:44380/health/ || exit 1

@@ -32,4 +32,9 @@ server {
     location /static/ {
         alias /srv/static/;
     }
+
+    # Healthcheck
+    location /health/ {
+        return 204;
+    }
 }

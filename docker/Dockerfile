@@ -45,4 +45,4 @@ USER $USER
 
 ENTRYPOINT [ "/usr/src/app/docker/entrypoint.sh" ]
 
-HEALTHCHECK --interval=10s --timeout=5s --retries=10 CMD curl -s --fail http://localhost:8000/web/ || exit 1
+HEALTHCHECK --interval=10s --timeout=5s --retries=10 CMD curl -sf http://localhost:8000/web/ || exit 1
