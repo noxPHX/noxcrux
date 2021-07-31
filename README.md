@@ -180,7 +180,7 @@ git clone https://github.com/noxPHX/noxcrux.git && cd noxcrux
 As of earlier, you need to generate the secret key, and you might want to adjust the environment variables in the `docker-compose.yaml` file. Please refer to the [Configuration](#configuration) section.
 
 ### SSL
-The Compose stack comes with a nginx container which needs a certificate and it's private key as well as Diffie-Hellman parameters.
+The Compose stack comes with a nginx container which needs a certificate and its private key as well as Diffie-Hellman parameters.
 For the certificate, you can retrieve a free one from [Let's Encrypt](https://letsencrypt.org/) and place it in the `docker/ssl` folder.  
 
 Otherwise, you can quickly generate a self-signed certificate for testing purposes (for a production environment you need a valid certificate):
@@ -192,6 +192,7 @@ Regarding the D-H parameters you can generate them as follows:
 ```bash
 openssl dhparams -out docker/ssl/dhparams.pem 4096
 ```
+*Depending on your machine, you might have time to grab a coffee* ☕
 
 ### Run!
 
