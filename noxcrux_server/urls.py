@@ -8,6 +8,7 @@ from noxcrux_server.views.Generator import Generator
 from noxcrux_server.views.OTP import TOTPLoginView, TOTPMainView, TOTPSecretView, TOTPConfirmView, TOTPDeleteView
 from noxcrux_server.views.Friends import FriendsView, FriendDelete, FriendRequestAccept, FriendRequestDelete, FriendAdd
 from noxcrux_server.views.Swagger import APIDocView
+from noxcrux_server.views.Errors import error_404, error_500
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,3 +38,6 @@ urlpatterns = [
     path('friends/request/accept/<str:username>/', FriendRequestAccept.as_view(), name="friend_request_accept"),
     path('friends/request/delete/<str:username>/', FriendRequestDelete.as_view(), name="friend_request_delete"),
 ]
+
+handler404 = error_404
+handler500 = error_500

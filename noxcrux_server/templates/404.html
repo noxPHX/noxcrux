@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    noxcrux - 404 Not Found
+{% endblock title %}
+
+{% block content %}
+
+    <div class="d-flex flex-column justify-content-center align-items-center h-i">
+
+        <h1 class="display-2 text-white font-weight-bold">404</h1>
+        <h1 class="display-3 text-white font-weight-bold">Page not found</h1>
+        <a href="{% url 'home' %}" class="color-warm">Take me home</a>
+    </div>
+
+{% endblock content %}
