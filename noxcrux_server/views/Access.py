@@ -4,8 +4,7 @@ from django.views.generic import FormView
 from noxcrux_server.mixins.Authenticated import LoginRequiredView
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm
-from noxcrux_server.forms.User import RegisterForm
+from noxcrux_server.forms.User import RegisterForm, LoginForm
 from noxcrux_api.views.User import UserList
 from django.conf import settings
 from noxcrux_api.views.OTP import get_user_totp_device
@@ -13,7 +12,7 @@ from noxcrux_api.views.OTP import get_user_totp_device
 
 class LoginView(FormView):
     template_name = 'login.html'
-    form_class = AuthenticationForm
+    form_class = LoginForm
     success_url = reverse_lazy('home')
 
     def dispatch(self, request, *args, **kwargs):

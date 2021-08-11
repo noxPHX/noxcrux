@@ -1,9 +1,19 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import password_validation
-from django.contrib.auth.forms import UsernameField
+from django.contrib.auth.forms import AuthenticationForm, UsernameField
 from django.conf import settings
 from noxcrux_api.views.OTP import get_user_totp_device
+
+
+class LoginForm(AuthenticationForm):
+    remember_me = forms.BooleanField(required=False, help_text="Check to stay logged in")
+
+    def clean_remember_me(self):
+        remember_me = self.cleaned_data.get('remember_me')
+        if not remember_me:
+            self.request.session.set_expiry(0)
+        return remember_me
 
 
 class RegisterForm(forms.ModelForm):
