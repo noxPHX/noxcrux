@@ -5,6 +5,7 @@ from noxcrux_api.views.Token import TokenDetail
 from noxcrux_api.views.Generator import GeneratorDetail
 from noxcrux_api.views.OTP import TOTPView
 from noxcrux_api.views.Friend import FriendList, FriendDestroy, FriendRequestsList, FriendRequestUpdate
+from noxcrux_api.views.UserSession import UserSessionList
 from drf_spectacular.views import SpectacularAPIView
 
 urlpatterns = [
@@ -14,6 +15,7 @@ urlpatterns = [
     path('users/', UserList.as_view(), name='users'),
     path('user/me/', Profile.as_view()),
     path('user/password/', PasswordUpdate.as_view()),
+    path('user/sessions/', UserSessionList.as_view()),
     path('horcruxes/', HorcruxList.as_view(), name='horcruxes'),
     path('horcruxes/search/<str:name>/', HorcruxSearch.as_view()),
     path('horcruxes/granted/', HorcruxGrantedList.as_view()),
