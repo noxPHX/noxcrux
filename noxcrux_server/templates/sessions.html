@@ -1,5 +1,7 @@
 {% extends 'authenticated.html' %}
 
+{% load UserAgent %}
+
 {% block title %}
     noxcrux - My sessions
 {% endblock title %}
@@ -17,7 +19,8 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">User</th>
-                        <th scope="col">Session key</th>
+                        <th scope="col">IP</th>
+                        <th scope="col">Device</th>
                         <th scope="col">Revoke</th>
                     </tr>
                     </thead>
@@ -27,7 +30,8 @@
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
                             <td>{{ session.user }}</td>
-                            <td>{{ session.session }}</td>
+                            <td>{{ session.ip }}</td>
+                            <td>{{ session.user_agent|get_device|default_if_none:"Unknown" }}</td>
                             <td>
                                 <a href="{% url 'sessions_delete' session.session %}" class="m-2">
                                     <i class="fas fa-times color-red"></i>
