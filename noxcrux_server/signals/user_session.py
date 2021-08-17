@@ -8,6 +8,6 @@ def create_user_session(sender, user, request, **kwargs):
     UserSession.objects.get_or_create(
         user=user,
         session_id=request.session.session_key,
-        ip=request.META.get('REMOTE_ADDR', ''),
+        ip=request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', '')),
         user_agent=request.META.get('HTTP_USER_AGENT', '')
     )
