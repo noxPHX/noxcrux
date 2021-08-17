@@ -28,7 +28,12 @@
 
                     {% for session in sessions %}
                         <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
+                            <th scope="row">
+                                {% if request.session.session_key == session.session %}
+                                    <i class="fas fa-map-marker-alt color-main p-1"></i>&nbsp;
+                                {% endif %}
+                                {{ forloop.counter }}
+                            </th>
                             <td>{{ session.user }}</td>
                             <td>{{ session.ip }}</td>
                             <td>
@@ -38,7 +43,7 @@
                                    data-placement="right"
                                    title="User Agent"
                                    data-content="{{ session.user_agent|default_if_none:"Unknown" }}"
-                                   class="fas fa-info-circle p-1">
+                                   class="fas fa-info-circle color-warm p-1">
                                 </i>
                             </td>
                             <td>
