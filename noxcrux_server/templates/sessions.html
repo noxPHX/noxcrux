@@ -1,6 +1,7 @@
 {% extends 'authenticated.html' %}
 
 {% load UserAgent %}
+{% load StringToDate %}
 
 {% block title %}
     noxcrux - My sessions
@@ -10,7 +11,7 @@
 
     <div class="d-flex flex-wrap justify-content-center align-items-center px-3 h-i">
 
-        <div class="card text-center col-sm-4 col-12 p-0 m-2">
+        <div class="card text-center col-sm-6 col-12 p-0 m-2">
             <div class="card-header">My sessions</div>
             <div class="card-body row justify-content-center align-items-center">
 
@@ -21,6 +22,7 @@
                         <th scope="col">User</th>
                         <th scope="col">IP</th>
                         <th scope="col">Device</th>
+                        <th scope="col">Valid until</th>
                         <th scope="col">Revoke</th>
                     </tr>
                     </thead>
@@ -44,6 +46,16 @@
                                    title="User Agent"
                                    data-content="{{ session.user_agent|default_if_none:"Unknown" }}"
                                    class="fas fa-info-circle color-warm p-1">
+                                </i>
+                            </td>
+                            <td>
+                                {{ session.expire_date|string_to_date }}
+                                <i data-toggle="popover"
+                                   data-trigger="hover"
+                                   data-placement="right"
+                                   title="Time remaining"
+                                   data-content="{{ session.expire_date|string_to_date|timeuntil }}"
+                                   class="fas fa-hourglass-half color-warm p-1">
                                 </i>
                             </td>
                             <td>

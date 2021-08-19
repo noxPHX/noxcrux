@@ -9,3 +9,4 @@ class UserSession(models.Model):
     session = models.ForeignKey(Session, models.CASCADE)
     ip = models.GenericIPAddressField(null=True, blank=True)
     user_agent = models.CharField(null=True, blank=True, max_length=255)
+    expire_date = models.DateTimeField(null=True, blank=True)

@@ -9,5 +9,6 @@ def create_user_session(sender, user, request, **kwargs):
         user=user,
         session_id=request.session.session_key,
         ip=request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR', '')),
-        user_agent=request.META.get('HTTP_USER_AGENT', '')
+        user_agent=request.META.get('HTTP_USER_AGENT', ''),
+        expire_date=request.session.get_expiry_date()
     )

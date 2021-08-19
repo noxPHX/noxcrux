@@ -8,4 +8,4 @@ class UserSessionSerializer(ModelSerializer):
 
     class Meta:
         model = UserSession
-        fields = ['user', 'session', 'ip', 'user_agent']
+        fields = '__all__'

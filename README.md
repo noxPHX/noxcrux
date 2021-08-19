@@ -217,7 +217,6 @@ python3 manage.py spectacular --file schema.yaml
 Here is a list of what is left to be done:  
 
 + [ ] CSP Headers
-+ [ ] Sessions management
 + [ ] Import / Export Horcruxes
 + [ ] Password / TOTP recovery
 + [ ] Tests
