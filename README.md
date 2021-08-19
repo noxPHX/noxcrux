@@ -45,11 +45,11 @@ Here is a table with the main technologies, and their current version:
 | Technology            | Version   |
 |-----------------------|:---------:|
 | Django                | 3.2       |
-| Django Rest Framework | 3.12.4    |
-| DRF Spectacular       | 0.15.1    |
-| Bootstrap             | 4.5.2     |
-| jQuery                | 3.5.1     |
-| SASS                  | 1.32.5    |
+| Django Rest Framework | 3.12      |
+| DRF Spectacular       | 0.17      |
+| Bootstrap             | 4.5       |
+| jQuery                | 3.5       |
+| SASS                  | 1.32      |
 
 ## Features ✅
 Here is a list of the main features provided by this project:  
