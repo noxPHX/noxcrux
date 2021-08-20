@@ -232,7 +232,10 @@ Here is a list of what is left to be done:
 Pull requests are welcome. For major changes, please open a discussion first to talk about what you would like to change.
 
 ### Bug reports
-Please file an issue if anything isn't working the way it is expected.
+Please file an [issue](https://github.com/noxPHX/noxcrux/issues) if anything isn't working the way it is expected.
+
+### Security
+Please see the [Security Policy](https://github.com/noxPHX/noxcrux/security/policy).  
 
 ## Licence 📃
 [GNU General Public Licence v3.0](https://github.com/noxPHX/noxcrux/blob/main/LICENSE)
