@@ -54,11 +54,11 @@ Here is a table with the main technologies, and their current version:
 ## Features ✅
 Here is a list of the main features provided by this project:  
 + [x] CRUD on horcruxes
-+ [x] Personal account management
 + [x] Horcrux generator
-+ [x] 2-Factor Authentication
-+ [x] Friendship
 + [x] Horcrux sharing
++ [x] Personal account management
++ [x] Sessions management
++ [x] 2-Factor Authentication
 + [x] Self API Reference
 + [x] Brute-force protection
 + [x] Easy & Secure deployment with Docker
@@ -229,7 +229,10 @@ Here is a list of what is left to be done:
 *❔ marked features are unsure to be implemented yet*
 
 ## Contributing 🤝
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+Pull requests are welcome. For major changes, please open a discussion first to talk about what you would like to change.
+
+### Bug reports
+Please file an issue if anything isn't working the way it is expected.
 
 ## Licence 📃
-[GPL-3.0](https://github.com/noxPHX/noxcrux/blob/main/LICENSE)
+[GNU General Public Licence v3.0](https://github.com/noxPHX/noxcrux/blob/main/LICENSE)
