@@ -27,21 +27,18 @@
                 <div class="card-header">{{ horcrux.name }} grantees</div>
                 <div class="card-body row justify-content-center align-items-center">
 
-                    {% if grantees %}
+                    <ul class="list-group list-group-flush col-12 friend-scroll p-0">
 
-                        <ul class="list-group list-group-flush col-12 friend-scroll p-0">
-
-                            {% for username in grantees %}
-                                <li class="list-group-item d-flex justify-content-center">
-                                    {{ username }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <div>
-                            No friend grantees to show for {{ horcrux }}.
-                        </div>
-                    {% endif %}
+                        {% for username in grantees %}
+                            <li class="list-group-item d-flex justify-content-center">
+                                {{ username }}
+                            </li>
+                        {% empty %}
+                            <li class="list-group-item">
+                                No friend grantees to show for {{ horcrux }}.
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
         </div>

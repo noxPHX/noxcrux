@@ -27,26 +27,24 @@
                 <div class="card-header">{{ horcrux }} grantees</div>
                 <div class="card-body row justify-content-center align-items-center">
 
-                    {% if grantees %}
+                    <ul class="list-group list-group-flush col-12 friend-scroll">
 
-                        <ul class="list-group list-group-flush col-12 friend-scroll">
+                        {% for username in grantees %}
 
-                            {% for username in grantees %}
-                                <li class="list-group-item d-flex justify-content-between">
-                                    {{ username }}
-                                    <div>
-                                        <a href="{% url 'horcrux_unshare' horcrux username %}" class="m-2">
-                                            <i class="fas fa-user-times color-red"></i>
-                                        </a>
-                                    </div>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <div>
-                            No friend grantees to show for {{ horcrux }}.
-                        </div>
-                    {% endif %}
+                            <li class="list-group-item d-flex justify-content-between">
+                                {{ username }}
+                                <div>
+                                    <a href="{% url 'horcrux_unshare' horcrux username %}" class="m-2">
+                                        <i class="fas fa-user-times color-red"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        {% empty %}
+                            <li class="list-group-item">
+                                No friend grantees to show for {{ horcrux }}.
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
         </div>

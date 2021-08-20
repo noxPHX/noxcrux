@@ -14,29 +14,26 @@
                 <div class="card-header">Friend requests</div>
                 <div class="card-body row justify-content-center align-items-center">
 
-                    {% if requests %}
+                    <ul class="list-group list-group-flush col-12 friend-scroll">
 
-                        <ul class="list-group list-group-flush col-12 friend-scroll">
-
-                            {% for object in requests %}
-                                <li class="list-group-item d-flex justify-content-between">
-                                    {{ object.user }}
-                                    <div>
-                                        <a href="{% url 'friend_request_accept' object.user %}" class="m-2">
-                                            <i class="fas fa-check color-green"></i>
-                                        </a>
-                                        <a href="{% url 'friend_request_delete' object.user %}" class="m-2">
-                                            <i class="fas fa-times color-red"></i>
-                                        </a>
-                                    </div>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <div>
-                            No friend requests to show.
-                        </div>
-                    {% endif %}
+                        {% for object in requests %}
+                            <li class="list-group-item d-flex justify-content-between">
+                                {{ object.user }}
+                                <div>
+                                    <a href="{% url 'friend_request_accept' object.user %}" class="m-2">
+                                        <i class="fas fa-check color-green"></i>
+                                    </a>
+                                    <a href="{% url 'friend_request_delete' object.user %}" class="m-2">
+                                        <i class="fas fa-times color-red"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        {% empty %}
+                            <li class="list-group-item">
+                                No friend requests to show.
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
 

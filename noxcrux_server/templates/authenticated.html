@@ -25,9 +25,11 @@
             <div>
                 <a class="btn btn-warm m-1 position-relative" href="{% url 'friend_list' %}">
                     <i class="fas fa-users"></i>&nbsp;Friends
-                    {% if request.user.reverse_friends|get_friend_requests %}
-                        <div id="friend-count">{{ request.user.reverse_friends|get_friend_requests }}</div>
-                    {% endif %}
+                    {% with request.user.reverse_friends|get_friend_requests as requests %}
+                        {% if requests %}
+                            <div id="friend-count">{{ requests }}</div>
+                        {% endif %}
+                    {% endwith %}
                 </a>
             </div>
 
