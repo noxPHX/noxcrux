@@ -34,7 +34,7 @@ See below the top level parts of this README:
 + [API Reference](#api-reference-)
 + [Todo list](#todo-list-)
 + [Contributing](#contributing-)
-+ [Support](#support-)
++ [Support](#support-%EF%B8%8F)
 + [Licence](#licence-)
 
 ## Technologies ⚙️
