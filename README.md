@@ -34,6 +34,7 @@ See below the top level parts of this README:
 + [API Reference](#api-reference-)
 + [Todo list](#todo-list-)
 + [Contributing](#contributing-)
++ [Support](#support-)
 + [Licence](#licence-)
 
 ## Technologies ⚙️
@@ -216,7 +217,7 @@ python3 manage.py spectacular --file schema.yaml
 ## Todo list 📝
 Here is a list of what is left to be done:  
 
-+ [ ] CSP Headers
++ [ ] Security Headers
 + [ ] Import / Export Horcruxes
 + [ ] Password / TOTP recovery
 + [ ] Tests
@@ -236,6 +237,9 @@ Please file an [issue](https://github.com/noxPHX/noxcrux/issues) if anything isn
 
 ### Security
 Please see the [Security Policy](https://github.com/noxPHX/noxcrux/security/policy).  
+
+## Support ⭐️
+Give a ⭐️ if you like this project and want to support it!
 
 ## Licence 📃
 [GNU General Public Licence v3.0](https://github.com/noxPHX/noxcrux/blob/main/LICENSE)

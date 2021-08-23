@@ -7,6 +7,7 @@ django-appconf==1.0.4
 django-axes==5.21.0
 django-cors-headers==3.8.0
 django-cryptography==1.0
+django-csp==3.7
 django-ipware==3.0.7
 django-otp==1.0.6
 django-qr-code==2.2.0
