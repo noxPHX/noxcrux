@@ -23,6 +23,8 @@ DEBUG = get_bool_env("DEBUG", 'True')
 if not DEBUG:
     include('settings_security.py')
 
+SECURE_REFERRER_POLICY = "no-referrer"
+
 REGISTRATION_OPEN = get_bool_env("REGISTRATION_OPEN", 'True')
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 
