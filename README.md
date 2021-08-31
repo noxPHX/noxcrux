@@ -217,7 +217,6 @@ python3 manage.py spectacular --file schema.yaml
 ## Todo list 📝
 Here is a list of what is left to be done:  
 
-+ [ ] Security Headers
 + [ ] Import / Export Horcruxes
 + [ ] Password / TOTP recovery
 + [ ] Tests
