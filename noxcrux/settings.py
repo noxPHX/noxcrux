@@ -96,7 +96,7 @@ try:
     with open('/run/secrets/noxcrux_db_passwd') as f:
         DB_PASSWORD = f.read().strip()
 except FileNotFoundError:
-    DB_PASSWORD = os.getenv("DB_PASSWORD", "noxcrux")
+    DB_PASSWORD = os.getenv("DB_PASSWORD", "noxcrux_db_passwd")
 
 DATABASES = {
     'default': {

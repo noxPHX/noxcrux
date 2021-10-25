@@ -122,18 +122,18 @@ Otherwise, you can check how to install and configure PostgreSQL manually [here]
 In order to properly run the application, you might want to define some environment variables.  
 Find below a table with each variable, their description, type and default value.  
 
-| Variable               | Description                             | Type                                                              | Default          |
-|------------------------|-----------------------------------------|-------------------------------------------------------------------|------------------|
-| DEBUG                  | Enable or disable debug mode            | Boolean                                                           | True             |
-| REGISTRATION_OPEN      | Enable or disable user registration     | Boolean                                                           | True             |
-| ALLOWED_HOSTS          | Allowed hosts to access the application | Comma-separated values (eg "localhost,127.0.0.1")                 | *                |
-| DB_HOST                | Database IP address or hostname         | String (eg "172.26.0.74" if using the noxcrux_db container)       | 172.26.0.74      |
-| DB_PORT                | Database port                           | String                                                            | 5432             |
-| DB_NAME                | Database name                           | String                                                            | noxcrux          |
-| DB_USER                | Database user                           | String                                                            | noxcrux          |
-| DB_PASSWORD            | Database password                       | String                                                            | noxcrux          |
-| CORS_ALLOW_ALL_ORIGINS | Enable or disable all origins for CORS  | Boolean                                                           | False            |
-| CORS_ALLOWED_ORIGINS   | Allowed origins for CORS                | Comma-separated values (eg "https://localhost,https://127.0.0.1") | http://localhost |
+| Variable               | Description                             | Type                                                              | Default           |
+|------------------------|-----------------------------------------|-------------------------------------------------------------------|-------------------|
+| DEBUG                  | Enable or disable debug mode            | Boolean                                                           | True              |
+| REGISTRATION_OPEN      | Enable or disable user registration     | Boolean                                                           | True              |
+| ALLOWED_HOSTS          | Allowed hosts to access the application | Comma-separated values (eg "localhost,127.0.0.1")                 | *                 |
+| DB_HOST                | Database IP address or hostname         | String (eg "172.26.0.74" if using the noxcrux_db container)       | 172.26.0.74       |
+| DB_PORT                | Database port                           | String                                                            | 5432              |
+| DB_NAME                | Database name                           | String                                                            | noxcrux           |
+| DB_USER                | Database user                           | String                                                            | noxcrux           |
+| DB_PASSWORD            | Database password                       | String                                                            | noxcrux_db_passwd |
+| CORS_ALLOW_ALL_ORIGINS | Enable or disable all origins for CORS  | Boolean                                                           | False             |
+| CORS_ALLOWED_ORIGINS   | Allowed origins for CORS                | Comma-separated values (eg "https://localhost,https://127.0.0.1") | http://localhost  |
 
 For the last step of the configuration, you need to generate your secret key for Django, the following command will suffice:
 ```bash
