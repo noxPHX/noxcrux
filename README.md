@@ -32,7 +32,7 @@ See below the top level parts of this README:
 + [Getting Started](#getting-started-%EF%B8%8F)
 + [Docker](#docker-)
 + [API Reference](#api-reference-)
-+ [Kanban](#kanban-)
++ [Kanban](#kanban-%EF%B8%8F)
 + [Contributing](#contributing-)
 + [Support](#support-%EF%B8%8F)
 + [Licence](#licence-)
