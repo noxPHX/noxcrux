@@ -32,7 +32,7 @@ See below the top level parts of this README:
 + [Getting Started](#getting-started-%EF%B8%8F)
 + [Docker](#docker-)
 + [API Reference](#api-reference-)
-+ [Todo list](#todo-list-)
++ [Kanban](#kanban-)
 + [Contributing](#contributing-)
 + [Support](#support-%EF%B8%8F)
 + [Licence](#licence-)
@@ -214,19 +214,9 @@ If you want to build your own OpenAPI schema, for instance to import it in your 
 python3 manage.py spectacular --file schema.yaml
 ```
 
-## Todo list 📝
-Here is a list of what is left to be done:  
-
-+ [ ] Import / Export Horcruxes
-+ [ ] Password / TOTP recovery
-+ [ ] Tests
-+ [ ] User groups sharing ❔
-+ [ ] Themes ❔
-+ [ ] Delegated authentication ❔
-+ [ ] Landing page ❔
-+ [ ] & More
-
-*❔ marked features are unsure to be implemented yet*
+## Kanban 🗃️
+You can find the Kanban of the project in the [dedicated GitHub section](https://github.com/noxPHX/noxcrux/projects/1).  
+You will find there more information about upcoming features and backlog ideas.
 
 ## Contributing 🤝
 Pull requests are welcome. For major changes, please open a discussion first to talk about what you would like to change.
