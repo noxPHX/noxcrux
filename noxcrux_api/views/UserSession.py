@@ -1,9 +1,20 @@
 from noxcrux_api.models.UserSession import UserSession
 from django.contrib.sessions.models import Session
-from noxcrux_api.serializers.UserSession import UserSessionSerializer
-from rest_framework.generics import ListAPIView, DestroyAPIView
+from noxcrux_api.serializers.UserSession import UserSessionSerializer, UserTokenSerializer
+from rest_framework.authtoken.models import Token
+from rest_framework.generics import ListAPIView, DestroyAPIView, RetrieveAPIView
 from django.http import Http404
 from drf_spectacular.utils import extend_schema, extend_schema_view
+
+
+@extend_schema_view(
+    get=extend_schema(description='Retrieve the token for the current user'),
+)
+class UserToken(RetrieveAPIView):
+    serializer_class = UserTokenSerializer
+
+    def get_object(self):
+        return Token.objects.get(user=self.request.user)
 
 
 @extend_schema_view(

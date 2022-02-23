@@ -1,5 +1,13 @@
 from rest_framework.serializers import ModelSerializer, SlugRelatedField, CurrentUserDefault
 from noxcrux_api.models.UserSession import UserSession
+from rest_framework.authtoken.models import Token
+
+
+class UserTokenSerializer(ModelSerializer):
+
+    class Meta:
+        model = Token
+        fields = ['created']
 
 
 class UserSessionSerializer(ModelSerializer):
