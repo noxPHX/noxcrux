@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load ShowVersion %}
+
 {% load static %}
 
 {% block title %}
@@ -23,7 +25,7 @@
                     <input class="btn btn-main" type="submit" value="Login"/>
                 </form>
             </div>
-            <div class="card-footer"><img alt="logo" id="logo-sm" src="{%  static 'images/logo_black.svg' %}"> web access</div>
+            <div class="card-footer"><img alt="logo" id="logo-sm" src="{%  static 'images/logo_black.svg' %}"><small class="font-italic"> {% show_version %}</small></div>
         </div>
     </div>
 

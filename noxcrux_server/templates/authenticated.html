@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load RequestTags %}
+{% load ShowVersion %}
 
 {% load static %}
 
@@ -61,7 +62,7 @@
 
         <div>
             <img alt="logo" id="logo-sm" src="{% static 'images/logo_white.svg' %}">
-            <small>web access</small>
+            <small class="font-italic">{% show_version %}</small>
         </div>
 
         <a href="{% url 'swagger-ui' %}" target="_blank">
