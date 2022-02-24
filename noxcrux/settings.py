@@ -13,6 +13,8 @@ def get_bool_env(env_var, default='False'):
     return os.getenv(env_var, default).lower() in ('true', '1', 't')
 
 
+NOXCRUX_VERSION = "v1.13.1"
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 with open(BASE_DIR / 'secret_key.txt') as f:
