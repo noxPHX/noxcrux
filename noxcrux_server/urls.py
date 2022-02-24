@@ -9,7 +9,7 @@ from noxcrux_server.views.OTP import TOTPLoginView, TOTPMainView, TOTPSecretView
 from noxcrux_server.views.Friends import FriendsView, FriendDelete, FriendRequestAccept, FriendRequestDelete, FriendAdd
 from noxcrux_server.views.Swagger import APIDocView
 from noxcrux_server.views.Errors import error_404, error_500
-from noxcrux_server.views.UserSession import UserSessions, DeleteUserSession
+from noxcrux_server.views.UserSession import UserSessions, DeleteUserSession, DeleteUserToken
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,6 +34,7 @@ urlpatterns = [
     path('profile/2FA/delete/', TOTPDeleteView.as_view(), name="2FA_delete"),
     path('profile/sessions/', UserSessions.as_view(), name="sessions"),
     path('profile/sessions/delete/<str:session>', DeleteUserSession.as_view(), name="sessions_delete"),
+    path('profile/token/delete/', DeleteUserToken.as_view(), name="token_delete"),
     path('generator/', Generator.as_view(), name="generator"),
     path('friends/', FriendsView.as_view(), name="friend_list"),
     path('friends/add/', FriendAdd.as_view(), name="friend_add"),

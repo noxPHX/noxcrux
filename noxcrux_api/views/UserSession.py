@@ -14,7 +14,10 @@ class UserToken(RetrieveAPIView):
     serializer_class = UserTokenSerializer
 
     def get_object(self):
-        return Token.objects.get(user=self.request.user)
+        try:
+            return Token.objects.get(user=self.request.user)
+        except Token.DoesNotExist:
+            return None
 
 
 @extend_schema_view(
