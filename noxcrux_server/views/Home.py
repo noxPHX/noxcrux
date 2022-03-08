@@ -9,8 +9,8 @@ class HomeView(LoginRequiredListView):
     def get_queryset(self):
         if self.request.GET.get("search"):
             horcruxes = {
-                'mines': HorcruxSearch().as_view()(self.request, name=self.request.GET.get("search")).data,
-                'granted': HorcruxGrantedSearch().as_view()(self.request, name=self.request.GET.get("search")).data,
+                'mines': HorcruxSearch().as_view()(self.request, search=self.request.GET.get("search")).data,
+                'granted': HorcruxGrantedSearch().as_view()(self.request, search=self.request.GET.get("search")).data,
             }
         else:
             horcruxes = {

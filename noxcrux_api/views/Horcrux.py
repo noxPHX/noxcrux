@@ -6,6 +6,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from drf_spectacular.utils import extend_schema, extend_schema_view
+from django.db.models import Q
 
 
 @extend_schema_view(
@@ -26,7 +27,7 @@ class HorcruxSearch(ListAPIView):
     serializer_class = HorcruxSerializer
 
     def get_queryset(self):
-        return Horcrux.objects.filter(owner=self.request.user, name__icontains=self.kwargs['name'])
+        return Horcrux.objects.filter(Q(owner=self.request.user), Q(name__icontains=self.kwargs['search']) | Q(site__icontains=self.kwargs['search']))
 
 
 @extend_schema_view(
@@ -64,7 +65,7 @@ class HorcruxGrantedSearch(ListAPIView):
     serializer_class = HorcruxSerializer
 
     def get_queryset(self):
-        return self.request.user.shared_horcruxes.filter(name__icontains=self.kwargs['name'])
+        return self.request.user.shared_horcruxes.filter(Q(name__icontains=self.kwargs['search']) | Q(site__icontains=self.kwargs['search']))
 
 
 @extend_schema_view(
