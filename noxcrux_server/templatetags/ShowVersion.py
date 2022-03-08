@@ -6,4 +6,4 @@ register = template.Library()
 
 @register.simple_tag
 def show_version():
-    return settings.NOXCRUX_VERSION
+    return f"{settings.NOXCRUX_VERSION} - {settings.NOXCRUX_INSTANCE}"
