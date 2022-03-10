@@ -1,7 +1,11 @@
 <div id="messages" class="mr-3">
 
+    {% if request.COOKIES.cookies_accepted is true %}
+        {% include 'cookies.html' %}
+    {% endif %}
+
     {% for message in messages %}
-        <div class="alert {{ message.tags }} alert-dismissible fade show " role="alert">
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
