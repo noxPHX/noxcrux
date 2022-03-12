@@ -2,16 +2,22 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from noxcrux_api.models.Horcrux import Horcrux
+from noxcrux_api.views.Horcrux import HorcruxList
 from django.contrib.auth.models import User
 
 
-class HorcruxCreate(APITestCase):
+class TestHorcruxCreate(APITestCase):
 
     @classmethod
     def setUpTestData(cls):
         cls.test_user = User.objects.create_user(username='test', password='test')
         cls.horcrux_data = {'name': 'Google', 'horcrux': 'a5v8t4d', 'site': 'https://google.com'}
         cls.url = reverse('horcruxes')
+
+    @classmethod
+    def setUpClass(cls):
+        super(TestHorcruxCreate, cls).setUpClass()
+        HorcruxList.throttle_classes = ()
 
     def test_create_horcrux_not_authenticated(self):
         response = self.client.post(self.url, self.horcrux_data, format='json')
