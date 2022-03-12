@@ -10,7 +10,7 @@ from drf_spectacular.views import SpectacularAPIView
 
 urlpatterns = [
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('token/', TokenDetail.as_view()),
+    path('token/', TokenDetail.as_view(), name='token'),
     path('totp/', TOTPView.as_view()),
     path('users/', UserList.as_view(), name='users'),
     path('user/me/', Profile.as_view()),
