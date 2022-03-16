@@ -4,6 +4,7 @@ from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
 from noxcrux_api.views.Token import TokenDetail
 from rest_framework.authtoken.models import Token
+from noxcrux.utils import disable_logging
 
 
 class TestToken(APITestCase):
@@ -33,6 +34,7 @@ class TestToken(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Token.objects.count(), 0)
 
+    @disable_logging
     def test_create_invalid_username(self):
         data = self.data.copy()
         data['username'] = 'azer'
@@ -40,6 +42,7 @@ class TestToken(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Token.objects.count(), 0)
 
+    @disable_logging
     def test_create_invalid_password(self):
         data = self.data.copy()
         data['password'] = 'azer'

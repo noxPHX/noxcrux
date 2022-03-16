@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
 from drf_spectacular.views import SpectacularAPIView
+from noxcrux.utils import disable_logging
 
 
 class TestSchema(APITestCase):
@@ -17,10 +18,12 @@ class TestSchema(APITestCase):
         super(TestSchema, cls).setUpClass()
         SpectacularAPIView.throttle_classes = ()
 
+    @disable_logging
     def test_schema_not_authenticated(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    @disable_logging
     def test_schema_authenticated(self):
         self.client.force_login(self.test_user)
         response = self.client.get(self.url)
