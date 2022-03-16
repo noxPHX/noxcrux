@@ -1,7 +1,9 @@
+import django.core.exceptions
 from rest_framework.serializers import Serializer, ModelSerializer, CurrentUserDefault, SlugRelatedField, ValidationError, CharField
 from noxcrux_api.models.Horcrux import Horcrux
 from django.http import Http404
 from django.contrib.auth.models import User
+from django.core.validators import URLValidator
 
 
 class HorcruxSerializer(ModelSerializer):
@@ -13,6 +15,13 @@ class HorcruxSerializer(ModelSerializer):
     class Meta:
         model = Horcrux
         fields = ['name', 'horcrux', 'site', 'owner']
+
+    def validate_site(self, value):
+        try:
+            URLValidator()(value)
+        except django.core.exceptions.ValidationError as e:
+            raise ValidationError(e)
+        return value
 
     def create(self, validated_data):
         request = self.context.get('request', None)
