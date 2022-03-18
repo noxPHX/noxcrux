@@ -13,7 +13,7 @@ urlpatterns = [
     path('token/', TokenDetail.as_view(), name='token'),
     path('totp/', TOTPView.as_view(), name='api-totp'),
     path('users/', UserList.as_view(), name='users'),
-    path('user/me/', Profile.as_view()),
+    path('user/me/', Profile.as_view(), name='api-me'),
     path('user/password/', PasswordUpdate.as_view()),
     path('user/sessions/', UserSessionList.as_view()),
     path('user/sessions/<str:session>/', UserSessionRevoke.as_view()),
