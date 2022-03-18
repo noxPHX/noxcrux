@@ -29,22 +29,22 @@ class TestSchema(APITestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_unauthorized_post(self):
+    def test_not_allowed_post(self):
         response = self.client.post(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    def test_unauthorized_put(self):
+    def test_not_allowed_put(self):
         response = self.client.put(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    def test_unauthorized_patch(self):
+    def test_not_allowed_patch(self):
         response = self.client.patch(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    def test_unauthorized_delete(self):
+    def test_not_allowed_delete(self):
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    def test_unauthorized_trace(self):
+    def test_not_allowed_trace(self):
         response = self.client.trace(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)

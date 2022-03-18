@@ -20,6 +20,10 @@ class TestTOTP(APITestCase):
         super(TestTOTP, cls).setUpClass()
         TOTPView.throttle_classes = ()
 
+    def test_unauthorized_get_device(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
     def test_get_device(self):
         self.client.force_login(self.test_user)
         response = self.client.get(self.url)
@@ -70,12 +74,12 @@ class TestTOTP(APITestCase):
         self.assertEqual(TOTPDevice.objects.count(), 0)
     """
 
-    def test_unauthorized_post(self):
+    def test_not_allowed_post(self):
         self.client.force_login(self.test_user)
         response = self.client.post(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    def test_unauthorized_trace(self):
+    def test_not_allowed_trace(self):
         self.client.force_login(self.test_user)
         response = self.client.trace(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)

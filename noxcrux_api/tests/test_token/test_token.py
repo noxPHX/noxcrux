@@ -64,18 +64,18 @@ class TestToken(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Token.objects.count(), 0)
 
-    def test_unauthorized_get(self):
+    def test_not_allowed_get(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    def test_unauthorized_put(self):
+    def test_not_allowed_put(self):
         response = self.client.put(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    def test_unauthorized_patch(self):
+    def test_not_allowed_patch(self):
         response = self.client.patch(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    def test_unauthorized_trace(self):
+    def test_not_allowed_trace(self):
         response = self.client.trace(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)

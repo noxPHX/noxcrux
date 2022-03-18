@@ -30,7 +30,7 @@ class TestProfile(APITestCase):
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def test_authorized_get(self):
+    def test_get_profile(self):
         self.client.force_login(self.test_user)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -57,7 +57,7 @@ class TestProfile(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(User.objects.filter(username='test').count(), 0)
 
-    def test_unauthorized_trace(self):
+    def test_not_allowed_trace(self):
         self.client.force_login(self.test_user)
         response = self.client.trace(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)

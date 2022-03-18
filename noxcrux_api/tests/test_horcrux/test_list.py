@@ -20,7 +20,7 @@ class TestHorcruxList(APITestCase):
         super(TestHorcruxList, cls).setUpClass()
         HorcruxList.throttle_classes = ()
 
-    def test_list_horcruxes_not_authenticated(self):
+    def test_unauthorized_list_horcruxes(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
@@ -38,22 +38,22 @@ class TestHorcruxList(APITestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.data, serializer.data)
 
-    def test_unauthorized_put(self):
+    def test_not_allowed_put(self):
         self.client.force_login(self.test_user)
         response = self.client.put(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    def test_unauthorized_patch(self):
+    def test_not_allowed_patch(self):
         self.client.force_login(self.test_user)
         response = self.client.patch(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    def test_unauthorized_delete(self):
+    def test_not_allowed_delete(self):
         self.client.force_login(self.test_user)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    def test_unauthorized_trace(self):
+    def test_not_allowed_trace(self):
         self.client.force_login(self.test_user)
         response = self.client.trace(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)

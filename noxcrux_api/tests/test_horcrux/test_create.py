@@ -19,7 +19,7 @@ class TestHorcruxCreate(APITestCase):
         super(TestHorcruxCreate, cls).setUpClass()
         HorcruxList.throttle_classes = ()
 
-    def test_create_horcrux_not_authenticated(self):
+    def test_unauthorized_create_horcrux(self):
         response = self.client.post(self.url, self.horcrux_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertEqual(Horcrux.objects.count(), 0)
