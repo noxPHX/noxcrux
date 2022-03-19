@@ -14,7 +14,7 @@ urlpatterns = [
     path('totp/', TOTPView.as_view(), name='api-totp'),
     path('users/', UserList.as_view(), name='users'),
     path('user/me/', Profile.as_view(), name='api-me'),
-    path('user/password/', PasswordUpdate.as_view()),
+    path('user/password/', PasswordUpdate.as_view(), name='api-password'),
     path('user/sessions/', UserSessionList.as_view()),
     path('user/sessions/<str:session>/', UserSessionRevoke.as_view()),
     path('user/token/', UserToken.as_view()),

@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
-from noxcrux_api.views.User import UserList
+from noxcrux_api.views.User import Profile
 from noxcrux_api.serializers.User import UserUpdateSerializer
 
 
@@ -16,7 +16,7 @@ class TestProfile(APITestCase):
     @classmethod
     def setUpClass(cls):
         super(TestProfile, cls).setUpClass()
-        UserList.throttle_classes = ()
+        Profile.throttle_classes = ()
 
     def test_unauthorized_get(self):
         response = self.client.get(self.url)
