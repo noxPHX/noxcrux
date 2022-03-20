@@ -18,6 +18,9 @@ class TestProfile(APITestCase):
         super(TestProfile, cls).setUpClass()
         Profile.throttle_classes = ()
 
+    def test_url(self):
+        self.assertEqual(self.url, '/api/user/me/')
+
     def test_unauthorized_get(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

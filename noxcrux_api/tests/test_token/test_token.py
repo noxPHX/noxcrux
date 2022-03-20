@@ -20,6 +20,9 @@ class TestToken(APITestCase):
         super(TestToken, cls).setUpClass()
         TokenDetail.throttle_classes = ()
 
+    def test_url(self):
+        self.assertEqual(self.url, '/api/token/')
+
     def test_create_token(self):
         response = self.client.post(self.url, self.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

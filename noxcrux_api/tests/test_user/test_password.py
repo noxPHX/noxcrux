@@ -18,6 +18,9 @@ class TestPassword(APITestCase):
         super(TestPassword, cls).setUpClass()
         PasswordUpdate.throttle_classes = ()
 
+    def test_url(self):
+        self.assertEqual(self.url, '/api/user/password/')
+
     def test_unauthorized_put(self):
         response = self.client.put(self.url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

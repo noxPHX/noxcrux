@@ -20,6 +20,9 @@ class TestHorcruxList(APITestCase):
         super(TestHorcruxList, cls).setUpClass()
         HorcruxList.throttle_classes = ()
 
+    def test_url(self):
+        self.assertEqual(self.url, '/api/horcruxes/')
+
     def test_unauthorized_list_horcruxes(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

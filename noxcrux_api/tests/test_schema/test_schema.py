@@ -18,6 +18,9 @@ class TestSchema(APITestCase):
         super(TestSchema, cls).setUpClass()
         SpectacularAPIView.throttle_classes = ()
 
+    def test_url(self):
+        self.assertEqual(self.url, '/api/schema/')
+
     @disable_logging
     def test_schema_not_authenticated(self):
         response = self.client.get(self.url)
