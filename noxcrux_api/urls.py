@@ -15,7 +15,7 @@ urlpatterns = [
     path('users/', UserList.as_view(), name='users'),
     path('user/me/', Profile.as_view(), name='api-me'),
     path('user/password/', PasswordUpdate.as_view(), name='api-password'),
-    path('user/sessions/', UserSessionList.as_view()),
+    path('user/sessions/', UserSessionList.as_view(), name='api-sessions'),
     path('user/sessions/<str:session>/', UserSessionRevoke.as_view()),
     path('user/token/', UserToken.as_view()),
     path('horcruxes/', HorcruxList.as_view(), name='horcruxes'),
