@@ -32,6 +32,17 @@ class TestPassword(APITestCase):
         self.test_user.refresh_from_db()
         self.assertTrue(self.test_user.check_password('new_test'))
 
+    def test_update_password_token_refreshed(self):
+        token_url = reverse('token')
+        response = self.client.post(token_url, {'username': 'test', 'password': 'test'})
+        old_token = response.data['token']
+        self.client.force_login(self.test_user)
+        self.client.put(self.url, self.data)
+        response = self.client.post(token_url, {'username': 'test', 'password': 'new_test'})
+        new_token = response.data['token']
+        self.assertIsNotNone(new_token)
+        self.assertNotEqual(old_token, new_token)
+
     def test_update_bad_password(self):
         data = self.data.copy()
         data['old_password'] = 'bad_test'
