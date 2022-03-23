@@ -19,7 +19,7 @@ urlpatterns = [
     path('user/sessions/<str:session>/', UserSessionRevoke.as_view(), name='api-sessions-revoke'),
     path('user/token/', UserToken.as_view(), name='api-sessions-token'),
     path('horcruxes/', HorcruxList.as_view(), name='horcruxes'),
-    path('horcruxes/search/<str:search>/', HorcruxSearch.as_view()),
+    path('horcruxes/search/<str:search>/', HorcruxSearch.as_view(), name='api-horcruxes-search'),
     path('horcruxes/granted/', HorcruxGrantedList.as_view()),
     path('horcruxes/granted/search/<str:search>/', HorcruxGrantedSearch.as_view()),
     path('horcrux/shared/<str:name>/', HorcruxGrant.as_view()),
