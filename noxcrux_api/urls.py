@@ -27,7 +27,7 @@ urlpatterns = [
     path('horcrux/<str:name>/', HorcruxDetail.as_view()),
     path('generator/', GeneratorDetail.as_view(), name='generate'),
     path('friends/', FriendList.as_view(), name='api-friends'),
-    path('friends/requests/', FriendRequestsList.as_view()),
+    path('friends/requests/', FriendRequestsList.as_view(), name='api-friends-requests'),
     path('friends/requests/<str:username>/', FriendRequestUpdate.as_view()),
     path('friends/<str:username>/', FriendDestroy.as_view()),
 ]
