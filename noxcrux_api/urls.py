@@ -28,6 +28,6 @@ urlpatterns = [
     path('generator/', GeneratorDetail.as_view(), name='generate'),
     path('friends/', FriendList.as_view(), name='api-friends'),
     path('friends/requests/', FriendRequestsList.as_view(), name='api-friends-requests'),
-    path('friends/requests/<str:username>/', FriendRequestUpdate.as_view()),
+    path('friends/requests/<str:username>/', FriendRequestUpdate.as_view(), name='api-friends-update'),
     path('friends/<str:username>/', FriendDestroy.as_view(), name='api-friend-destroy'),
 ]
