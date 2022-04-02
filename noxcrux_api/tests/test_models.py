@@ -1,5 +1,6 @@
 from rest_framework.test import APITestCase
 from noxcrux_api.models.Horcrux import Horcrux
+from noxcrux_api.models.Generator import Generator
 from django.contrib.auth.models import User
 
 
@@ -13,3 +14,6 @@ class TestModels(APITestCase):
     def test_horcrux_str(self):
         horcrux = Horcrux.objects.create(**self.horcrux_data)
         self.assertEqual('Google', str(horcrux))
+
+    def test_generator_str(self):
+        self.assertEqual('test', str(Generator.objects.get()))
