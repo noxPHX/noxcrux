@@ -24,7 +24,7 @@ urlpatterns = [
     path('horcruxes/granted/search/<str:search>/', HorcruxGrantedSearch.as_view(), name='api-horcruxes-granted-search'),
     path('horcrux/shared/<str:name>/', HorcruxGrant.as_view()),
     path('horcrux/shared/<str:name>/<str:username>/', HorcruxRevoke.as_view()),
-    path('horcrux/<str:name>/', HorcruxDetail.as_view()),
+    path('horcrux/<str:name>/', HorcruxDetail.as_view(), name='api-horcrux'),
     path('generator/', GeneratorDetail.as_view(), name='generate'),
     path('friends/', FriendList.as_view(), name='api-friends'),
     path('friends/requests/', FriendRequestsList.as_view(), name='api-friends-requests'),
