@@ -44,6 +44,13 @@ class TestGenerator(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsNotNone(response.data['generated_horcrux'])
 
+    def test_get_generated_no_generator(self):
+        # For some reason the generator is deleted
+        Generator.objects.get().delete()
+        self.client.force_login(self.test_user)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
     def test_serializer(self):
         self.client.force_login(self.test_user)
         serializer = GeneratorSerializer(Generator.objects.get())

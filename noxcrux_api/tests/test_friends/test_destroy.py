@@ -34,6 +34,14 @@ class TestFriendDestroy(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Friend.objects.count(), 0)
 
+    def test_destroy_reverse_friendship(self):
+        initial_friendship = Friend.objects.create(user=self.test_user, friend=self.friend, validated=True)
+        Friend.objects.create(user=self.friend, friend=self.test_user, validated=True)
+        self.client.force_login(self.test_user)
+        self.assertEqual(Friend.objects.count(), 2)
+        initial_friendship.delete()
+        self.assertEqual(Friend.objects.count(), 0)
+
     def test_destroy_not_friend(self):
         self.client.force_login(self.test_user)
         response = self.client.delete(self.url)
