@@ -13,7 +13,7 @@ def get_bool_env(env_var, default='False'):
     return os.getenv(env_var, default).lower() in ('true', '1', 't')
 
 
-NOXCRUX_VERSION = "v1.13.2"
+NOXCRUX_VERSION = "v1.14.0"
 NOXCRUX_INSTANCE = os.getenv("NOXCRUX_INSTANCE", 'DEV')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
