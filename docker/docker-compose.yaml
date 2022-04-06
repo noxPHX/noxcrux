@@ -44,6 +44,7 @@ services:
     environment:
       DEBUG: 0
       REGISTRATION_OPEN: 1
+      NOXCRUX_INSTANCE: PROD
       DB_HOST: noxcrux_db
       DB_PORT: "5432"
       DB_NAME: noxcrux

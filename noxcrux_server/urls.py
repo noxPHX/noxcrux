@@ -10,10 +10,12 @@ from noxcrux_server.views.Friends import FriendsView, FriendDelete, FriendReques
 from noxcrux_server.views.Swagger import APIDocView
 from noxcrux_server.views.Errors import error_404, error_500
 from noxcrux_server.views.UserSession import UserSessions, DeleteUserSession, DeleteUserToken
+from noxcrux_server.views.Notice import NoticeView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/docs/', APIDocView.as_view(url_name='schema'), name='swagger-ui'),
+    path('notice/', NoticeView.as_view(), name="notice"),
     path('login/', LoginView.as_view(), name="login"),
     path('login/totp/', TOTPLoginView.as_view(), name="totp"),
     path('logout/', LogoutView.as_view(), name="logout"),

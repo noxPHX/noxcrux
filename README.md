@@ -2,6 +2,8 @@
   <img src="noxcrux_server/static/images/logo_readme.svg">
 </div>
 
+***⚠️ End-to-end encryption milestone, see more [below](#kanban-%EF%B8%8F).***
+
 # noxcrux 🔒
 noxcrux is a Django web app and API which allows you to create and store passwords horcruxes to improve your online security.  
 
@@ -43,14 +45,14 @@ It also makes use of [Bootstrap](https://getbootstrap.com/), [jQuery](https://jq
 
 Here is a table with the main technologies, and their current version:  
 
-| Technology            | Version   |
-|-----------------------|:---------:|
-| Django                | 3.2       |
-| Django Rest Framework | 3.12      |
-| DRF Spectacular       | 0.17      |
-| Bootstrap             | 4.5       |
-| jQuery                | 3.5       |
-| SASS                  | 1.32      |
+| Technology            | Version |
+|-----------------------|:-------:|
+| Django                |   3.2   |
+| Django Rest Framework |  3.12   |
+| DRF Spectacular       |  0.17   |
+| Bootstrap             |   4.6   |
+| jQuery                |   3.6   |
+| SASS                  |  1.32   |
 
 ## Features ✅
 Here is a list of the main features provided by this project:  
@@ -126,6 +128,7 @@ Find below a table with each variable, their description, type and default value
 |------------------------|-----------------------------------------|-------------------------------------------------------------------|-------------------|
 | DEBUG                  | Enable or disable debug mode            | Boolean                                                           | True              |
 | REGISTRATION_OPEN      | Enable or disable user registration     | Boolean                                                           | True              |
+| NOXCRUX_INSTANCE       | A name to display for your instance     | String                                                            | PROD              |
 | ALLOWED_HOSTS          | Allowed hosts to access the application | Comma-separated values (eg "localhost,127.0.0.1")                 | *                 |
 | DB_HOST                | Database IP address or hostname         | String (eg "172.26.0.74" if using the noxcrux_db container)       | 172.26.0.74       |
 | DB_PORT                | Database port                           | String                                                            | 5432              |
@@ -191,7 +194,7 @@ openssl req -x509 -newkey rsa:4096 -nodes -keyout docker/ssl/privkey.pem -out do
 
 Regarding the D-H parameters you can generate them as follows:
 ```bash
-openssl dhparams -out docker/ssl/dhparams.pem 4096
+openssl dhparam -out docker/ssl/dhparams.pem 4096
 ```
 *Depending on your machine, you might have time to grab a coffee* ☕
 
@@ -218,14 +221,19 @@ python3 manage.py spectacular --file schema.yaml
 You can find the Kanban of the project in the [dedicated GitHub section](https://github.com/noxPHX/noxcrux/projects/1).  
 You will find there more information about upcoming features and backlog ideas.
 
+### End-to-end encryption milestone
+Zero-Knowledge end-to-end encryption of horcruxes is an important milestone of this project.  
+This feature will be release for the v2.0 tag.  
+The security model of the approach is soon to be disclosed.  
+
 ## Contributing 🤝
 Pull requests are welcome. For major changes, please open a discussion first to talk about what you would like to change.
 
 ### Bug reports
 Please file an [issue](https://github.com/noxPHX/noxcrux/issues) if anything isn't working the way it is expected.
 
-### Security
-Please see the [Security Policy](https://github.com/noxPHX/noxcrux/security/policy).  
+### Security Policy
+Please see the dedicated [Security Policy](https://github.com/noxPHX/noxcrux/security/policy) page.  
 
 ## Support ⭐️
 Give a ⭐️ if you like this project and want to support it!

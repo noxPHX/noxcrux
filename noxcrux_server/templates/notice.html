@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% load ShowVersion %}
+
+{% load static %}
+
+{% block title %}
+    noxcrux - Notice
+{% endblock title %}
+
+{% block content %}
+
+    <div class="d-flex flex-column h-i">
+
+        <div class="d-flex justify-content-center align-items-center h-i">
+
+            <div class="card text-center w-50">
+                <div class="card-header"><img alt="logo" id="logo-md" src="{% static 'images/logo_black.svg' %}"></div>
+                <div class="card-body ">
+                    <h5 class="card-title color-main font-weight-bold">Cookies Policy</h5>
+                    <p class="card-text">
+                        This website uses essentials cookies only, by using it you accept the usage made of the
+                        following
+                        cookies.
+                    </p>
+                    <table class="table table-hover mt-3">
+                        <thead>
+                        <tr>
+                            <th scope="col" class="col-2">Name</th>
+                            <th scope="col" class="col-2">Type</th>
+                            <th scope="col" class="col-8">Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="col-2">sessionid</td>
+                            <td class="col-2">Essential</td>
+                            <td class="col-8">This cookie is necessary to identify your session while browsing the
+                                website.
+                            </td>
+                            <td>
+                        </tr>
+                        <tr>
+                            <td class="col-2">csrftoken</td>
+                            <td class="col-2">Essential</td>
+                            <td class="col-8">This cookie is mandatory for security, it prevents CSRF attacks while
+                                submitting data (more information about this attack <a
+                                        class="color-main font-weight-bold"
+                                        href="https://owasp.org/www-community/attacks/csrf"
+                                        target="_blank">here</a>).
+                            </td>
+                            <td>
+                        </tr>
+                        <tr>
+                            <td class="col-2">cookies_accepted</td>
+                            <td class="col-2">Essential</td>
+                            <td class="col-8">Simple cookie to allow us to know if you agreed on cookies usage.</td>
+                            <td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <img alt="logo" id="logo-sm" src="{% static 'images/logo_black.svg' %}">
+                    <small class="font-italic"> {% show_version %}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <a class="btn btn-warm m-1" href="{% url 'home' %}">
+                <i class="fas fa-arrow-left"></i>&nbsp;Back
+            </a>
+        </div>
+    </div>
+
+{% endblock content %}
