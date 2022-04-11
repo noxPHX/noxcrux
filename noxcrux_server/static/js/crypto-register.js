@@ -1,6 +1,6 @@
 $("form").on('submit', async function (e) {
 
-    e.preventDefault();
+    e.preventDefault()
 
     let masterPassword = fromUtf8($('input[name="password"]').val());
     let username = fromUtf8($('input[name="username"]').val());
@@ -22,7 +22,6 @@ $("form").on('submit', async function (e) {
     console.log('Protected Key');
     console.log(protectedKey);
 
-    let decryptedKey = await decryptKey(masterKey, iv, protectedKey);
-    console.log('Decrypted Key');
-    console.log(new ByteData(decryptedKey));
+    $(this).off('submit');
+    $(this).submit();
 });
