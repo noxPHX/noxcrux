@@ -6,6 +6,7 @@ $("form").on('submit', async function (e) {
     let username = fromUtf8($('input[name="username"]').val());
 
     let masterKey = await pbkdf2(masterPassword, username, 100000, 256);
+    sessionStorage.setItem("masterKey", masterKey.b64);
 
     let masterHash = await pbkdf2(fromUtf8(masterKey.b64), masterPassword, 30000, 256);
 
