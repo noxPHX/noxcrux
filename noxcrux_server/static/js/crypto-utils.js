@@ -43,6 +43,17 @@ function toB64(buf) {
     return window.btoa(binary);
 }
 
+function fromB64(b64) {
+
+    let raw = window.atob(b64);
+    let array = new Uint8Array(new ArrayBuffer(raw.length));
+
+    for (let i = 0; i < raw.length; i++)
+        array[i] = raw.charCodeAt(i);
+
+    return array;
+}
+
 async function pbkdf2(password, salt, iterations) {
 
     const algorithm = {
@@ -114,7 +125,8 @@ async function encryptKey(masterKey, iv, privateKey) {
     };
 
     const importedKey = await window.crypto.subtle.importKey('raw', masterKey.array.buffer, keyOptions, false, ['encrypt'])
-    return await window.crypto.subtle.encrypt(aesOptions, importedKey, privateKey.array.buffer);
+    let protected_key = await window.crypto.subtle.encrypt(aesOptions, importedKey, privateKey.array.buffer);
+    return new ByteData(protected_key);
 }
 
 async function decryptKey(masterKey, iv, protectedKey) {

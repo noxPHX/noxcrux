@@ -4,6 +4,7 @@ from django.contrib.auth import password_validation
 from django.contrib.auth.forms import AuthenticationForm, UsernameField
 from django.conf import settings
 from noxcrux_api.views.OTP import get_user_totp_device
+from noxcrux_api.models.UserKeysContainer import UserKeysContainer
 
 
 class LoginForm(AuthenticationForm):
@@ -81,6 +82,16 @@ class RegisterForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class KeysContainerForm(forms.ModelForm):
+    class Meta:
+        model = UserKeysContainer
+        fields = ['public_key', 'private_key', 'iv']
+
+    public_key = forms.CharField(widget=forms.HiddenInput())
+    private_key = forms.CharField(widget=forms.HiddenInput())
+    iv = forms.CharField(widget=forms.HiddenInput())
 
 
 class UsernameForm(forms.ModelForm):

@@ -7,3 +7,4 @@ class NoxcruxAPIConfig(AppConfig):
     def ready(self):
         from noxcrux_api.signals import friend
         from noxcrux_api.signals import generator
+        from noxcrux_api.signals import keys_container
