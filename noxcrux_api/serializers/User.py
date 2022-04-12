@@ -1,19 +1,32 @@
 from rest_framework.serializers import ModelSerializer, Serializer, CharField, ValidationError
-from django.contrib.auth.models import User
+from rest_framework.validators import UniqueValidator
+from django.contrib.auth.models import User, UnicodeUsernameValidator
+from noxcrux_api.models.UserKeysContainer import UserKeysContainer
 from django.contrib.auth.password_validation import validate_password
 
 
-class UserSerializer(ModelSerializer):
+class UserSerializer(Serializer):
     class Meta:
-        model = User
-        fields = ['username', 'password']
-        extra_kwargs = {
-            'password': {'write_only': True}
-        }
+        fields = ['username', 'password', 'public_key', 'private_key', 'iv']
 
-    def create(self, validated_data):
-        user = User.objects.create_user(validated_data['username'], password=validated_data['password'])
-        return user
+    username = CharField(max_length=128, required=True, validators=[UnicodeUsernameValidator(), UniqueValidator(queryset=User.objects.all(), message="A user with that username already exists.")])
+    password = CharField(max_length=128, write_only=True, required=True)
+    public_key = CharField(required=True)
+    private_key = CharField(required=True)
+    iv = CharField(required=True)
+
+    def validate_password(self, value):
+        try:
+            # FIXME does not validate against username similarity
+            validate_password(value)
+        except ValidationError as error:
+            raise ValidationError({'password': error})
+        return value
+
+    def save(self, **kwargs):
+        user = User.objects.create_user(username=self.validated_data['username'], password=self.validated_data['password'])
+        UserKeysContainer.objects.filter(user=user).update(public_key=self.validated_data['public_key'], private_key=self.validated_data['private_key'], iv=self.validated_data['iv'])
+        return UserKeysContainer.objects.get(user=user)
 
 
 class UserUpdateSerializer(ModelSerializer):

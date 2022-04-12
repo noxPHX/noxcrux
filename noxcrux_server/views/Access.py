@@ -4,7 +4,7 @@ from django.views.generic import FormView
 from noxcrux_server.mixins.Authenticated import LoginRequiredView
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
-from noxcrux_server.forms.User import RegisterForm, LoginForm
+from noxcrux_server.forms.User import RegisterForm, LoginForm, KeysContainerForm
 from noxcrux_api.views.User import UserList
 from django.conf import settings
 from noxcrux_api.views.OTP import get_user_totp_device
@@ -65,14 +65,23 @@ class RegisterView(FormView):
 
         return super(RegisterView, self).dispatch(request, *args, **kwargs)
 
-    def form_valid(self, form):
-        res = UserList().as_view()(self.request)
-        if res.status_code == 201:
-            messages.success(self.request, 'Account created successfully!')
-            return super(RegisterView, self).form_valid(form)
+    def get_context_data(self, **kwargs):
+        context = super(RegisterView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['keys_container_form'] = KeysContainerForm(self.request.POST)
         else:
-            messages.error(self.request, 'Could not register your account')
-            return super(RegisterView, self).get(self.request, *self.args, **self.kwargs)
+            context['keys_container_form'] = KeysContainerForm()
+        return context
+
+    def form_valid(self, form):
+        keys_container_form = self.get_context_data()['keys_container_form']
+        if keys_container_form.is_valid():
+            res = UserList().as_view()(self.request)
+            if res.status_code == 201:
+                messages.success(self.request, 'Account created successfully!')
+                return super(RegisterView, self).form_valid(form)
+        messages.error(self.request, 'Could not register your account')
+        return super(RegisterView, self).get(self.request, *self.args, **self.kwargs)
 
 
 class LogoutView(LoginRequiredView):
