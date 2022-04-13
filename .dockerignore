@@ -1,7 +1,7 @@
 # IDE related
 .idea/
 
-# Virtuel Environment
+# Virtual Environment
 .venv/
 
 # Python files
