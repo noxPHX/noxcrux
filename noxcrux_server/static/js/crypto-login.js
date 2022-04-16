@@ -7,7 +7,7 @@ $("form").on('submit', async function (e) {
 
     let masterKey = await pbkdf2(masterPassword, username, 100000, 256);
 
-    dbExecute(function (store) {
+    dbSetup().then(function (store) {
 		store.put({id: 1, masterKey: masterKey});
 	});
 

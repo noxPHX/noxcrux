@@ -124,7 +124,7 @@ async function encryptKey(masterKey, iv, privateKey) {
         iv: iv,
     };
 
-    const importedKey = await window.crypto.subtle.importKey('raw', masterKey.array.buffer, keyOptions, false, ['encrypt'])
+    const importedKey = await window.crypto.subtle.importKey('raw', masterKey.array.buffer, keyOptions, false, ['encrypt']);
     let protected_key = await window.crypto.subtle.encrypt(aesOptions, importedKey, privateKey.array.buffer);
     return new ByteData(protected_key);
 }
@@ -142,38 +142,20 @@ async function decryptKey(masterKey, iv, protectedKey) {
         iv: iv,
     };
 
-    const importedKey = await window.crypto.subtle.importKey('raw', masterKey.array.buffer, keyOptions, false, ['decrypt'])
+    const importedKey = await window.crypto.subtle.importKey('raw', masterKey.array.buffer, keyOptions, false, ['decrypt']);
     return await window.crypto.subtle.decrypt(aesOptions, importedKey, protectedKey);
 }
 
-function dbExecute(callback) {
+async function encryptHorcrux(horcrux, publicKey) {
 
-    let indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
-
-    if (!window.indexedDB)
-        console.log("Your browser doesn't support a stable version of IndexedDB.");
-
-    let request = indexedDB.open("KeysContainer", 3);
-
-    request.onerror = function () {
-        console.log("Something wrong happened while using IndexedDB.");
+    const rsaOptions = {
+        name: 'RSA-OAEP',
+        modulusLength: 4096,
+        publicExponent: new Uint8Array([0x01, 0x00, 0x01]), // 65537
+        hash: {name: 'SHA-256'},
     };
 
-    // Migrations
-    request.onupgradeneeded = function (e) {
-        let db = e.target.result;
-        let store = db.createObjectStore("MyKeys", {keyPath: "id"});
-    };
-
-    request.onsuccess = function (e) {
-        let db = e.target.result;
-        let tx = db.transaction("MyKeys", "readwrite");
-        let store = tx.objectStore("MyKeys");
-
-        callback(store)
-
-        tx.oncomplete = function () {
-            db.close();
-        };
-    }
+    const importedKey = await window.crypto.subtle.importKey('spki', publicKey.array.buffer, rsaOptions, false, ['encrypt']);
+    const encryptedHorcrux = await window.crypto.subtle.encrypt(rsaOptions, importedKey, horcrux);
+    return new ByteData(encryptedHorcrux);
 }
