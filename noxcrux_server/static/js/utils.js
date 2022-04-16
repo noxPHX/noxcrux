@@ -30,8 +30,8 @@ function eraseCookie(name) {
 }
 
 function stripQuotes(a) {
-    if (a.charAt(0) === '"' && a.charAt(a.length-1) === '"') {
-        return a.substr(1, a.length-2);
+    if (a.charAt(0) === '"' && a.charAt(a.length - 1) === '"') {
+        return a.substr(1, a.length - 2);
     }
     return a;
 }
