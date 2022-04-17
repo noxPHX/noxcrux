@@ -143,7 +143,8 @@ async function decryptKey(masterKey, iv, protectedKey) {
     };
 
     const importedKey = await window.crypto.subtle.importKey('raw', masterKey.array.buffer, keyOptions, false, ['decrypt']);
-    return await window.crypto.subtle.decrypt(aesOptions, importedKey, protectedKey);
+    let privateKey =  await window.crypto.subtle.decrypt(aesOptions, importedKey, protectedKey);
+    return new ByteData(privateKey);
 }
 
 async function encryptHorcrux(horcrux, publicKey) {
@@ -158,4 +159,17 @@ async function encryptHorcrux(horcrux, publicKey) {
     const importedKey = await window.crypto.subtle.importKey('spki', publicKey.array.buffer, rsaOptions, false, ['encrypt']);
     const encryptedHorcrux = await window.crypto.subtle.encrypt(rsaOptions, importedKey, horcrux);
     return new ByteData(encryptedHorcrux);
+}
+
+async function decryptHorcrux(horcrux, protectedKey) {
+
+    const rsaOptions = {
+        name: 'RSA-OAEP',
+        modulusLength: 4096,
+        publicExponent: new Uint8Array([0x01, 0x00, 0x01]), // 65537
+        hash: {name: 'SHA-256'},
+    };
+
+    const importedKey = await window.crypto.subtle.importKey('pkcs8', protectedKey.array.buffer, rsaOptions, false, ['decrypt']);
+    return await window.crypto.subtle.decrypt(rsaOptions, importedKey, horcrux);
 }
