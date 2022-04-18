@@ -112,6 +112,11 @@ DATABASES = {
     }
 }
 
+PASSWORD_HASHERS = [
+    'noxcrux_api.hashers.RelievedPBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+]
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
