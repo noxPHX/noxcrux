@@ -5,9 +5,9 @@ $("form").on('submit', async function (e) {
     let masterPassword = fromUtf8($('input[name="password"]').val());
     let username = fromUtf8($('input[name="username"]').val());
 
-    let masterKey = await pbkdf2(masterPassword, username, 100000, 256);
+    let masterKey = await pbkdf2(masterPassword, username, 100000);
 
-    let masterHash = await pbkdf2(fromUtf8(masterKey.b64), masterPassword, 30000, 256);
+    let masterHash = await pbkdf2(fromUtf8(masterKey.b64), masterPassword, 30000);
 
     let keyPair = await generateRsaKeyPair();
 
