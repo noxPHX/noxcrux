@@ -11,7 +11,7 @@ $("form").on('submit', async function (e) {
 		store.put({id: 1, masterKey: masterKey});
 	});
 
-    let masterHash = await pbkdf2(fromUtf8(masterKey.b64), masterPassword, 30000);
+    let masterHash = await pbkdf2(masterKey.array.buffer, masterPassword, 30000);
 
     $('input[name="password"]').val(masterHash.b64);
 
