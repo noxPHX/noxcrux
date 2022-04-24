@@ -1,3 +1,9 @@
+$(document).ready(function () {
+    // Empty passwords fields to avoid confusion with the hashed password
+    $('input[name="password"]').val("");
+    $('input[name="password2"]').val("");
+});
+
 $("form").on('submit', async function (e) {
 
     e.preventDefault();
