@@ -3,15 +3,17 @@ from split_settings.tools import include
 from pathlib import Path
 import os
 
-include('settings_drf.py')
-include('settings_cors.py')
-include('settings_csp.py')
-include('settings_axes.py')
-
 
 def get_bool_env(env_var, default='False'):
     return os.getenv(env_var, default).lower() in ('true', '1', 't')
 
+
+DEBUG = get_bool_env("DEBUG", 'True')
+
+include('settings_drf.py')
+include('settings_cors.py')
+include('settings_csp.py')
+include('settings_axes.py')
 
 NOXCRUX_VERSION = "v1.14.1"
 NOXCRUX_INSTANCE = os.getenv("NOXCRUX_INSTANCE", 'DEV')
@@ -20,8 +22,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 with open(BASE_DIR / 'secret_key.txt') as f:
     SECRET_KEY = f.read().strip()
-
-DEBUG = get_bool_env("DEBUG", 'True')
 
 if not DEBUG:
     include('settings_security.py')
