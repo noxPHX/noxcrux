@@ -38,6 +38,7 @@ class RegisterForm(forms.ModelForm):
 
     password = forms.CharField(
         label="Password",
+        min_length=8,
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         help_text=password_validation.password_validators_help_text_html(),
@@ -45,8 +46,9 @@ class RegisterForm(forms.ModelForm):
 
     password2 = forms.CharField(
         label="Password confirmation",
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+        min_length=8,
         strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         help_text="Enter the same password as before, for verification.",
     )
 

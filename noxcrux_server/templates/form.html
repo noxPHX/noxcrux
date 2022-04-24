@@ -63,6 +63,7 @@
                    name="{{ field.html_name }}"
                    placeholder="{{ field.label }}"
                    maxlength="{{ field.field.max_length }}"
+                   minlength="{{ field.field.min_length }}"
                     {% if field.value %} value="{{ field.value }}" {% endif %}
                     {% if field.field.required %} required {% endif %}
                     {% if field.field.disabled %} disabled {% endif %}
