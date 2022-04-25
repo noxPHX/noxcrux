@@ -5,6 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm, UsernameField
 from django.conf import settings
 from noxcrux_api.views.OTP import get_user_totp_device
 from noxcrux_api.models.UserKeysContainer import UserKeysContainer
+from noxcrux_api.validators import Base64Validator
 
 
 class LoginForm(AuthenticationForm):
@@ -39,14 +40,16 @@ class RegisterForm(forms.ModelForm):
     password = forms.CharField(
         label="Password",
         min_length=8,
+        max_length=128,
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
-        help_text=password_validation.password_validators_help_text_html(),
+        help_text=Base64Validator().get_help_text(),
     )
 
     password2 = forms.CharField(
         label="Password confirmation",
         min_length=8,
+        max_length=128,
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         help_text="Enter the same password as before, for verification.",

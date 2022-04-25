@@ -17,7 +17,6 @@ class UserSerializer(Serializer):
 
     def validate_password(self, value):
         try:
-            # FIXME does not validate against username similarity
             validate_password(value)
         except ValidationError as error:
             raise ValidationError({'password': error})
