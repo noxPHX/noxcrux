@@ -7,11 +7,12 @@ from django.contrib.auth import authenticate
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from noxcrux_server.mixins.Authenticated import LoginRequiredTemplateView, LoginRequiredFormView
+from noxcrux_server.mixins.CookieMixin import CookieMixin
 from django.shortcuts import render
 from noxcrux_api.views.OTP import get_user_totp_device, TOTPView
 
 
-class TOTPLoginView(FormView):
+class TOTPLoginView(CookieMixin, FormView):
     template_name = 'totp.html'
     form_class = OTPForm
     success_url = reverse_lazy('home')
@@ -31,6 +32,10 @@ class TOTPLoginView(FormView):
         del self.request.session['username']
         del self.request.session['password']
         login(self.request, self.kwargs['user'])
+        self.add_cookie('keys', True, max_age=60)
+        self.add_cookie('public_key', self.request.user.userkeyscontainer.public_key, max_age=60)
+        self.add_cookie('protected_key', self.request.user.userkeyscontainer.private_key, max_age=60)
+        self.add_cookie('iv', self.request.user.userkeyscontainer.iv, max_age=60)
         messages.success(self.request, 'Logged in successfully!')
         return super(TOTPLoginView, self).form_valid(form)
 
