@@ -26,5 +26,5 @@ class CookieMixin(object):
         """
         response = super(CookieMixin, self).dispatch(request, *args, **kwargs)
         for cookie_args, cookie_kwargs in self.get_cookies():
-            response.set_cookie(*cookie_args, **cookie_kwargs, httponly=True, samesite="Lax", secure=settings.SESSION_COOKIE_SECURE)
+            response.set_cookie(*cookie_args, **cookie_kwargs, samesite="Lax", secure=settings.SESSION_COOKIE_SECURE)
         return response
