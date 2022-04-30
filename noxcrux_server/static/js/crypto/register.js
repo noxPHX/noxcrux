@@ -25,7 +25,7 @@ $("form").on('submit', async function (e) {
     let protectedKey = await encryptKey(masterKey, iv, keyPair.privateKey);
 
     $("#id_public_key").val(keyPair.publicKey.b64);
-    $("#id_private_key").val(protectedKey.b64);
+    $("#id_protected_key").val(protectedKey.b64);
     $("#id_iv").val(new ByteData(iv).b64);
     $('input[name="password"]').val(masterHash.b64);
     $('input[name="password2"]').val(masterHash2.b64);

@@ -47,7 +47,7 @@ class LoginView(CookieMixin, FormView):
             login(self.request, user)
             self.add_cookie('keys', True, max_age=60)
             self.add_cookie('public_key', user.userkeyscontainer.public_key, max_age=60)
-            self.add_cookie('protected_key', user.userkeyscontainer.private_key, max_age=60)
+            self.add_cookie('protected_key', user.userkeyscontainer.protected_key, max_age=60)
             self.add_cookie('iv', user.userkeyscontainer.iv, max_age=60)
             messages.success(self.request, 'Logged in successfully!')
             return super(LoginView, self).form_valid(form)

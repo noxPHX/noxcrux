@@ -92,10 +92,10 @@ class RegisterForm(forms.ModelForm):
 class KeysContainerForm(forms.ModelForm):
     class Meta:
         model = UserKeysContainer
-        fields = ['public_key', 'private_key', 'iv']
+        fields = ['public_key', 'protected_key', 'iv']
 
     public_key = forms.CharField(widget=forms.HiddenInput())
-    private_key = forms.CharField(widget=forms.HiddenInput())
+    protected_key = forms.CharField(widget=forms.HiddenInput())
     iv = forms.CharField(widget=forms.HiddenInput())
 
 

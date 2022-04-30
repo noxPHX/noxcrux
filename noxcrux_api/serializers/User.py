@@ -7,12 +7,12 @@ from django.contrib.auth.password_validation import validate_password
 
 class UserSerializer(Serializer):
     class Meta:
-        fields = ['username', 'password', 'public_key', 'private_key', 'iv']
+        fields = ['username', 'password', 'public_key', 'protected_key', 'iv']
 
     username = CharField(max_length=128, required=True, validators=[UnicodeUsernameValidator(), UniqueValidator(queryset=User.objects.all(), message="A user with that username already exists.")])
     password = CharField(max_length=128, write_only=True, required=True)
     public_key = CharField(required=True)
-    private_key = CharField(required=True)
+    protected_key = CharField(required=True)
     iv = CharField(required=True)
 
     def validate_password(self, value):
@@ -24,7 +24,7 @@ class UserSerializer(Serializer):
 
     def save(self, **kwargs):
         user = User.objects.create_user(username=self.validated_data['username'], password=self.validated_data['password'])
-        UserKeysContainer.objects.filter(user=user).update(public_key=self.validated_data['public_key'], private_key=self.validated_data['private_key'], iv=self.validated_data['iv'])
+        UserKeysContainer.objects.filter(user=user).update(public_key=self.validated_data['public_key'], protected_key=self.validated_data['protected_key'], iv=self.validated_data['iv'])
         return UserKeysContainer.objects.get(user=user)
 
 
