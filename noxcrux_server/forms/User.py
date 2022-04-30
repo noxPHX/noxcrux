@@ -6,6 +6,7 @@ from django.conf import settings
 from noxcrux_api.views.OTP import get_user_totp_device
 from noxcrux_api.models.UserKeysContainer import UserKeysContainer
 from noxcrux_api.validators import Base64Validator
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 class LoginForm(AuthenticationForm):
@@ -107,6 +108,10 @@ class UsernameForm(forms.ModelForm):
     username = forms.CharField(max_length=255, required=True, label="New username",
                                help_text="Enter your new desired username.",
                                widget=forms.TextInput(attrs={'autofocus': True}))
+
+
+class PasswordUpdateForm(PasswordChangeForm):
+    protected_key = forms.CharField(widget=forms.HiddenInput(), required=True)
 
 
 class DeleteUserForm(forms.Form):
