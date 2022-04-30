@@ -56,19 +56,29 @@
 
     <div class="d-flex justify-content-around align-items-center">
 
-        <a href="https://github.com/noxPHX/noxcrux" target="_blank">
+        <a class="col-5" href="https://github.com/noxPHX/noxcrux" target="_blank">
             <i class="fab fa-github"></i>&nbsp;Source
         </a>
 
-        <div>
+        <div class="col-2">
             <img alt="logo" id="logo-sm" src="{% static 'images/logo_white.svg' %}">
             <small class="font-italic">{% show_version %}</small>
         </div>
 
-        <a href="{% url 'swagger-ui' %}" target="_blank">
-            <i class="fas fa-plug"></i>&nbsp;API
-        </a>
+        <div class="col-5 d-flex justify-content-around align-items-center">
 
+            <a href="{% url 'swagger-ui' %}" target="_blank">
+                <i class="fas fa-plug"></i>&nbsp;API
+            </a>
+
+            <div data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Interactive crypto page"
+                 data-original-title="Cryptography">
+                <a href="{% url 'crypto' %}" target="_blank">
+                    <i class="fas fa-key"></i>&nbsp;Crypto
+                </a>
+            </div>
+
+        </div>
     </div>
 
 {% endblock footer %}
