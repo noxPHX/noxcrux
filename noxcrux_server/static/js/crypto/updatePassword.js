@@ -9,11 +9,11 @@ $("form").on('submit', async function (e) {
 
     e.preventDefault();
 
-    let username = fromUtf8($("#id_username").val());
+    let username = UTF8toBytes($("#id_username").val());
 
-    let oldMasterPassword = fromUtf8($('input[name="old_password"]').val());
-    let masterPassword = fromUtf8($('input[name="new_password1"]').val());
-    let masterPassword2 = fromUtf8($('input[name="new_password2"]').val());
+    let oldMasterPassword = UTF8toBytes($('input[name="old_password"]').val());
+    let masterPassword = UTF8toBytes($('input[name="new_password1"]').val());
+    let masterPassword2 = UTF8toBytes($('input[name="new_password2"]').val());
 
     let oldMasterKey = await pbkdf2(oldMasterPassword, username, 100000);
     let masterKey = await pbkdf2(masterPassword, username, 100000);
@@ -23,7 +23,7 @@ $("form").on('submit', async function (e) {
     let masterHash = await pbkdf2(masterKey.array.buffer, masterPassword, 30000);
     let masterHash2 = await pbkdf2(masterKey2.array.buffer, masterPassword2, 30000);
 
-    let iv = new ByteData(fromB64($("#id_iv").val()));
+    let iv = new CryptoData(b64ToBytes($("#id_iv").val()));
 
     let store = await dbSetup();
     let object = await requestDB(store.get(3));

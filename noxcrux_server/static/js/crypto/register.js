@@ -8,10 +8,10 @@ $("form").on('submit', async function (e) {
 
     e.preventDefault();
 
-    let username = fromUtf8($('input[name="username"]').val());
+    let username = UTF8toBytes($('input[name="username"]').val());
 
-    let masterPassword = fromUtf8($('input[name="password"]').val());
-    let masterPassword2 = fromUtf8($('input[name="password2"]').val());
+    let masterPassword = UTF8toBytes($('input[name="password"]').val());
+    let masterPassword2 = UTF8toBytes($('input[name="password2"]').val());
 
     let masterKey = await pbkdf2(masterPassword, username, 100000);
     let masterKey2 = await pbkdf2(masterPassword2, username, 100000);
@@ -26,7 +26,7 @@ $("form").on('submit', async function (e) {
 
     $("#id_public_key").val(keyPair.publicKey.b64);
     $("#id_protected_key").val(protectedKey.b64);
-    $("#id_iv").val(new ByteData(iv).b64);
+    $("#id_iv").val(new CryptoData(iv).b64);
     $('input[name="password"]').val(masterHash.b64);
     $('input[name="password2"]').val(masterHash2.b64);
 

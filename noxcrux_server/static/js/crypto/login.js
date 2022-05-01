@@ -7,8 +7,8 @@ $("form").on('submit', async function (e) {
 
     e.preventDefault();
 
-    let masterPassword = fromUtf8($('input[name="password"]').val());
-    let username = fromUtf8($('input[name="username"]').val());
+    let masterPassword = UTF8toBytes($('input[name="password"]').val());
+    let username = UTF8toBytes($('input[name="username"]').val());
 
     let masterKey = await pbkdf2(masterPassword, username, 100000);
 

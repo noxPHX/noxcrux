@@ -2,7 +2,7 @@ $("form").on('submit', async function (e) {
 
     e.preventDefault();
 
-    let horcrux = fromUtf8($('input[name="horcrux"]').val());
+    let horcrux = UTF8toBytes($('input[name="horcrux"]').val());
 
     let store = await dbSetup();
     let object = await requestDB(store.get(2));
