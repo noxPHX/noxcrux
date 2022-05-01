@@ -18,7 +18,7 @@ $(document).ready(async function () {
         getData.onsuccess = async function () {
 
             let masterKey = getData.result.masterKey;
-            let decryptedKey = await decryptKey(masterKey, iv.array.buffer, protected_key.array.buffer);
+            let decryptedKey = await decryptKey(masterKey, iv, protected_key);
 
             dbSetup().then(function (store) {
                 store.put({id: 3, decryptedKey: decryptedKey});

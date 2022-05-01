@@ -9,8 +9,27 @@ class CryptoData {
             return;
         }
 
-        this.array = new Uint8Array(data);
-        this.b64 = bytesToB64(data);
+        let type = getTypeOf(data);
+
+        if (type === 'string') {
+
+            let bytes = UTF8toBytes(data);
+
+            this.array = new Uint8Array(bytes);
+            this.b64 = bytesToB64(bytes);
+
+        } else if (type === 'arraybuffer') {
+
+            this.array = new Uint8Array(data);
+            this.b64 = bytesToB64(data);
+
+        } else if (type === 'uint8array') {
+
+            this.array = data;
+            this.b64 = bytesToB64(data);
+
+        } else
+            throw 'CryptoData: Invalid argument provided';
     }
 }
 
@@ -62,7 +81,7 @@ async function pbkdf2(password, salt, iterations) {
 
     const parameters = {
         name: 'PBKDF2',
-        salt: salt,
+        salt: salt.array.buffer,
         iterations: iterations,
         hash: {name: 'SHA-256'},
     };
@@ -74,7 +93,7 @@ async function pbkdf2(password, salt, iterations) {
 
     try {
 
-        const importedKey = await window.crypto.subtle.importKey('raw', password, algorithm, false, ['deriveKey']);
+        const importedKey = await window.crypto.subtle.importKey('raw', password.array.buffer, algorithm, false, ['deriveKey']);
         const derivedKey = await window.crypto.subtle.deriveKey(parameters, importedKey, usageOptions, true, ['encrypt']);
         const exportedKey = await window.crypto.subtle.exportKey('raw', derivedKey);
         return new CryptoData(exportedKey);
@@ -121,7 +140,7 @@ async function encryptKey(masterKey, iv, privateKey) {
     const aesOptions = {
         name: "AES-GCM",
         length: 256,
-        iv: iv,
+        iv: iv.array.buffer,
     };
 
     try {
@@ -146,13 +165,13 @@ async function decryptKey(masterKey, iv, protectedKey) {
     const aesOptions = {
         name: "AES-GCM",
         length: 256,
-        iv: iv,
+        iv: iv.array.buffer,
     };
 
     try {
 
         const importedKey = await window.crypto.subtle.importKey('raw', masterKey.array.buffer, keyOptions, false, ['decrypt']);
-        let privateKey = await window.crypto.subtle.decrypt(aesOptions, importedKey, protectedKey);
+        let privateKey = await window.crypto.subtle.decrypt(aesOptions, importedKey, protectedKey.array.buffer);
         return new CryptoData(privateKey);
 
     } catch (err) {
@@ -173,7 +192,7 @@ async function encryptHorcrux(horcrux, publicKey) {
     try {
 
         const importedKey = await window.crypto.subtle.importKey('spki', publicKey.array.buffer, rsaOptions, false, ['encrypt']);
-        const encryptedHorcrux = await window.crypto.subtle.encrypt(rsaOptions, importedKey, horcrux);
+        const encryptedHorcrux = await window.crypto.subtle.encrypt(rsaOptions, importedKey, horcrux.array.buffer);
         return new CryptoData(encryptedHorcrux);
 
     } catch (err) {
@@ -194,7 +213,8 @@ async function decryptHorcrux(horcrux, protectedKey) {
     try {
 
         const importedKey = await window.crypto.subtle.importKey('pkcs8', protectedKey.array.buffer, rsaOptions, false, ['decrypt']);
-        return await window.crypto.subtle.decrypt(rsaOptions, importedKey, horcrux);
+        const decryptedHorcrux = await window.crypto.subtle.decrypt(rsaOptions, importedKey, horcrux.array.buffer);
+        return new CryptoData(decryptedHorcrux);
 
     } catch (err) {
 

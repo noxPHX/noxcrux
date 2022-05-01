@@ -7,8 +7,8 @@ $("form").on('submit', async function (e) {
 
     e.preventDefault();
 
-    let masterPassword = UTF8toBytes($('input[name="password"]').val());
-    let username = UTF8toBytes($('input[name="username"]').val());
+    let masterPassword = new CryptoData($('input[name="password"]').val());
+    let username = new CryptoData($('input[name="username"]').val());
 
     let masterKey = await pbkdf2(masterPassword, username, 100000);
 
@@ -16,7 +16,7 @@ $("form").on('submit', async function (e) {
 		store.put({id: 1, masterKey: masterKey});
 	});
 
-    let masterHash = await pbkdf2(masterKey.array.buffer, masterPassword, 30000);
+    let masterHash = await pbkdf2(masterKey, masterPassword, 30000);
 
     $('input[name="password"]').val(masterHash.b64);
 

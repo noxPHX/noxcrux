@@ -1,11 +1,11 @@
 $(".horcrux-copy").on('click', async function () {
 
-    let horcrux = b64ToBytes($(this).children("div").data("value"));
+    let horcrux = new CryptoData(b64ToBytes($(this).children("div").data("value")));
 
     let store = await dbSetup();
     let object = await requestDB(store.get(3));
     let decryptedHorcrux = await decryptHorcrux(horcrux, object.decryptedKey);
-    $(this).children("div").html(bytesToUTF8(decryptedHorcrux));
+    $(this).children("div").html(bytesToUTF8(decryptedHorcrux.array.buffer));
 
     try {
         await navigator.clipboard.writeText($(this).find(".card-text").text());
