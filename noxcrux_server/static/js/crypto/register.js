@@ -17,7 +17,7 @@ $("form").on('submit', async function (e) {
     let masterKey2 = await pbkdf2(masterPassword2, username, 100000);
 
     let masterHash = await pbkdf2(masterKey.array.buffer, masterPassword, 30000);
-    let masterHash2 = await pbkdf2(masterKey2.array.buffer, masterPassword, 30000);
+    let masterHash2 = await pbkdf2(masterKey2.array.buffer, masterPassword2, 30000);
 
     let keyPair = await generateRsaKeyPair();
 
