@@ -1,6 +1,6 @@
 $(".horcrux-copy").on('click', async function () {
 
-    let horcrux = new CryptoData(b64ToBytes($(this).children("div").data("value")));
+    let horcrux = new CryptoData($(this).children("div").data("value"), 'base64');
 
     let store = await dbSetup();
     let object = await requestDB(store.get(3));

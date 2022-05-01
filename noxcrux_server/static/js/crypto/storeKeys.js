@@ -4,12 +4,9 @@ $(document).ready(async function () {
         return
 
     // FIXME Quotes?
-    let cookie_public_key = stripQuotes(getCookie("public_key"));
-    let public_key = new CryptoData(b64ToBytes(cookie_public_key));
-    let cookie_protected_key = stripQuotes(getCookie("protected_key"));
-    let protected_key = new CryptoData(b64ToBytes(cookie_protected_key));
-    let cookie_iv = getCookie("iv");
-    let iv = new CryptoData(b64ToBytes(cookie_iv));
+    let public_key = new CryptoData(stripQuotes(getCookie("public_key")), 'base64');
+    let protected_key = new CryptoData(stripQuotes(getCookie("protected_key")), 'base64');
+    let iv = new CryptoData(stripQuotes(getCookie("iv")), 'base64');
 
     dbSetup().then(function (store) {
 

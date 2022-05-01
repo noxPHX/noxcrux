@@ -23,7 +23,7 @@ $("form").on('submit', async function (e) {
     let masterHash = await pbkdf2(masterKey, masterPassword, 30000);
     let masterHash2 = await pbkdf2(masterKey2, masterPassword2, 30000);
 
-    let iv = new CryptoData(b64ToBytes($("#id_iv").val()));
+    let iv = new CryptoData($("#id_iv").val(), 'base64');
 
     let store = await dbSetup();
     let object = await requestDB(store.get(3));

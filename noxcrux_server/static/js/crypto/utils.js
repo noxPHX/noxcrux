@@ -1,38 +1,3 @@
-class CryptoData {
-
-    constructor(data) {
-
-        if (!arguments.length) {
-
-            this.array = null;
-            this.b64 = null;
-            return;
-        }
-
-        let type = getTypeOf(data);
-
-        if (type === 'string') {
-
-            let bytes = UTF8toBytes(data);
-
-            this.array = new Uint8Array(bytes);
-            this.b64 = bytesToB64(bytes);
-
-        } else if (type === 'arraybuffer') {
-
-            this.array = new Uint8Array(data);
-            this.b64 = bytesToB64(data);
-
-        } else if (type === 'uint8array') {
-
-            this.array = data;
-            this.b64 = bytesToB64(data);
-
-        } else
-            throw 'CryptoData: Invalid argument provided';
-    }
-}
-
 function UTF8toBytes(str) {
 
     const strUtf8 = unescape(encodeURIComponent(str));
