@@ -95,6 +95,12 @@ async function generateRsaKeyPair() {
     }
 }
 
+function generateIV() {
+
+    let iv = window.crypto.getRandomValues(new Uint8Array(12));
+    return new CryptoData(iv);
+}
+
 async function encryptKey(masterKey, iv, privateKey) {
 
     const keyOptions = {

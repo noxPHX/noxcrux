@@ -13,7 +13,7 @@ $("#id_submit").on('click', async function () {
     $("#id_public_key").val(keyPair.publicKey.b64);
     $("#id_private_key").val(keyPair.privateKey.b64);
 
-    let iv = new CryptoData(window.crypto.getRandomValues(new Uint8Array(12)));
+    let iv = generateIV();
     $("#id_iv").val(iv.b64);
 
     let protectedKey = await encryptKey(masterKey, iv, keyPair.privateKey);

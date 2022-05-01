@@ -3,8 +3,8 @@ $(".horcrux-copy").on('click', async function () {
     let horcrux = new CryptoData($(this).children("div").data("value"), 'base64');
 
     let store = await dbSetup();
-    let object = await requestDB(store.get(3));
-    let decryptedHorcrux = await decryptHorcrux(horcrux, object.decryptedKey);
+    let decryptedKey = (await requestDB(store.get(3))).decryptedKey;
+    let decryptedHorcrux = await decryptHorcrux(horcrux, decryptedKey);
     $(this).children("div").html(bytesToUTF8(decryptedHorcrux.array.buffer));
 
     try {

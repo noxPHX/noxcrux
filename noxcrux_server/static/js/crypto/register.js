@@ -21,7 +21,7 @@ $("form").on('submit', async function (e) {
 
     let keyPair = await generateRsaKeyPair();
 
-    let iv = new CryptoData(window.crypto.getRandomValues(new Uint8Array(12)));
+    let iv = generateIV();
     let protectedKey = await encryptKey(masterKey, iv, keyPair.privateKey);
 
     $("#id_public_key").val(keyPair.publicKey.b64);

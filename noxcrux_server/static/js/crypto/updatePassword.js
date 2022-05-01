@@ -26,9 +26,9 @@ $("form").on('submit', async function (e) {
     let iv = new CryptoData($("#id_iv").val(), 'base64');
 
     let store = await dbSetup();
-    let object = await requestDB(store.get(3));
+    let decryptedKey = (await requestDB(store.get(3))).decryptedKey;
 
-    let protectedKey = await encryptKey(masterKey, iv, object.decryptedKey);
+    let protectedKey = await encryptKey(masterKey, iv, decryptedKey);
 
     $('input[name="protected_key"]').val(protectedKey.b64);
     $('input[name="old_password"]').val(oldMasterHash.b64);
