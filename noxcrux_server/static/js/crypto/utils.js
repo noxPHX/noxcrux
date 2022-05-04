@@ -1,3 +1,8 @@
+/**
+ * Used by CryptoData to convert a string into bytes
+ * @param str Usually a string provided by the user
+ * @returns {ArrayBufferLike}
+ */
 function UTF8toBytes(str) {
 
     const strUtf8 = unescape(encodeURIComponent(str));
@@ -9,6 +14,11 @@ function UTF8toBytes(str) {
     return bytes.buffer;
 }
 
+/**
+ * Used to convert a CryptoData (horcrux) into plain text
+ * @param buffer CryptoData (horcrux) buffer
+ * @returns {string}
+ */
 function bytesToUTF8(buffer) {
 
     const bytes = new Uint8Array(buffer);
@@ -16,6 +26,11 @@ function bytesToUTF8(buffer) {
     return decodeURIComponent(escape(encodedString));
 }
 
+/**
+ * Used by CryptoData to convert bytes into a base 64 encoded string
+ * @param buf A bytes array
+ * @returns {string}
+ */
 function bytesToB64(buf) {
 
     let binary = '';
@@ -27,6 +42,11 @@ function bytesToB64(buf) {
     return window.btoa(binary);
 }
 
+/**
+ * Used by CryptoData to convert a base 64 string into bytes
+ * @param b64 The base 64 encoded string
+ * @returns {Uint8Array}
+ */
 function b64ToBytes(b64) {
 
     let raw = window.atob(b64);
@@ -38,6 +58,13 @@ function b64ToBytes(b64) {
     return array;
 }
 
+/**
+ * Function to derive / hash a payload
+ * @param password A CryptoData object containing the payload to derive
+ * @param salt A CryptoData object containing the salt
+ * @param iterations The number of iterations to feed to the pbkdf2 function
+ * @returns {CryptoData}
+ */
 async function pbkdf2(password, salt, iterations) {
 
     const algorithm = {
@@ -69,6 +96,10 @@ async function pbkdf2(password, salt, iterations) {
     }
 }
 
+/**
+ * Generates and returns an RSA-OEAP 4096 key pair
+ * @returns {privateKey: CryptoData, publicKey: CryptoData}
+ */
 async function generateRsaKeyPair() {
 
     const rsaOptions = {
@@ -95,12 +126,23 @@ async function generateRsaKeyPair() {
     }
 }
 
+/**
+ * Generates and returns an Initialization Vector to use with AES encryption
+ * @returns {CryptoData}
+ */
 function generateIV() {
 
     let iv = window.crypto.getRandomValues(new Uint8Array(12));
     return new CryptoData(iv);
 }
 
+/**
+ * Function to encrypt the user's private key
+ * @param masterKey A CryptoData object containing the Master Key
+ * @param iv A CryptoData object containing the IV
+ * @param privateKey A CryptoData object containing the private key to encrypt
+ * @returns {CryptoData}
+ */
 async function encryptKey(masterKey, iv, privateKey) {
 
     const keyOptions = {
@@ -126,6 +168,13 @@ async function encryptKey(masterKey, iv, privateKey) {
     }
 }
 
+/**
+ * Function to decrypt the user's protected key
+ * @param masterKey A CryptoData object containing the Master Key
+ * @param iv A CryptoData object containing the IV
+ * @param protectedKey A CryptoData object containing the Protected Key
+ * @returns {CryptoKey}
+ */
 async function decryptKey(masterKey, iv, protectedKey) {
 
     const keyOptions = {
@@ -158,6 +207,12 @@ async function decryptKey(masterKey, iv, protectedKey) {
     }
 }
 
+/**
+ * Function used to encrypt an horcrux
+ * @param horcrux A CryptoData object containing the horcrux to encrypt
+ * @param publicKey A CryptoData object containing the public key
+ * @returns {CryptoData}
+ */
 async function encryptHorcrux(horcrux, publicKey) {
 
     const rsaOptions = {
@@ -179,6 +234,12 @@ async function encryptHorcrux(horcrux, publicKey) {
     }
 }
 
+/**
+ * Function used to decrypt an horcrux
+ * @param horcrux A CryptoData object containing the encrypted horcrux
+ * @param storedKey A CryptoKey object containing the user's private key
+ * @returns {CryptoData}
+ */
 async function decryptHorcrux(horcrux, storedKey) {
 
     const rsaOptions = {

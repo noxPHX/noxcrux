@@ -1,5 +1,10 @@
 class CryptoData {
 
+    /**
+     * Wrapper object to manipulate crypto-related stuff
+     * @param data The data to wrap, can either be : string, base64, arraybuffer or uint8array
+     * @param providedType To hardcode the provided data type
+     */
     constructor(data, providedType) {
 
         if (!arguments.length) {
