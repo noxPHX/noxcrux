@@ -208,6 +208,38 @@ async function decryptKey(masterKey, iv, protectedKey) {
 }
 
 /**
+ * Function to decrypt the user's protected key
+ * @param masterKey A CryptoData object containing the Master Key
+ * @param iv A CryptoData object containing the IV
+ * @param protectedKey A CryptoData object containing the Protected Key
+ * @returns {CryptoData}
+ */
+async function decryptProtectedKey(masterKey, iv, protectedKey) {
+
+    const keyOptions = {
+        name: 'AES-GCM',
+        length: 256,
+    }
+
+    const aesOptions = {
+        name: "AES-GCM",
+        length: 256,
+        iv: iv.array.buffer,
+    };
+
+    try {
+
+        const importedKey = await window.crypto.subtle.importKey('raw', masterKey.array.buffer, keyOptions, false, ['decrypt']);
+        let privateKey = await window.crypto.subtle.decrypt(aesOptions, importedKey, protectedKey.array.buffer);
+        return new CryptoData(privateKey);
+
+    } catch (err) {
+
+        console.error(err);
+    }
+}
+
+/**
  * Function used to encrypt an horcrux
  * @param horcrux A CryptoData object containing the horcrux to encrypt
  * @param publicKey A CryptoData object containing the public key

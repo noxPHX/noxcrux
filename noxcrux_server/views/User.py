@@ -31,6 +31,11 @@ class PasswordUpdateView(LoginRequiredFormView):
     form_class = PasswordUpdateForm
     success_url = reverse_lazy('profile')
 
+    def get_initial(self):
+        initial = super(PasswordUpdateView, self).get_initial()
+        initial['protected_key'] = self.request.user.userkeyscontainer.protected_key
+        return initial
+
     def get_form_kwargs(self):
         kwargs = super(PasswordUpdateView, self).get_form_kwargs()
         kwargs['user'] = self.request.user
