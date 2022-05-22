@@ -14,6 +14,16 @@ class UsernameUpdateView(LoginRequiredFormView):
     form_class = UsernameForm
     success_url = reverse_lazy('profile')
 
+    def get_initial(self):
+        initial = super(UsernameUpdateView, self).get_initial()
+        initial['protected_key'] = self.request.user.userkeyscontainer.protected_key
+        return initial
+
+    def get_form_kwargs(self):
+        kwargs = super(UsernameUpdateView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
     def form_valid(self, form):
         self.request.data = form.cleaned_data
         self.request.method = 'PUT'

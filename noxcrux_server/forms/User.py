@@ -103,11 +103,37 @@ class KeysContainerForm(forms.ModelForm):
 class UsernameForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username']
+        fields = ['username', 'old_password', 'new_password', 'protected_key']
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
 
     username = forms.CharField(max_length=255, required=True, label="New username",
                                help_text="Enter your new desired username.",
                                widget=forms.TextInput(attrs={'autofocus': True}))
+
+    old_password = forms.CharField(
+        label="Password",
+        min_length=8,
+        max_length=128,
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'password'}),
+        help_text="To confirm your action, please enter your current password.",
+    )
+
+    new_password = forms.CharField(widget=forms.HiddenInput())
+
+    protected_key = forms.CharField(widget=forms.HiddenInput(), required=True)
+
+    def clean_old_password(self):
+        old_password = self.cleaned_data["old_password"]
+        if not self.user.check_password(old_password):
+            raise forms.ValidationError(
+                "Your password was entered incorrectly. Please enter it again.",
+                code='password_incorrect',
+            )
+        return old_password
 
 
 class PasswordUpdateForm(PasswordChangeForm):

@@ -31,7 +31,25 @@ class UserSerializer(Serializer):
 class UserUpdateSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ['username']
+        fields = ['username', 'old_password', 'new_password', 'protected_key']
+
+    old_password = CharField(max_length=128, write_only=True, required=True)
+    new_password = CharField(max_length=128, write_only=True, required=True)
+    protected_key = CharField(required=True)
+
+    def validate_old_password(self, value):
+        user = self.context['request'].user
+        if not user.check_password(value):
+            raise ValidationError('Password incorrect')
+        return value
+
+    def save(self, **kwargs):
+        password = self.validated_data['new_password']
+        user = self.context['request'].user
+        user.set_password(password)
+        user.save()
+        UserKeysContainer.objects.filter(user=user).update(protected_key=self.validated_data['protected_key'])
+        return super(UserUpdateSerializer, self).save(**kwargs)
 
 
 class PasswordUpdateSerializer(Serializer):

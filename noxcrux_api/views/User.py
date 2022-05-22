@@ -36,6 +36,20 @@ class Profile(RetrieveUpdateDestroyAPIView):
     def get_object(self):
         return self.request.user
 
+    # TODO refacto with class below
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        user = self.get_object()
+        serializer = self.get_serializer(user, data=request.data, partial=partial)
+        if serializer.is_valid():
+            user = serializer.save()
+            if hasattr(user, 'auth_token'):
+                user.auth_token.delete()
+            token, created = Token.objects.get_or_create(user=user)
+            update_session_auth_hash(request, user)
+            return Response({'token': token.key}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @extend_schema_view(
     put=extend_schema(description='Update my password.'),
