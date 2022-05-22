@@ -26,13 +26,23 @@ $("form").on('submit', async function (e) {
     let iv = new CryptoData($("#id_iv").val(), 'base64');
 
     let oldProtectedKey = new CryptoData($('input[name="protected_key"]').val(), 'base64');
-    let decryptedKey = await decryptProtectedKey(oldMasterKey, iv, oldProtectedKey);
-    let newProtectedKey = await encryptKey(masterKey, iv, decryptedKey);
 
-    $('input[name="protected_key"]').val(newProtectedKey.b64);
-    $('input[name="old_password"]').val(oldMasterHash.b64);
-    $('input[name="new_password1"]').val(masterHash.b64);
-    $('input[name="new_password2"]').val(masterHash2.b64);
+    // If the provided password is wrong, the decryption will fail
+    try {
+
+        let decryptedKey = await decryptProtectedKey(oldMasterKey, iv, oldProtectedKey);
+        let newProtectedKey = await encryptKey(masterKey, iv, decryptedKey);
+        $('input[name="protected_key"]').val(newProtectedKey.b64);
+        $('input[name="old_password"]').val(oldMasterHash.b64);
+        $('input[name="new_password1"]').val(masterHash.b64);
+        $('input[name="new_password2"]').val(masterHash2.b64);
+
+    } catch (err) {
+
+        $('input[name="old_password"]').val(oldMasterHash.b64);
+        $('input[name="new_password1"]').val(masterHash.b64);
+        $('input[name="new_password2"]').val(masterHash2.b64);
+    }
 
     $(this).off('submit');
     $(this).submit();
