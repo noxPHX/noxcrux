@@ -67,26 +67,10 @@ function b64ToBytes(b64) {
  */
 async function pbkdf2(password, salt, iterations) {
 
-    const algorithm = {
-        name: 'PBKDF2',
-    };
-
-    const parameters = {
-        name: 'PBKDF2',
-        salt: salt.array.buffer,
-        iterations: iterations,
-        hash: {name: 'SHA-256'},
-    };
-
-    const usageOptions = {
-        name: 'AES-GCM',
-        length: 256,
-    };
-
     try {
 
-        const importedKey = await window.crypto.subtle.importKey('raw', password.array.buffer, algorithm, false, ['deriveKey']);
-        const derivedKey = await window.crypto.subtle.deriveKey(parameters, importedKey, usageOptions, true, ['encrypt']);
+        const importedKey = await window.crypto.subtle.importKey('raw', password.array.buffer, CryptoOptions.PBKDF2, false, ['deriveKey']);
+        const derivedKey = await window.crypto.subtle.deriveKey(CryptoOptions.fPBKDF2(salt, iterations), importedKey, CryptoOptions.AES, true, ['encrypt']);
         const exportedKey = await window.crypto.subtle.exportKey('raw', derivedKey);
         return new CryptoData(exportedKey);
 
@@ -102,16 +86,9 @@ async function pbkdf2(password, salt, iterations) {
  */
 async function generateRsaKeyPair() {
 
-    const rsaOptions = {
-        name: 'RSA-OAEP',
-        modulusLength: 4096,
-        publicExponent: new Uint8Array([0x01, 0x00, 0x01]), // 65537
-        hash: {name: 'SHA-256'},
-    };
-
     try {
 
-        const keyPair = await window.crypto.subtle.generateKey(rsaOptions, true, ['encrypt', 'decrypt']);
+        const keyPair = await window.crypto.subtle.generateKey(CryptoOptions.RSA, true, ['encrypt', 'decrypt']);
         const publicKey = await window.crypto.subtle.exportKey('spki', keyPair.publicKey);
         const privateKey = await window.crypto.subtle.exportKey('pkcs8', keyPair.privateKey);
 
@@ -145,21 +122,10 @@ function generateIV() {
  */
 async function encryptKey(masterKey, iv, privateKey) {
 
-    const keyOptions = {
-        name: 'AES-GCM',
-        length: 256,
-    }
-
-    const aesOptions = {
-        name: "AES-GCM",
-        length: 256,
-        iv: iv.array.buffer,
-    };
-
     try {
 
-        const importedKey = await window.crypto.subtle.importKey('raw', masterKey.array.buffer, keyOptions, false, ['encrypt']);
-        let protected_key = await window.crypto.subtle.encrypt(aesOptions, importedKey, privateKey.array.buffer);
+        const importedKey = await window.crypto.subtle.importKey('raw', masterKey.array.buffer, CryptoOptions.AES, false, ['encrypt']);
+        let protected_key = await window.crypto.subtle.encrypt(CryptoOptions.fAES(iv), importedKey, privateKey.array.buffer);
         return new CryptoData(protected_key);
 
     } catch (err) {
@@ -177,29 +143,11 @@ async function encryptKey(masterKey, iv, privateKey) {
  */
 async function decryptKey(masterKey, iv, protectedKey) {
 
-    const keyOptions = {
-        name: 'AES-GCM',
-        length: 256,
-    }
-
-    const aesOptions = {
-        name: "AES-GCM",
-        length: 256,
-        iv: iv.array.buffer,
-    };
-
-    const rsaOptions = {
-        name: 'RSA-OAEP',
-        modulusLength: 4096,
-        publicExponent: new Uint8Array([0x01, 0x00, 0x01]), // 65537
-        hash: {name: 'SHA-256'},
-    };
-
     try {
 
-        const importedKey = await window.crypto.subtle.importKey('raw', masterKey.array.buffer, keyOptions, false, ['decrypt']);
-        let privateKey = await window.crypto.subtle.decrypt(aesOptions, importedKey, protectedKey.array.buffer);
-        return await window.crypto.subtle.importKey('pkcs8', privateKey, rsaOptions, false, ['decrypt']);
+        const importedKey = await window.crypto.subtle.importKey('raw', masterKey.array.buffer, CryptoOptions.AES, false, ['decrypt']);
+        let privateKey = await window.crypto.subtle.decrypt(CryptoOptions.fAES(iv), importedKey, protectedKey.array.buffer);
+        return await window.crypto.subtle.importKey('pkcs8', privateKey, CryptoOptions.RSA, false, ['decrypt']);
 
     } catch (err) {
 
@@ -216,21 +164,10 @@ async function decryptKey(masterKey, iv, protectedKey) {
  */
 async function decryptProtectedKey(masterKey, iv, protectedKey) {
 
-    const keyOptions = {
-        name: 'AES-GCM',
-        length: 256,
-    }
-
-    const aesOptions = {
-        name: "AES-GCM",
-        length: 256,
-        iv: iv.array.buffer,
-    };
-
     try {
 
-        const importedKey = await window.crypto.subtle.importKey('raw', masterKey.array.buffer, keyOptions, false, ['decrypt']);
-        let privateKey = await window.crypto.subtle.decrypt(aesOptions, importedKey, protectedKey.array.buffer);
+        const importedKey = await window.crypto.subtle.importKey('raw', masterKey.array.buffer, CryptoOptions.AES, false, ['decrypt']);
+        let privateKey = await window.crypto.subtle.decrypt(CryptoOptions.fAES(iv), importedKey, protectedKey.array.buffer);
         return new CryptoData(privateKey);
 
     } catch (err) {
@@ -247,17 +184,10 @@ async function decryptProtectedKey(masterKey, iv, protectedKey) {
  */
 async function encryptHorcrux(horcrux, publicKey) {
 
-    const rsaOptions = {
-        name: 'RSA-OAEP',
-        modulusLength: 4096,
-        publicExponent: new Uint8Array([0x01, 0x00, 0x01]), // 65537
-        hash: {name: 'SHA-256'},
-    };
-
     try {
 
-        const importedKey = await window.crypto.subtle.importKey('spki', publicKey.array.buffer, rsaOptions, false, ['encrypt']);
-        const encryptedHorcrux = await window.crypto.subtle.encrypt(rsaOptions, importedKey, horcrux.array.buffer);
+        const importedKey = await window.crypto.subtle.importKey('spki', publicKey.array.buffer, CryptoOptions.RSA, false, ['encrypt']);
+        const encryptedHorcrux = await window.crypto.subtle.encrypt(CryptoOptions.RSA, importedKey, horcrux.array.buffer);
         return new CryptoData(encryptedHorcrux);
 
     } catch (err) {
@@ -274,16 +204,9 @@ async function encryptHorcrux(horcrux, publicKey) {
  */
 async function decryptHorcrux(horcrux, storedKey) {
 
-    const rsaOptions = {
-        name: 'RSA-OAEP',
-        modulusLength: 4096,
-        publicExponent: new Uint8Array([0x01, 0x00, 0x01]), // 65537
-        hash: {name: 'SHA-256'},
-    };
-
     try {
 
-        const decryptedHorcrux = await window.crypto.subtle.decrypt(rsaOptions, storedKey, horcrux.array.buffer);
+        const decryptedHorcrux = await window.crypto.subtle.decrypt(CryptoOptions.RSA, storedKey, horcrux.array.buffer);
         return new CryptoData(decryptedHorcrux);
 
     } catch (err) {
