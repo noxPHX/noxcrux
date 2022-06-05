@@ -6,7 +6,7 @@ class CryptoOptions {
 
     static fPBKDF2(salt, iterations) {
         return {
-            name: 'PBKDF2',
+            ...CryptoOptions.PBKDF2,
             salt: salt.array.buffer,
             iterations: iterations,
             hash: {name: 'SHA-256'},
@@ -20,8 +20,7 @@ class CryptoOptions {
 
     static fAES(iv) {
         return {
-            name: 'AES-GCM',
-            length: 256,
+            ...CryptoOptions.AES,
             iv: iv.array.buffer,
         }
     }
