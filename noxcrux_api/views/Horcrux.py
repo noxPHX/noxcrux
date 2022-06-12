@@ -1,6 +1,7 @@
 from rest_framework import status
 from noxcrux_api.serializers.Horcrux import HorcruxSerializer, GranteeSerializer, GranteesSerializer
 from noxcrux_api.models.Horcrux import Horcrux
+from noxcrux_api.models.SharedHorcrux import SharedHorcrux
 from django.http import Http404
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveUpdateAPIView, DestroyAPIView
 from rest_framework.response import Response
@@ -70,27 +71,24 @@ class HorcruxGrantedSearch(ListAPIView):
 
 @extend_schema_view(
     get=extend_schema(description='Display all the grantees for the given horcrux.'),
-    put=extend_schema(
+    post=extend_schema(
         description='Add a grantee for the given horcrux.',
         request=GranteeSerializer
     ),
 )
-class HorcruxGrant(RetrieveUpdateAPIView):
-    serializer_class = GranteesSerializer
+class HorcruxGrant(ListCreateAPIView):
+    serializer_class = GranteeSerializer
 
-    def get_object(self):
-        try:
-            return Horcrux.objects.get(name=self.kwargs['name'], owner=self.request.user)
-        except Horcrux.DoesNotExist:
-            raise Http404
+    def get_serializer_context(self):
+        return {
+            'horcrux': Horcrux.objects.get(owner=self.request.user, name=self.kwargs['name']),
+            'request': self.request,
+            'format': self.format_kwarg,
+            'view': self
+        }
 
-    def put(self, request, *args, **kwargs):
-        horcrux = self.get_object()
-        serializer = GranteeSerializer(horcrux, data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(GranteesSerializer(horcrux).data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get_queryset(self):
+        return SharedHorcrux.objects.filter(horcrux__owner=self.request.user, horcrux__name=self.kwargs['name'])
 
 
 @extend_schema_view(
