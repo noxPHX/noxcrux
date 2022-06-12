@@ -33,15 +33,6 @@ class HorcruxSerializer(ModelSerializer):
             raise Http404
 
 
-class GranteesSerializer(ModelSerializer):
-
-    class Meta:
-        model = Horcrux
-        fields = ['grantees']
-
-    grantees = SlugRelatedField(slug_field='username', queryset=User.objects.all(), many=True)
-
-
 class GranteeSerializer(ModelSerializer):
 
     class Meta:
