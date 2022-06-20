@@ -69,7 +69,10 @@ class HorcruxGrantedSearch(ListAPIView):
     serializer_class = HorcruxSerializer
 
     def get_queryset(self):
-        return self.request.user.shared_horcruxes.filter(Q(name__icontains=self.kwargs['search']) | Q(site__icontains=self.kwargs['search']))
+        granted_list = set()
+        for shared_horcrux in self.request.user.shared_horcruxes.filter(Q(horcrux__name__icontains=self.kwargs['search']) | Q(horcrux__site__icontains=self.kwargs['search'])).select_related('horcrux'):
+            granted_list.add(shared_horcrux.horcrux)
+        return granted_list
 
 
 @extend_schema_view(
