@@ -56,7 +56,10 @@ class HorcruxGrantedList(ListAPIView):
     serializer_class = HorcruxSerializer
 
     def get_queryset(self):
-        return self.request.user.shared_horcruxes.all()
+        granted_list = set()
+        for shared_horcrux in self.request.user.shared_horcruxes.select_related('horcrux'):
+            granted_list.add(shared_horcrux.horcrux)
+        return granted_list
 
 
 @extend_schema_view(
