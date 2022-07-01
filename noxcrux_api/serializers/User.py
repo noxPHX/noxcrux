@@ -35,7 +35,7 @@ class UserUpdateSerializer(ModelSerializer):
 
     old_password = CharField(max_length=128, write_only=True, required=True)
     new_password = CharField(max_length=128, write_only=True, required=True)
-    protected_key = CharField(required=True)
+    protected_key = CharField(required=True, write_only=True)
 
     def validate_old_password(self, value):
         user = self.context['request'].user
