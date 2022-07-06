@@ -15,7 +15,7 @@ include('settings_cors.py')
 include('settings_csp.py')
 include('settings_axes.py')
 
-NOXCRUX_VERSION = "v1.14.1"
+NOXCRUX_VERSION = "v1.14.2"
 NOXCRUX_INSTANCE = os.getenv("NOXCRUX_INSTANCE", 'DEV')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
