@@ -11,3 +11,8 @@ def is_password(form_field_obj):
 @register.filter
 def is_checkbox(form_field_obj):
     return form_field_obj.field.widget.__class__.__name__ == "CheckboxInput"
+
+
+@register.filter
+def is_select(form_field_obj):
+    return form_field_obj.field.widget.__class__.__name__ == "Select"

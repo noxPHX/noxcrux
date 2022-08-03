@@ -7,6 +7,7 @@ from noxcrux_api.views.OTP import get_user_totp_device
 from noxcrux_api.models.UserKeysContainer import UserKeysContainer
 from noxcrux_api.validators import Base64Validator
 from django.contrib.auth.forms import PasswordChangeForm
+from noxcrux_api.views.Friend import FriendList
 
 
 class LoginForm(AuthenticationForm):
@@ -204,7 +205,14 @@ class FriendForm(forms.Form):
         return self.cleaned_data['friend']
 
 
-class ShareForm(FriendForm):
+class ShareForm(forms.Form):
+
+    friend = forms.ChoiceField(required=True)
+
+    def __init__(self, request, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.request = request
+        self.fields['friend'].choices = FriendList().as_view()(request).data
 
     def clean_friend(self):
         try:
