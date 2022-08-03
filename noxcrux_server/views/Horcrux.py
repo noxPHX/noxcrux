@@ -92,7 +92,7 @@ class HorcruxShare(LoginRequiredFormView):
 
     def get_context_data(self, **kwargs):
         context = super(HorcruxShare, self).get_context_data()
-        context['horcrux'] = self.kwargs['name']
+        context['horcrux'] = HorcruxDetail().get_horcrux(self.kwargs['name'], self.request.user)
         res = HorcruxGrant().as_view()(self.request, name=self.kwargs['name']).data
         if 'grantees' in res:
             context['grantees'] = res['grantees']
