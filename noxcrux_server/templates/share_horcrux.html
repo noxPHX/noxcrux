@@ -39,6 +39,7 @@
                             Select a friend
                         </p>
                         <form method="POST" role="form" class="form-inline"
+                              data-url="{% url 'users' %}"
                               action="{% url 'horcrux_share' horcrux.name %}">
                             {% include 'form.html' %}
                             <input class="btn btn-main mx-3" type="submit" value="Share {{ horcrux.name }}"/>
@@ -47,12 +48,12 @@
 
                     <ul class="list-group list-group-flush col-12 friend-scroll">
 
-                        {% for username in grantees %}
+                        {% for obj in grantees %}
 
                             <li class="list-group-item d-flex justify-content-between">
-                                {{ username }}
+                                {{ obj.grantee }}
                                 <div>
-                                    <a href="{% url 'horcrux_unshare' horcrux.name username %}" class="m-2">
+                                    <a href="{% url 'horcrux_unshare' horcrux.name obj.grantee %}" class="m-2">
                                         <i class="fas fa-user-times color-red"></i>
                                     </a>
                                 </div>
@@ -80,5 +81,6 @@
 
     {% load static %}
     <script src="{% static 'js/crypto/decrypt.js' %}"></script>
+    <script src="{% static 'js/crypto/share.js' %}"></script>
 
 {% endblock js %}

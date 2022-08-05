@@ -61,8 +61,8 @@
                         name="{{ field.html_name }}"
                         {% if field.field.required %} required {% endif %}>
 
-                    {% for value in field.field.choices %}
-                        <option>{{ value.friend }}</option>
+                    {% for k, v in field.field.choices %}
+                        <option>{{ v }}</option>
                     {% endfor %}
 
                 </select>

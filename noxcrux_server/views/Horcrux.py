@@ -93,16 +93,14 @@ class HorcruxShare(LoginRequiredFormView):
     def get_context_data(self, **kwargs):
         context = super(HorcruxShare, self).get_context_data()
         context['horcrux'] = HorcruxDetail().get_horcrux(self.kwargs['name'], self.request.user)
-        res = HorcruxGrant().as_view()(self.request, name=self.kwargs['name']).data
-        if 'grantees' in res:
-            context['grantees'] = res['grantees']
+        context['grantees'] = HorcruxGrant().as_view()(self.request, name=self.kwargs['name']).data
         return context
 
     def form_valid(self, form):
-        self.request.method = 'PUT'
+        self.request.method = 'POST'
         res = HorcruxGrant().as_view()(self.request, name=self.kwargs['name'])
-        if res.status_code == 200:
-            messages.success(self.request, f"{self.kwargs['name']} shared successfully with {form.cleaned_data['friend']}!")
+        if res.status_code == 201:
+            messages.success(self.request, f"{self.kwargs['name']} shared successfully with {form.cleaned_data['grantee']}!")
             return super(HorcruxShare, self).form_valid(form)
         else:
             messages.error(self.request, 'An error occurred')

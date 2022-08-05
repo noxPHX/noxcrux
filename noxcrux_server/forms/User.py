@@ -207,12 +207,18 @@ class FriendForm(forms.Form):
 
 class ShareForm(forms.Form):
 
-    friend = forms.ChoiceField(required=True)
+    grantee = forms.ChoiceField(required=True)
+    shared_horcrux = forms.CharField(max_length=8192, required=True, widget=forms.HiddenInput())
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.request = request
-        self.fields['friend'].choices = FriendList().as_view()(request).data
+        self.request.method = 'GET'
+        res = FriendList().as_view()(self.request).data
+        friends = []
+        for friend in res:
+            friends.append([friend['friend'], friend['friend']])
+        self.fields['grantee'].choices = friends
 
     def clean_friend(self):
         try:
