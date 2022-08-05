@@ -88,6 +88,7 @@ class HorcruxShare(LoginRequiredFormView):
     def get_form_kwargs(self):
         kwargs = super(HorcruxShare, self).get_form_kwargs()
         kwargs['request'] = self.request
+        kwargs['horcrux'] = self.kwargs['name']
         return kwargs
 
     def get_context_data(self, **kwargs):

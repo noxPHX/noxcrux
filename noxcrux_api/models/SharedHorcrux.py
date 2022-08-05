@@ -9,5 +9,8 @@ class SharedHorcrux(models.Model):
     grantee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='shared_horcruxes')
     shared_horcrux = models.CharField(max_length=8192)
 
+    class Meta:
+        unique_together = ["horcrux", "grantee"]
+
     def __str__(self):
         return f"[{str(self.horcrux.owner)}] {str(self.horcrux)}"

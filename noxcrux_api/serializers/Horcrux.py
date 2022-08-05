@@ -54,6 +54,8 @@ class GranteeSerializer(ModelSerializer):
         # FIXME check user exists
         if not request.user.friends.filter(friend=data['grantee'], validated=True).exists():
             raise ValidationError(f"You are not friend with {data['grantee']}")
+        if SharedHorcrux.objects.filter(grantee=data['grantee'], horcrux=self.context['horcrux']).exists():
+            raise ValidationError(f"{self.context['horcrux']} already shared with {data['grantee']}")
         return super().validate(data)
 
     def create(self, validated_data):
