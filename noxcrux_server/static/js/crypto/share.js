@@ -6,7 +6,7 @@ $("form").on('submit', function (e) {
 
     $.ajax({
         method: 'GET',
-        url: $(this).data('url') + $(this).find(":selected").text()
+        url: $(this).data('url') + $(this).find(":selected").text() + "/"
     })
         .done(async function (data) {
 

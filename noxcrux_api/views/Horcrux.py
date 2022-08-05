@@ -58,6 +58,8 @@ class HorcruxGrantedList(ListAPIView):
     def get_queryset(self):
         granted_list = set()
         for shared_horcrux in self.request.user.shared_horcruxes.select_related('horcrux'):
+            # Update the horcrux value with the shared one
+            shared_horcrux.horcrux.horcrux = shared_horcrux.shared_horcrux
             granted_list.add(shared_horcrux.horcrux)
         return granted_list
 
