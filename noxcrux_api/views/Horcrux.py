@@ -105,6 +105,6 @@ class HorcruxRevoke(DestroyAPIView):
 
     def get_object(self):
         try:
-            return SharedHorcrux.objects.get(horcrux__owner=self.request.user, horcrux__name=self.kwargs['name'])
+            return SharedHorcrux.objects.get(horcrux__owner=self.request.user, horcrux__name=self.kwargs['name'], grantee__username=self.kwargs['username'])
         except SharedHorcrux.DoesNotExist:
             raise Http404
