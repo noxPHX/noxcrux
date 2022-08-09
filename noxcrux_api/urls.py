@@ -6,6 +6,7 @@ from noxcrux_api.views.Generator import GeneratorDetail
 from noxcrux_api.views.OTP import TOTPView
 from noxcrux_api.views.Friend import FriendList, FriendDestroy, FriendRequestsList, FriendRequestUpdate
 from noxcrux_api.views.UserSession import UserSessionList, UserSessionRevoke, UserToken
+from noxcrux_api.views.UserKeysContainer import UserPublicKey
 from drf_spectacular.views import SpectacularAPIView
 
 urlpatterns = [
@@ -13,6 +14,7 @@ urlpatterns = [
     path('token/', TokenDetail.as_view(), name='token'),
     path('totp/', TOTPView.as_view(), name='api-totp'),
     path('users/', UserList.as_view(), name='users'),
+    path('users/<str:username>/', UserPublicKey.as_view(), name='api-user-pk'),
     path('user/me/', Profile.as_view(), name='api-me'),
     path('user/password/', PasswordUpdate.as_view(), name='api-password'),
     path('user/sessions/', UserSessionList.as_view(), name='api-sessions'),

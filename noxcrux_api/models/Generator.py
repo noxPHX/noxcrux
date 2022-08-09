@@ -7,6 +7,7 @@ ALLOWED_SYMBOLS = '!@#$%^&*'
 
 
 class Generator(models.Model):
+
     upper = models.BooleanField(default=True)
     numeric = models.BooleanField(default=True)
     symbol = models.BooleanField(default=True)

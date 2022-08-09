@@ -1,8 +1,9 @@
 from rest_framework import status
-from noxcrux_api.serializers.Horcrux import HorcruxSerializer, GranteeSerializer, GranteesSerializer
+from noxcrux_api.serializers.Horcrux import HorcruxSerializer, GranteeSerializer
 from noxcrux_api.models.Horcrux import Horcrux
+from noxcrux_api.models.SharedHorcrux import SharedHorcrux
 from django.http import Http404
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveUpdateAPIView, DestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, DestroyAPIView
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from drf_spectacular.utils import extend_schema, extend_schema_view
@@ -55,7 +56,12 @@ class HorcruxGrantedList(ListAPIView):
     serializer_class = HorcruxSerializer
 
     def get_queryset(self):
-        return self.request.user.shared_horcruxes.all()
+        granted_list = set()
+        for shared_horcrux in self.request.user.shared_horcruxes.select_related('horcrux'):
+            # Update the horcrux value with the shared one
+            shared_horcrux.horcrux.horcrux = shared_horcrux.shared_horcrux
+            granted_list.add(shared_horcrux.horcrux)
+        return granted_list
 
 
 @extend_schema_view(
@@ -65,47 +71,42 @@ class HorcruxGrantedSearch(ListAPIView):
     serializer_class = HorcruxSerializer
 
     def get_queryset(self):
-        return self.request.user.shared_horcruxes.filter(Q(name__icontains=self.kwargs['search']) | Q(site__icontains=self.kwargs['search']))
+        granted_list = set()
+        for shared_horcrux in self.request.user.shared_horcruxes.filter(Q(horcrux__name__icontains=self.kwargs['search']) | Q(horcrux__site__icontains=self.kwargs['search'])).select_related('horcrux'):
+            granted_list.add(shared_horcrux.horcrux)
+        return granted_list
 
 
 @extend_schema_view(
     get=extend_schema(description='Display all the grantees for the given horcrux.'),
-    put=extend_schema(
+    post=extend_schema(
         description='Add a grantee for the given horcrux.',
         request=GranteeSerializer
     ),
 )
-class HorcruxGrant(RetrieveUpdateAPIView):
-    serializer_class = GranteesSerializer
+class HorcruxGrant(ListCreateAPIView):
+    serializer_class = GranteeSerializer
 
-    def get_object(self):
-        try:
-            return Horcrux.objects.get(name=self.kwargs['name'], owner=self.request.user)
-        except Horcrux.DoesNotExist:
-            raise Http404
+    def get_serializer_context(self):
+        return {
+            'horcrux': Horcrux.objects.get(owner=self.request.user, name=self.kwargs['name']),
+            'request': self.request,
+            'format': self.format_kwarg,
+            'view': self
+        }
 
-    def put(self, request, *args, **kwargs):
-        horcrux = self.get_object()
-        serializer = GranteeSerializer(horcrux, data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(GranteesSerializer(horcrux).data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get_queryset(self):
+        return SharedHorcrux.objects.filter(horcrux__owner=self.request.user, horcrux__name=self.kwargs['name'])
 
 
 @extend_schema_view(
     delete=extend_schema(description='Delete a grantee for the given horcrux.'),
 )
 class HorcruxRevoke(DestroyAPIView):
-    serializer_class = GranteesSerializer
+    serializer_class = GranteeSerializer
 
     def get_object(self):
         try:
-            return Horcrux.objects.get(name=self.kwargs['name'], owner=self.request.user)
-        except Horcrux.DoesNotExist:
+            return SharedHorcrux.objects.get(horcrux__owner=self.request.user, horcrux__name=self.kwargs['name'], grantee__username=self.kwargs['username'])
+        except SharedHorcrux.DoesNotExist:
             raise Http404
-
-    def delete(self, request, *args, **kwargs):
-        horcrux = self.get_object()
-        horcrux.grantees.remove(User.objects.get(username=self.kwargs['username']))
-        return Response(status=status.HTTP_204_NO_CONTENT)

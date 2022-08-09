@@ -7,6 +7,8 @@ from noxcrux_api.views.OTP import get_user_totp_device
 from noxcrux_api.models.UserKeysContainer import UserKeysContainer
 from noxcrux_api.validators import Base64Validator
 from django.contrib.auth.forms import PasswordChangeForm
+from noxcrux_api.views.Friend import FriendList
+from noxcrux_api.models.SharedHorcrux import SharedHorcrux
 
 
 class LoginForm(AuthenticationForm):
@@ -204,15 +206,32 @@ class FriendForm(forms.Form):
         return self.cleaned_data['friend']
 
 
-class ShareForm(FriendForm):
+class ShareForm(forms.Form):
 
-    def clean_friend(self):
+    grantee = forms.ChoiceField(required=True)
+    shared_horcrux = forms.CharField(max_length=8192, required=True, widget=forms.HiddenInput())
+
+    def __init__(self, request, horcrux, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.horcrux = horcrux
+        self.request = request
+        self.request.method = 'GET'
+        res = FriendList().as_view()(self.request).data
+        friends = []
+        for friend in res:
+            friends.append([friend['friend'], friend['friend']])
+        self.fields['grantee'].choices = friends
+
+    def clean_grantee(self):
+        # FIXME raises not working?
         try:
-            friend = User.objects.get(username=self.cleaned_data['friend'])
+            grantee = User.objects.get(username=self.cleaned_data.get('grantee'))
         except User.DoesNotExist:
             raise forms.ValidationError("User with that username does not exists")
-        if self.request.user == friend:
+        if self.request.user == grantee:
             raise forms.ValidationError("Users cannot grant themselves horcruxes.")
-        if not self.request.user.friends.filter(friend=friend, validated=True).exists():
-            raise forms.ValidationError(f"You are not friend with {friend}")
-        return self.cleaned_data['friend']
+        if not self.request.user.friends.filter(friend=grantee, validated=True).exists():
+            raise forms.ValidationError(f"You are not friend with {grantee}")
+        if SharedHorcrux.objects.filter(grantee=grantee, horcrux__name=self.horcrux).exists():
+            raise forms.ValidationError(f"{self.horcrux} already shared with {grantee}")
+        return self.cleaned_data.get('grantee')
