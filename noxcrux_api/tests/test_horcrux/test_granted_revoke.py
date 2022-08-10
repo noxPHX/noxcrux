@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
 from noxcrux_api.models.Horcrux import Horcrux
+from noxcrux_api.models.SharedHorcrux import SharedHorcrux
 from noxcrux_api.models.Friend import Friend
 from noxcrux_api.views.Horcrux import HorcruxRevoke
 
@@ -15,7 +16,7 @@ class TestHorcruxRevoke(APITestCase):
         cls.friend = User.objects.create_user(username='test_friend', password='test_friend')
         Friend.objects.create(user=cls.test_user, friend=cls.friend, validated=True)
         cls.horcrux = Horcrux.objects.create(**{'name': 'Google', 'horcrux': 'a5v8t4d', 'site': 'https://google.com', 'owner': cls.test_user})
-        cls.horcrux.grantees.add(cls.friend)
+        SharedHorcrux.objects.create(horcrux=cls.horcrux, grantee=cls.friend)
         cls.url = reverse('api-horcruxes-granted-revoke', args=('Google', 'test_friend'))
 
     @classmethod
@@ -32,16 +33,16 @@ class TestHorcruxRevoke(APITestCase):
 
     def test_revoke(self):
         self.client.force_login(self.test_user)
-        self.assertEqual(self.horcrux.grantees.count(), 1)
+        self.assertEqual(SharedHorcrux.objects.filter(horcrux=self.horcrux, grantee=self.friend).count(), 1)
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(self.horcrux.grantees.count(), 0)
+        self.assertEqual(SharedHorcrux.objects.filter(horcrux=self.horcrux, grantee=self.friend).count(), 0)
 
     def test_revoke_horcrux_not_found(self):
         self.client.force_login(self.test_user)
         response = self.client.delete(reverse('api-horcruxes-granted-revoke', args=('Youtube', 'test_friend')))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-        self.assertEqual(self.horcrux.grantees.count(), 1)
+        self.assertEqual(SharedHorcrux.objects.filter(horcrux=self.horcrux, grantee=self.friend).count(), 1)
 
     def test_not_allowed_get(self):
         self.client.force_login(self.test_user)

@@ -2,6 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from noxcrux_api.models.Horcrux import Horcrux
+from noxcrux_api.models.SharedHorcrux import SharedHorcrux
 from noxcrux_api.models.Friend import Friend
 from noxcrux_api.views.Horcrux import HorcruxGrantedList
 from django.contrib.auth.models import User
@@ -37,7 +38,7 @@ class TestHorcruxGrantedList(APITestCase):
     def test_list_granted_horcruxes(self):
         self.client.force_login(self.test_user)
         horcrux = Horcrux.objects.create(**{'name': 'Google', 'horcrux': 'a5v8t4d', 'site': 'https://google.com', 'owner': self.friend})
-        horcrux.grantees.add(self.test_user)
+        SharedHorcrux.objects.create(horcrux=horcrux, grantee=self.test_user)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual('test_friend', response.data[0]['owner'])
