@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import status
-from noxcrux_api.serializers.User import UserSerializer, PasswordUpdateSerializer, UserUpdateSerializer
+from noxcrux_api.serializers.User import UserListSerializer, UserCreateSerializer, PasswordUpdateSerializer, UserUpdateSerializer
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView, UpdateAPIView
 from rest_framework.response import Response
 from noxcrux_api.permissions import UsersPermissions
@@ -15,9 +15,21 @@ from drf_spectacular.utils import extend_schema, extend_schema_view
     post=extend_schema(description='Register a new user.'),
 )
 class UserList(ListCreateAPIView):
-    serializer_class = UserSerializer
+    serializer_class = UserCreateSerializer
     queryset = User.objects.all()
     permission_classes = [UsersPermissions]
+
+    # FIXME, better way of swapping Serializer ?
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = UserListSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = UserListSerializer(queryset, many=True)
+        return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
         if settings.REGISTRATION_OPEN is False:

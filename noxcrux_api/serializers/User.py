@@ -5,7 +5,13 @@ from noxcrux_api.models.UserKeysContainer import UserKeysContainer
 from django.contrib.auth.password_validation import validate_password
 
 
-class UserSerializer(Serializer):
+class UserListSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username']
+
+
+class UserCreateSerializer(Serializer):
     class Meta:
         fields = ['username', 'password', 'public_key', 'protected_key', 'iv']
 
