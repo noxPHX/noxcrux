@@ -54,3 +54,11 @@ class TestUserCreate(APITestCase):
         response = self.client.post(self.url, data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(User.objects.count(), 0)
+
+    def test_create_user_invalid_password(self):
+        data = self.data.copy()
+        data['password'] = 'a'
+        response = self.client.post(self.url, data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("Anomalous", response.data['password'][0])
+        self.assertEqual(User.objects.count(), 0)

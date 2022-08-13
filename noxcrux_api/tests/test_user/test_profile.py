@@ -58,6 +58,19 @@ class TestProfile(APITestCase):
         self.assertEqual(User.objects.filter(username='test').count(), 0)
         self.assertEqual(User.objects.filter(username='new_test').count(), 1)
 
+    def test_update_username_bad_password(self):
+        data = {
+            'username': 'new_test',
+            'old_password': 'bad_password',
+            'new_password': 'qugoT6EOPW9PU3bfBB4pUc0n/+IrHd6OdNjJCRP2b1A=',
+            'protected_key': 'protected_key',
+        }
+        self.client.force_login(self.test_user)
+        response = self.client.put(self.url, data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(User.objects.filter(username='test').count(), 1)
+        self.assertEqual(User.objects.filter(username='new_test').count(), 0)
+
     def test_delete_account(self):
         self.client.force_login(self.test_user)
         response = self.client.delete(self.url)

@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
 from noxcrux_api.models.UserSession import UserSession
+from django.contrib.sessions.models import Session
 from noxcrux_api.views.UserSession import UserSessionRevoke
 
 
@@ -33,6 +34,14 @@ class TestSessionRevoke(APITestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(UserSession.objects.count(), 0)
+
+    def test_revoke_not_found(self):
+        self.client.force_login(self.test_user)
+        url = reverse('api-sessions-revoke', args=("session",))
+        with self.assertRaises(Session.DoesNotExist):
+            response = self.client.delete(url)
+            self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+            self.assertEqual(UserSession.objects.count(), 1)
 
     def test_not_allowed_get(self):
         self.client.force_login(self.test_user)
