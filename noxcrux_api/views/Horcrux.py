@@ -88,8 +88,13 @@ class HorcruxGrant(ListCreateAPIView):
     serializer_class = GranteeSerializer
 
     def get_serializer_context(self):
+        try:
+            horcrux = Horcrux.objects.get(owner=self.request.user, name=self.kwargs['name'])
+        except Horcrux.DoesNotExist:
+            raise Http404
+
         return {
-            'horcrux': Horcrux.objects.get(owner=self.request.user, name=self.kwargs['name']),  # FIXME get or 404 ?
+            'horcrux': horcrux,
             'request': self.request,
             'format': self.format_kwarg,
             'view': self

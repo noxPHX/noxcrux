@@ -50,8 +50,8 @@ class TestHorcruxGrant(APITestCase):
 
     def test_get_horcrux_not_found(self):
         self.client.force_login(self.test_user)
-        with self.assertRaises(Horcrux.DoesNotExist):
-            self.client.get(reverse('api-horcruxes-grant', args=('Youtube',)))
+        response = self.client.get(reverse('api-horcruxes-grant', args=('Youtube',)))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_post_add_grantees(self):
         Friend.objects.create(user=self.test_user, friend=self.third, validated=True)
@@ -77,6 +77,11 @@ class TestHorcruxGrant(APITestCase):
         response = self.client.post(self.url, {'grantee': 'third', 'shared_horcrux': 'test'})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(SharedHorcrux.objects.count(), 1)
+
+    def test_post_horcrux_not_found(self):
+        self.client.force_login(self.test_user)
+        response = self.client.post(reverse('api-horcruxes-grant', args=('Youtube',)), {'grantee': 'third', 'shared_horcrux': 'test'})
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_not_allowed_put(self):
         self.client.force_login(self.test_user)
