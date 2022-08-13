@@ -50,7 +50,6 @@ class GranteeSerializer(ModelSerializer):
             raise Http404
         if request.user.username == data['grantee'].username:
             raise ValidationError("Users cannot grant themselves horcruxes.")
-        # FIXME check user exists
         if not request.user.friends.filter(friend=data['grantee'], validated=True).exists():
             raise ValidationError(f"You are not friend with {data['grantee']}")
         if SharedHorcrux.objects.filter(grantee=data['grantee'], horcrux=self.context['horcrux']).exists():
