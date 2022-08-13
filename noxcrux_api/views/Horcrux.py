@@ -89,7 +89,7 @@ class HorcruxGrant(ListCreateAPIView):
 
     def get_serializer_context(self):
         return {
-            'horcrux': Horcrux.objects.get(owner=self.request.user, name=self.kwargs['name']),
+            'horcrux': Horcrux.objects.get(owner=self.request.user, name=self.kwargs['name']),  # FIXME get or 404 ?
             'request': self.request,
             'format': self.format_kwarg,
             'view': self

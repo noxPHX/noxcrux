@@ -2,9 +2,10 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from noxcrux_api.models.Horcrux import Horcrux
+from noxcrux_api.models.SharedHorcrux import SharedHorcrux
 from noxcrux_api.models.Friend import Friend
 from noxcrux_api.views.Horcrux import HorcruxGrant
-from noxcrux_api.serializers.Horcrux import GranteesSerializer
+from noxcrux_api.serializers.Horcrux import GranteeSerializer
 from django.contrib.auth.models import User
 
 
@@ -17,7 +18,7 @@ class TestHorcruxGrant(APITestCase):
         cls.third = User.objects.create_user(username='third', password='third')
         Friend.objects.create(user=cls.test_user, friend=cls.friend, validated=True)
         cls.horcrux = Horcrux.objects.create(**{'name': 'Google', 'horcrux': 'a5v8t4d', 'site': 'https://google.com', 'owner': cls.test_user})
-        cls.horcrux.grantees.add(cls.friend)
+        cls.shared_horcrux = SharedHorcrux.objects.create(horcrux=cls.horcrux, grantee=cls.friend)
         cls.url = reverse('api-horcruxes-grant', args=('Google',))
 
     @classmethod
@@ -32,52 +33,53 @@ class TestHorcruxGrant(APITestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def test_unauthorized_put(self):
-        response = self.client.put(self.url)
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-
-    def test_unauthorized_patch(self):
-        response = self.client.patch(self.url)
+    def test_unauthorized_post(self):
+        response = self.client.post(self.url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_get_grantees(self):
         self.client.force_login(self.test_user)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual('test_friend', response.data['grantees'][0])
+        self.assertEqual('test_friend', response.data[0]['grantee'])
 
     def test_get_serializer(self):
         self.client.force_login(self.test_user)
         response = self.client.get(self.url)
-        self.assertEqual(GranteesSerializer(self.horcrux).data, response.data)
+        self.assertEqual([GranteeSerializer(self.shared_horcrux).data], response.json())
 
     def test_get_horcrux_not_found(self):
         self.client.force_login(self.test_user)
-        response = self.client.get(reverse('api-horcruxes-grant', args=('Youtube',)))
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        with self.assertRaises(Horcrux.DoesNotExist):
+            self.client.get(reverse('api-horcruxes-grant', args=('Youtube',)))
 
-    def test_put_add_grantees(self):
+    def test_post_add_grantees(self):
         Friend.objects.create(user=self.test_user, friend=self.third, validated=True)
         self.client.force_login(self.test_user)
-        response = self.client.put(self.url, {'friend': 'third'})
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(self.horcrux.grantees.count(), 2)
+        response = self.client.post(self.url, {'grantee': 'third', 'shared_horcrux': 'test'})
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(SharedHorcrux.objects.count(), 2)
 
-    def test_put_add_grantees_not_friend(self):
+    def test_post_add_grantees_not_friend(self):
         self.client.force_login(self.test_user)
-        response = self.client.put(self.url, {'friend': 'third'})
+        response = self.client.post(self.url, {'grantee': 'third', 'shared_horcrux': 'test'})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(self.horcrux.grantees.count(), 1)
+        self.assertEqual(SharedHorcrux.objects.count(), 1)
 
-    def test_put_add_grantees_self(self):
+    def test_post_add_grantees_self(self):
         self.client.force_login(self.test_user)
-        response = self.client.put(self.url, {'friend': 'test'})
+        response = self.client.post(self.url, {'grantee': 'third', 'shared_horcrux': 'test'})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(self.horcrux.grantees.count(), 1)
+        self.assertEqual(SharedHorcrux.objects.count(), 1)
 
-    def test_not_allowed_post(self):
+    def test_not_allowed_put(self):
         self.client.force_login(self.test_user)
-        response = self.client.post(self.url)
+        response = self.client.put(self.url)
+        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def test_not_allowed_patch(self):
+        self.client.force_login(self.test_user)
+        response = self.client.patch(self.url)
         self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_not_allowed_delete(self):

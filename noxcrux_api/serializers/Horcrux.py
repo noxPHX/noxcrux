@@ -37,12 +37,11 @@ class GranteeSerializer(ModelSerializer):
 
     class Meta:
         model = SharedHorcrux
-        fields = ['horcrux', 'grantee', 'shared_horcrux']
+        fields = ['grantee', 'shared_horcrux']
         extra_kwargs = {
             'shared_horcrux': {'write_only': True},
         }
 
-    horcrux = SlugRelatedField(slug_field='name', read_only=True)
     grantee = SlugRelatedField(slug_field='username', queryset=User.objects.all())
 
     def validate(self, data):

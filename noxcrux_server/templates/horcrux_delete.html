@@ -37,9 +37,9 @@
 
                     <ul class="list-group list-group-flush col-12 friend-scroll p-0">
 
-                        {% for username in grantees %}
+                        {% for obj in grantees %}
                             <li class="list-group-item d-flex justify-content-center">
-                                {{ username }}
+                                {{ obj.grantee }}
                             </li>
                         {% empty %}
                             <li class="list-group-item">
