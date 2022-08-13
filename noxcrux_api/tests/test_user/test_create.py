@@ -10,7 +10,13 @@ class TestUserCreate(APITestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.data = {'username': 'new', 'password': 'new'}
+        cls.data = {
+            'username': 'test',
+            'password': 'qugoT6EOPW9PU3bfBB4pUc0n/+IrHd6OdNjJCRP2b1A=',
+            'public_key': 'public_key',
+            'protected_key': 'protected_key',
+            'iv': 'iv',
+        }
         cls.url = reverse('users')
 
     @classmethod

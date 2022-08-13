@@ -46,11 +46,15 @@ class TestProfile(APITestCase):
         self.assertEqual(response.data, serializer.data)
 
     def test_update_username(self):
-        data = {'username': 'new_test'}
+        data = {
+            'username': 'new_test',
+            'old_password': 'test',
+            'new_password': 'qugoT6EOPW9PU3bfBB4pUc0n/+IrHd6OdNjJCRP2b1A=',
+            'protected_key': 'protected_key',
+        }
         self.client.force_login(self.test_user)
         response = self.client.put(self.url, data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, data)
         self.assertEqual(User.objects.filter(username='test').count(), 0)
         self.assertEqual(User.objects.filter(username='new_test').count(), 1)
 
