@@ -49,7 +49,7 @@ Here is a table with the main technologies, and their current version:
 |-----------------------|:-------:|
 | Django                |   3.2   |
 | Django Rest Framework |  3.12   |
-| DRF Spectacular       |  0.17   |
+| DRF Spectacular       |  0.23   |
 | Bootstrap             |   4.6   |
 | jQuery                |   3.6   |
 | SASS                  |  1.32   |
