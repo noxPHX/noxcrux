@@ -25,12 +25,9 @@ class HorcruxSerializer(ModelSerializer):
         return value
 
     def create(self, validated_data):
-        request = self.context.get('request', None)
-        if request:
-            validated_data['owner_id'] = request.user.id
-            return super().create(validated_data)
-        else:
-            raise Http404
+        request = self.context.get('request')
+        validated_data['owner_id'] = request.user.id
+        return super().create(validated_data)
 
 
 class GranteeSerializer(ModelSerializer):
@@ -45,9 +42,7 @@ class GranteeSerializer(ModelSerializer):
     grantee = SlugRelatedField(slug_field='username', queryset=User.objects.all())
 
     def validate(self, data):
-        request = self.context.get('request', None)
-        if not request:
-            raise Http404
+        request = self.context.get('request')
         if request.user.username == data['grantee'].username:
             raise ValidationError("Users cannot grant themselves horcruxes.")
         if not request.user.friends.filter(friend=data['grantee'], validated=True).exists():
@@ -57,9 +52,5 @@ class GranteeSerializer(ModelSerializer):
         return super().validate(data)
 
     def create(self, validated_data):
-        request = self.context.get('request', None)
-        if request:
-            validated_data['horcrux'] = self.context['horcrux']
-            return super().create(validated_data)
-        else:
-            raise Http404
+        validated_data['horcrux'] = self.context['horcrux']
+        return super().create(validated_data)
