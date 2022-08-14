@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from noxcrux_api.views.User import PasswordUpdate
 
 
-# TODO check anomalous passwords
 class TestPassword(APITestCase):
 
     @classmethod
@@ -76,6 +75,16 @@ class TestPassword(APITestCase):
         self.client.force_login(self.test_user)
         response = self.client.put(self.url, data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertTrue(self.test_user.check_password(self.password))
+
+    def test_update_anomalous_new_password(self):
+        data = self.data.copy()
+        data['new_password1'] = 'a'
+        data['new_password2'] = 'a'
+        self.client.force_login(self.test_user)
+        response = self.client.put(self.url, data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("Anomalous", response.data['non_field_errors'][0])
         self.assertTrue(self.test_user.check_password(self.password))
 
     def test_update_empty_password2(self):
