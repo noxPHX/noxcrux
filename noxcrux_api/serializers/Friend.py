@@ -1,6 +1,5 @@
 from rest_framework.serializers import ModelSerializer, ValidationError, SlugRelatedField, BooleanField
 from noxcrux_api.models.Friend import Friend
-from django.http import Http404
 from django.contrib.auth.models import User
 
 

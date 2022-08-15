@@ -1,8 +1,7 @@
 import django.core.exceptions
-from rest_framework.serializers import Serializer, ModelSerializer, CurrentUserDefault, SlugRelatedField, ValidationError, CharField
+from rest_framework.serializers import ModelSerializer, CurrentUserDefault, SlugRelatedField, ValidationError
 from noxcrux_api.models.Horcrux import Horcrux
 from noxcrux_api.models.SharedHorcrux import SharedHorcrux
-from django.http import Http404
 from django.contrib.auth.models import User
 from django.core.validators import URLValidator
 

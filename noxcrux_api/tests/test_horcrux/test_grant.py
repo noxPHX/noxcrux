@@ -74,9 +74,18 @@ class TestHorcruxGrant(APITestCase):
 
     def test_post_add_grantees_self(self):
         self.client.force_login(self.test_user)
-        response = self.client.post(self.url, {'grantee': 'third', 'shared_horcrux': 'test'})
+        response = self.client.post(self.url, {'grantee': 'test', 'shared_horcrux': 'test'})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(SharedHorcrux.objects.count(), 1)
+
+    def test_post_add_grantees_duplicate(self):
+        Friend.objects.create(user=self.test_user, friend=self.third, validated=True)
+        self.client.force_login(self.test_user)
+        response = self.client.post(self.url, {'grantee': 'third', 'shared_horcrux': 'test'})
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        response = self.client.post(self.url, {'grantee': 'third', 'shared_horcrux': 'test'})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(SharedHorcrux.objects.count(), 2)
 
     def test_post_horcrux_not_found(self):
         self.client.force_login(self.test_user)
