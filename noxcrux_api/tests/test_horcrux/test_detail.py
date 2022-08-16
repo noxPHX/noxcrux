@@ -76,6 +76,16 @@ class TestHorcruxDetail(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual('https://youtube.com', response.data['site'])
 
+    def test_put_horcrux_delete_shared_horcrux(self):
+        friend = User.objects.create_user(username='test_friend', password='test_friend')
+        Friend.objects.create(user=self.test_user, friend=friend, validated=True)
+        SharedHorcrux.objects.create(horcrux=self.horcrux, grantee=friend)
+        self.client.force_login(self.test_user)
+        data = self.data.copy()
+        data['name'] = 'Google2'
+        self.client.put(self.url, data)
+        self.assertEqual(SharedHorcrux.objects.count(), 0)
+
     def test_put_horcrux_invalid_site(self):
         self.client.force_login(self.test_user)
         data = self.data.copy()

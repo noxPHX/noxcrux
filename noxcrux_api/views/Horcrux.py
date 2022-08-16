@@ -30,7 +30,7 @@ class HorcruxSearch(ListAPIView):
 
 @extend_schema_view(
     get=extend_schema(description='Retrieve an horcrux instance.'),
-    put=extend_schema(description='Update an horcrux instance.'),
+    put=extend_schema(description='Update an horcrux instance, revoking all grantees.'),
     delete=extend_schema(description='Remove an horcrux instance.'),
 )
 class HorcruxDetail(RetrieveUpdateDestroyAPIView):

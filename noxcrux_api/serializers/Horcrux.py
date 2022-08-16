@@ -28,6 +28,12 @@ class HorcruxSerializer(ModelSerializer):
         validated_data['owner_id'] = request.user.id
         return super().create(validated_data)
 
+    def update(self, instance, validated_data):
+        updated = super().update(instance, validated_data)
+        # Unshare the horcrux anyway as it's impossible to know whether it has been changed or not
+        SharedHorcrux.objects.filter(horcrux=instance).delete()
+        return updated
+
 
 class GranteeSerializer(ModelSerializer):
 
