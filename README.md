@@ -2,29 +2,27 @@
   <img src="noxcrux_server/static/images/logo_readme.svg">
 </div>
 
-***⚠️ End-to-end encryption milestone, see more [below](#kanban-%EF%B8%8F).***
-
 # noxcrux 🔒
-noxcrux is a Django web app and API which allows you to create and store passwords horcruxes to improve your online security.  
+noxcrux is a Django web application and API which allows you to manage passwords horcruxes to improve your online security.  
 
 ## Introduction 🖋️
-The persons intended by this project are people who are a minimum aware of online security risks and at least use a password manager.  
+The persons intended by this project are people who are a minimum aware of online security risks and already use a password manager.  
 
-noxcrux was inspired by [this article](https://kaizoku.hashnode.dev/double-blind-passwords-aka-horcruxing#double-blind-passwords-aka-horcruxing) and the concept of horcruxes from the universe of Harry Potter.  
+noxcrux was inspired by the security mechanism of password salting/peppering and the concept of horcruxes from the universe of Harry Potter.  
 The aim of this project is to split passwords in multiple horcruxes to mitigate the single point of failure risk induced by password managers.  
 
-**Password horcruxes are not 2FA/MFA and does not pretend to replace it at all.** A password is a sole factor (knowledge) and noxcrux allows you to distribute it across platforms.
+**Password horcruxes are not 2FA/MFA and does not pretend to replace it at all.** A password is a sole factor (knowledge) and noxcrux allows you to distribute it across multiple locations.
 
-The project is still in early development stage (see the [features](#features) and the [to-do list](#todo-list) below) but the end goal is to offer to the users multiple noxcrux' servers to connect to and distribute their online accounts access security to different places.  
+The project is still in early development stage (see the [features](#features) and the [Kanban section](#kanban-%EF%B8%8F) below) but the end goal is to offer to the users multiple servers to connect to and distribute their online accounts access security to different places.  
 
-A web extension will be later developed to allow end users to easily manage their noxcrux' servers and to retrieve and assemble their complete password when they want to login to a website.  
+A web extension will be later developed to allow end users to easily manage their servers and to retrieve and assemble their complete password when they want to log in to a website.  
 
 ### Demo
 Here is a link of a live demo of this project:  
 https://hydrogen.noxcrux.com/
 
 ⚠️ **This is for demonstration purposes only, you should not rely on it.** ⚠️  
-⚠️ **I do not guarantee any SLA and I may shutdown the service or wipe the database without any warrant.** ⚠️
+⚠️ **I do not guarantee any SLA and I may shut down the service or wipe the database without any warrant.** ⚠️
 
 ## Table of contents 📋
 See below the top level parts of this README:  
@@ -40,44 +38,43 @@ See below the top level parts of this README:
 + [Licence](#licence-)
 
 ## Technologies ⚙️
-noxcrux is powered by [Django](https://www.djangoproject.com/) a well-known python web framework and [DRF](https://www.django-rest-framework.org/) for the API ([Spectacular](https://github.com/tfranzel/drf-spectacular) for the reference).  
-It also makes use of [Bootstrap](https://getbootstrap.com/), [jQuery](https://jquery.com/) and [SASS](https://sass-lang.com/) for the web interface.  
+noxcrux is powered by [Django](https://www.djangoproject.com/), a well-known python web framework, and [Django Rest Framework](https://www.django-rest-framework.org/) for the API.  
+It also makes use of [Bootstrap](https://getbootstrap.com/) and [jQuery](https://jquery.com/) for the web interface.  
 
-Here is a table with the main technologies, and their current version:  
+Here is a table with these main tools, and their current version:  
 
-| Technology            | Version |
+| Tool                  | Version |
 |-----------------------|:-------:|
 | Django                |   3.2   |
 | Django Rest Framework |  3.12   |
-| DRF Spectacular       |  0.23   |
 | Bootstrap             |   4.6   |
 | jQuery                |   3.6   |
-| SASS                  |  1.32   |
 
 ## Features ✅
 Here is a list of the main features provided by this project:  
-+ [x] CRUD on horcruxes
++ [x] **Zero-Knowledge End-to-End Encrypted horcruxes**
++ [x] Complete horcrux management
 + [x] Horcrux generator
-+ [x] Horcrux sharing
++ [x] Horcrux sharing & friends management
 + [x] Personal account management
-+ [x] Sessions management
-+ [x] 2-Factor Authentication
-+ [x] Self API Reference
++ [x] Active sessions management
++ [x] 2-Factor authentication
++ [x] Self-served API reference
 + [x] Brute-force protection
 + [x] Easy & Secure deployment with Docker
 
 ## Getting Started 🛠️
 Here is what you need to do to get a noxcrux server up & running. This is also the recommended way to install it for a development setup.
 
-Here are the commands to build the application straight from the sources, find below the [Docker instructions](#docker) for a production-ready environment or to just quickly get a server running.
+Following are the commands to build the application straight from the sources, find below the [Docker instructions](#docker) for a production-ready environment or to just quickly get a server running.
 
 ### Prerequisites
-noxcrux is being developed and tested on debian-based distro, so you will see below the commands for these distributions.
+noxcrux is being developed and tested on debian-based GNU/Linux distributions, so you will see below the commands for them, but you might know how to adapt them.
 
 Django is a python web framework so first you need python and pip to later install modules.  
 I bet you already have them both installed but just in case, here are the commands.  
 
-⚠️ **python3 is required and noxcrux is being developed and tested against python 3.8** ⚠️
+⚠️ **python3 is required and noxcrux is being developed and tested against python 3.8+** ⚠️
 ```bash
 sudo apt update && sudo apt upgrade
 sudo apt install python3 python3-pip
@@ -101,11 +98,11 @@ pip3 install -r requirements.txt
 ```
 
 ### SASS
-As mentioned before, noxcrux makes use of [SASS](https://sass-lang.com/), so you need to compile SCSS files into regular CSS files because these files are not tracked by git.  
+noxcrux makes use of [SASS](https://sass-lang.com/), so you need to compile SCSS files into regular CSS files because these files are not tracked by git.  
 In order to install it, follow the instructions from https://sass-lang.com/.  
 I personally prefer to grab the latest release from https://github.com/sass/dart-sass/releases and untar the file somewhere in my path to be able to use it.  
 ```bash
-wget -O /tmp/sass.tgz https://github.com/sass/dart-sass/releases/download/1.32.5/dart-sass-1.32.5-linux-x64.tar.gz
+wget -O /tmp/sass.tgz https://github.com/sass/dart-sass/releases/download/1.54.4/dart-sass-1.54.4-linux-x64.tar.gz
 tar -xzf /tmp/sass.tgz -C /tmp
 mv /tmp/dart-sass/* /usr/local/bin
 rm -r /tmp/sass.tgz /tmp/dart-sass
@@ -222,8 +219,8 @@ You can find the Kanban of the project in the [dedicated GitHub section](https:/
 You will find there more information about upcoming features and backlog ideas.
 
 ### End-to-end encryption milestone
-Zero-Knowledge end-to-end encryption of horcruxes is an important milestone of this project.  
-This feature will be release for the v2.0 tag.  
+Zero-Knowledge End-to-End Encryption of horcruxes is an important milestone of this project.  
+This feature was released with the v2.0.0 tag and is looking for review.  
 The security model of the approach is soon to be disclosed.  
 
 ## Contributing 🤝
