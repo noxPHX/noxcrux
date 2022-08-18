@@ -3,7 +3,7 @@ FROM debian:buster-slim as sass
 RUN apt-get update && \
     apt-get -y install wget
 
-RUN wget -qO /tmp/sass.tar.gz https://github.com/sass/dart-sass/releases/download/1.32.12/dart-sass-1.32.12-linux-x64.tar.gz && \
+RUN wget -qO /tmp/sass.tar.gz https://github.com/sass/dart-sass/releases/download/1.54.4/dart-sass-1.54.4-linux-x64.tar.gz && \
     tar -xzf /tmp/sass.tar.gz -C /usr/local/bin/ && \
     mv /usr/local/bin/dart-sass/* /usr/local/bin/
 
