@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import status
-from noxcrux_api.serializers.User import UserSerializer, PasswordUpdateSerializer, UserUpdateSerializer
+from noxcrux_api.serializers.User import UserListSerializer, UserCreateSerializer, PasswordUpdateSerializer, UserUpdateSerializer
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView, UpdateAPIView
 from rest_framework.response import Response
 from noxcrux_api.permissions import UsersPermissions
@@ -15,9 +15,14 @@ from drf_spectacular.utils import extend_schema, extend_schema_view
     post=extend_schema(description='Register a new user.'),
 )
 class UserList(ListCreateAPIView):
-    serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = [UsersPermissions]
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return UserListSerializer
+        else:
+            return UserCreateSerializer
 
     def post(self, request, *args, **kwargs):
         if settings.REGISTRATION_OPEN is False:
@@ -35,6 +40,20 @@ class Profile(RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         return self.request.user
+
+    # TODO refacto with class below
+    def put(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        user = self.get_object()
+        serializer = self.get_serializer(user, data=request.data, partial=partial)
+        if serializer.is_valid():
+            user = serializer.save()
+            if hasattr(user, 'auth_token'):
+                user.auth_token.delete()
+            token, created = Token.objects.get_or_create(user=user)
+            update_session_auth_hash(request, user)
+            return Response({'token': token.key}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @extend_schema_view(

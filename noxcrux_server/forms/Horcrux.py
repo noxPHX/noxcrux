@@ -1,12 +1,8 @@
 from django import forms
 from noxcrux_api.models.Horcrux import Horcrux
 from django.core.validators import RegexValidator, URLValidator
-from noxcrux_api.models.Generator import ALLOWED_SYMBOLS
-import re
 
 alphanumeric = RegexValidator(r'^[0-9a-zA-Z]+$', 'Only alphanumeric characters are allowed.')
-horcrux_validator = RegexValidator(r'^[0-9a-zA-Z' + re.escape(ALLOWED_SYMBOLS) + ']+$',
-                                   'Only alphanumeric characters and ' + ALLOWED_SYMBOLS + ' symbols are allowed.')
 
 
 class HorcruxForm(forms.ModelForm):
@@ -20,9 +16,8 @@ class HorcruxForm(forms.ModelForm):
 
     name = forms.CharField(max_length=255, required=True, label="Name", validators=[alphanumeric],
                            widget=forms.TextInput(attrs={'autofocus': True}))
-    horcrux = forms.CharField(max_length=255, required=True, label="Horcrux",
-                              help_text="Please fill out this field or click on the button to generate one.",
-                              validators=[horcrux_validator])
+    horcrux = forms.CharField(max_length=8192, required=True, label="Horcrux",
+                              help_text="Please fill out this field or click on the button to generate one.")
     site = forms.CharField(max_length=255, required=True, label="Site", validators=[URLValidator()])
 
     def clean_name(self):

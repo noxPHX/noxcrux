@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
 from noxcrux_api.views.User import UserList
-from noxcrux_api.serializers.User import UserSerializer
+from noxcrux_api.serializers.User import UserListSerializer
 
 
 class TestUser(APITestCase):
@@ -39,7 +39,7 @@ class TestUser(APITestCase):
 
     def test_serializer(self):
         self.client.force_login(self.admin_user)
-        serializer = UserSerializer(User.objects.all(), many=True)
+        serializer = UserListSerializer(User.objects.all(), many=True)
         response = self.client.get(self.url)
         self.assertEqual(response.data, serializer.data)
 

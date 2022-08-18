@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% load ShowVersion %}
+
+{% load static %}
+
+{% block title %}
+    noxcrux - Crypto
+{% endblock title %}
+
+{% block header %}
+
+    <div class="d-flex justify-content-center align-items-center py-2">
+        <img alt="logo" id="logo-md" src="{% static 'images/logo_white.svg' %}">
+    </div>
+
+{% endblock header %}
+
+{% block content %}
+
+    <div class="d-flex flex-column justify-content-between align-items-center h-i">
+
+        <div class="col-12 bg-light pt-3">
+
+            <h4 class="color-main font-weight-bold">Interactive crypto page</h4>
+
+            <hr/>
+
+            <h5 class="color-main">
+                User information
+            </h5>
+
+            <div class="form-group form-inline justify-content-center">
+
+                <label for="id_username">Username</label>
+                <input class="form-control mx-2" type="text" id="id_username" name="username" placeholder="Username"
+                       autofocus/>
+
+                <label for="id_password">Password</label>
+                <input class="form-control mx-2" type="text" id="id_password" name="password" placeholder="Password"/>
+
+                <button id="id_submit" class="btn btn-main">Run!</button>
+            </div>
+
+            <hr/>
+
+            <h5 class="color-main">
+                Hashes
+            </h5>
+
+            <div class="form-group d-flex flex-column align-items-center">
+
+                <!--
+                <div class="" data-toggle="popover" data-trigger="hover" data-placement="right" data-content="The password is passed to a key derivation function (PBKDF2) with the username as the salt" data-original-title="Master Key">
+                    <label for="id_master_key">Master Key <i class="fas fa-question-circle"></i></label>
+                </div>
+                -->
+                <label for="id_master_key">Master Key <i class="fas fa-question-circle"></i></label>
+                <input class="form-control" type="text" id="id_master_key" placeholder="Master Key" readonly/>
+
+                <label for="id_master_hash" class="mt-3">Master Hash <i class="fas fa-question-circle"></i></label>
+                <input class="form-control" type="text" id="id_master_hash" placeholder="Master Hash" readonly/>
+            </div>
+
+            <hr/>
+
+            <h5 class="color-main">
+                Keys
+            </h5>
+
+            <div class="form-group d-flex flex-column align-items-center">
+
+                <label for="id_public_key">Public Key <i class="fas fa-question-circle"></i></label>
+                <input class="form-control" type="text" id="id_public_key" placeholder="Public Key" readonly/>
+
+                <label for="id_private_key" class="mt-3">Private Key <i class="fas fa-question-circle"></i></label>
+                <input class="form-control" type="text" id="id_private_key" placeholder="Private Key" readonly/>
+
+                <label for="id_iv" class="mt-3">IV <i class="fas fa-question-circle"></i></label>
+                <input class="form-control" type="text" id="id_iv" placeholder="IV" readonly/>
+
+                <label for="id_protected_key" class="mt-3">Protected Key <i class="fas fa-question-circle"></i></label>
+                <input class="form-control" type="text" id="id_protected_key" placeholder="Protected Key" readonly/>
+            </div>
+
+            <hr/>
+
+            <h5 class="color-main">
+                Encryption
+            </h5>
+
+            <div class="form-group form-inline justify-content-center">
+                <label for="id_plain">Plain text</label>
+                <input class="form-control mx-2" type="text" id="id_plain" placeholder="Plain text"/>
+
+                <button id="id_encrypt" class="btn btn-main">Encrypt!</button>
+            </div>
+
+            <div class="form-group">
+                <label for="id_cipher" class="mt-3">Cipher text <i class="fas fa-question-circle"></i></label>
+                <input class="form-control" type="text" id="id_cipher" placeholder="Cipher text" readonly/>
+
+                <label for="id_decrypted" class="mt-3">Decrypted cipher text <i
+                        class="fas fa-question-circle"></i></label>
+                <input class="form-control" type="text" id="id_decrypted" placeholder="Decrypted cipher" readonly/>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block footer %}
+
+    <div class="d-flex justify-content-around align-items-center py-1">
+
+        <div>
+            <img alt="logo" id="logo-sm" src="{% static 'images/logo_white.svg' %}">
+            <small class="font-italic">{% show_version %}</small>
+        </div>
+
+    </div>
+
+{% endblock footer %}
+
+{% block js %}
+    <script src="{% static 'js/crypto/demo.js' %}"></script>
+{% endblock js %}

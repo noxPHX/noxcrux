@@ -21,6 +21,7 @@
                 </p>
                 <form method="POST" role="form" action="{% url 'register' %}">
                     {% include 'form.html' %}
+                    {{ keys_container_form }}
                     <input class="btn btn-main" type="submit" value="Submit"/>
                 </form>
                 <a href="{% url 'login' %}" class="color-warm"><small>Login</small></a>
@@ -30,3 +31,7 @@
     </div>
 
 {% endblock content %}
+
+{% block js %}
+    <script src="{% static 'js/crypto/register.js' %}"></script>
+{% endblock js %}

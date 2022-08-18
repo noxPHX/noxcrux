@@ -1,5 +1,6 @@
 from rest_framework.test import APITestCase
 from noxcrux_api.models.Horcrux import Horcrux
+from noxcrux_api.models.SharedHorcrux import SharedHorcrux
 from noxcrux_api.models.Generator import Generator
 from noxcrux_api.models.Friend import Friend
 from django.contrib.auth.models import User
@@ -32,3 +33,10 @@ class TestModels(APITestCase):
     def test_self_friend_exception(self):
         with self.assertRaises(ValidationError):
             Friend.objects.create(user=self.test_user, friend=self.test_user, validated=False)
+
+    def test_shared_horcrux_str(self):
+        horcrux = Horcrux.objects.create(**self.horcrux_data)
+        Friend.objects.create(user=self.test_user, friend=self.friend, validated=True)
+        shared_horcrux = SharedHorcrux.objects.create(horcrux=horcrux, grantee=self.test_user)
+        self.assertEqual(f"[{str(horcrux.owner)}] {str(horcrux)}", str(shared_horcrux))
+

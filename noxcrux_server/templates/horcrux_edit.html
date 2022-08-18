@@ -13,6 +13,7 @@
             <div class="card-body">
                 <form method="POST" role="form" action="{% url 'horcrux_edit' form.instance.name %}">
                     {% include 'form.html' %}
+                    <div class="font-weight-bold my-3"> Warning: <br> Editing a horcrux will revoke its access to any grantees.</div>
                     <input class="btn btn-main" type="submit" value="Submit"/>
                 </form>
             </div>
@@ -28,5 +29,7 @@
 
     {% load static %}
     <script src="{% static 'js/generate.js' %}"></script>
+    <script src="{% static 'js/crypto/encrypt.js' %}"></script>
+    <script src="{% static 'js/crypto/decrypt-edit.js' %}"></script>
 
 {% endblock js %}

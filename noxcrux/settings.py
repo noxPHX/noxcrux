@@ -3,25 +3,25 @@ from split_settings.tools import include
 from pathlib import Path
 import os
 
-include('settings_drf.py')
-include('settings_cors.py')
-include('settings_csp.py')
-include('settings_axes.py')
-
 
 def get_bool_env(env_var, default='False'):
     return os.getenv(env_var, default).lower() in ('true', '1', 't')
 
 
-NOXCRUX_VERSION = "v1.14.2"
+DEBUG = get_bool_env("DEBUG", 'True')
+
+include('settings_drf.py')
+include('settings_cors.py')
+include('settings_csp.py')
+include('settings_axes.py')
+
+NOXCRUX_VERSION = "v2.0.0"
 NOXCRUX_INSTANCE = os.getenv("NOXCRUX_INSTANCE", 'DEV')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 with open(BASE_DIR / 'secret_key.txt') as f:
     SECRET_KEY = f.read().strip()
-
-DEBUG = get_bool_env("DEBUG", 'True')
 
 if not DEBUG:
     include('settings_security.py')
@@ -112,18 +112,14 @@ DATABASES = {
     }
 }
 
+PASSWORD_HASHERS = [
+    'noxcrux_api.hashers.RelievedPBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+]
+
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'noxcrux_api.validators.Base64Validator',
     },
 ]
 

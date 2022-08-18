@@ -1,7 +1,7 @@
 import django.core.exceptions
-from rest_framework.serializers import Serializer, ModelSerializer, CurrentUserDefault, SlugRelatedField, ValidationError, CharField
+from rest_framework.serializers import ModelSerializer, CurrentUserDefault, SlugRelatedField, ValidationError
 from noxcrux_api.models.Horcrux import Horcrux
-from django.http import Http404
+from noxcrux_api.models.SharedHorcrux import SharedHorcrux
 from django.contrib.auth.models import User
 from django.core.validators import URLValidator
 
@@ -24,37 +24,38 @@ class HorcruxSerializer(ModelSerializer):
         return value
 
     def create(self, validated_data):
-        request = self.context.get('request', None)
-        if request:
-            validated_data['owner_id'] = request.user.id
-            return super().create(validated_data)
-        else:
-            raise Http404
-
-
-class GranteesSerializer(ModelSerializer):
-
-    class Meta:
-        model = Horcrux
-        fields = ['grantees']
-
-    grantees = SlugRelatedField(slug_field='username', queryset=User.objects.all(), many=True)
-
-
-class GranteeSerializer(Serializer):
-
-    friend = CharField(required=True, max_length=150)
-
-    def validate(self, data):
-        request = self.context.get('request', None)
-        if not request:
-            raise Http404
-        if request.user.username == data['friend']:
-            raise ValidationError("Users cannot grant themselves horcruxes.")
-        if not request.user.friends.filter(friend__username=data['friend'], validated=True).exists():
-            raise ValidationError(f"You are not friend with {data['friend']}")
-        return super().validate(data)
+        request = self.context.get('request')
+        validated_data['owner_id'] = request.user.id
+        return super().create(validated_data)
 
     def update(self, instance, validated_data):
-        self.instance.grantees.add(User.objects.get(username=validated_data['friend']))
-        return instance
+        updated = super().update(instance, validated_data)
+        # Unshare the horcrux anyway as it's impossible to know whether it has been changed or not
+        SharedHorcrux.objects.filter(horcrux=instance).delete()
+        return updated
+
+
+class GranteeSerializer(ModelSerializer):
+
+    class Meta:
+        model = SharedHorcrux
+        fields = ['grantee', 'shared_horcrux']
+        extra_kwargs = {
+            'shared_horcrux': {'write_only': True},
+        }
+
+    grantee = SlugRelatedField(slug_field='username', queryset=User.objects.all())
+
+    def validate(self, data):
+        request = self.context.get('request')
+        if request.user.username == data['grantee'].username:
+            raise ValidationError("Users cannot grant themselves horcruxes.")
+        if not request.user.friends.filter(friend=data['grantee'], validated=True).exists():
+            raise ValidationError(f"You are not friend with {data['grantee']}")
+        if SharedHorcrux.objects.filter(grantee=data['grantee'], horcrux=self.context['horcrux']).exists():
+            raise ValidationError(f"{self.context['horcrux']} already shared with {data['grantee']}")
+        return super().validate(data)
+
+    def create(self, validated_data):
+        validated_data['horcrux'] = self.context['horcrux']
+        return super().create(validated_data)

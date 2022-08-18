@@ -61,10 +61,10 @@ class HorcruxDelete(LoginRequiredView):
 
     def get(self, request, *args, **kwargs):
         horcrux = HorcruxDetail().get_horcrux(self.kwargs['name'], self.request.user)
-        context = {'horcrux': horcrux}
-        grantees = HorcruxGrant().as_view()(self.request, name=self.kwargs['name']).data
-        if 'grantees' in grantees:
-            context['grantees'] = grantees['grantees']
+        context = {
+            'horcrux': horcrux,
+            'grantees': HorcruxGrant().as_view()(self.request, name=self.kwargs['name']).data
+        }
         return render(self.request, 'horcrux_delete.html', context)
 
     def post(self, request, *args, **kwargs):
@@ -88,21 +88,20 @@ class HorcruxShare(LoginRequiredFormView):
     def get_form_kwargs(self):
         kwargs = super(HorcruxShare, self).get_form_kwargs()
         kwargs['request'] = self.request
+        kwargs['horcrux'] = self.kwargs['name']
         return kwargs
 
     def get_context_data(self, **kwargs):
         context = super(HorcruxShare, self).get_context_data()
-        context['horcrux'] = self.kwargs['name']
-        res = HorcruxGrant().as_view()(self.request, name=self.kwargs['name']).data
-        if 'grantees' in res:
-            context['grantees'] = res['grantees']
+        context['horcrux'] = HorcruxDetail().get_horcrux(self.kwargs['name'], self.request.user)
+        context['grantees'] = HorcruxGrant().as_view()(self.request, name=self.kwargs['name']).data
         return context
 
     def form_valid(self, form):
-        self.request.method = 'PUT'
+        self.request.method = 'POST'
         res = HorcruxGrant().as_view()(self.request, name=self.kwargs['name'])
-        if res.status_code == 200:
-            messages.success(self.request, f"{self.kwargs['name']} shared successfully with {form.cleaned_data['friend']}!")
+        if res.status_code == 201:
+            messages.success(self.request, f"{self.kwargs['name']} shared successfully with {form.cleaned_data['grantee']}!")
             return super(HorcruxShare, self).form_valid(form)
         else:
             messages.error(self.request, 'An error occurred')

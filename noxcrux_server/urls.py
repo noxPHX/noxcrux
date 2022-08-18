@@ -11,6 +11,7 @@ from noxcrux_server.views.Swagger import APIDocView
 from noxcrux_server.views.Errors import error_404, error_500
 from noxcrux_server.views.UserSession import UserSessions, DeleteUserSession, DeleteUserToken
 from noxcrux_server.views.Notice import NoticeView
+from noxcrux_server.views.Crypto import CryptoView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -20,6 +21,7 @@ urlpatterns = [
     path('login/totp/', TOTPLoginView.as_view(), name="totp"),
     path('logout/', LogoutView.as_view(), name="logout"),
     path('register/', RegisterView.as_view(), name="register"),
+    path('crypto/', CryptoView.as_view(), name="crypto"),
     path('', HomeView.as_view(), name="home"),
     path('horcrux/add/', HorcruxAdd.as_view(), name="horcrux_add"),
     path('horcrux/edit/<str:name>/', HorcruxEdit.as_view(), name="horcrux_edit"),

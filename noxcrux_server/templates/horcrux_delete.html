@@ -10,28 +10,38 @@
 
         <div class="d-flex flex-wrap justify-content-center align-items-center px-3 h-i">
 
-            <div class="card text-center col-sm-4 col-12 p-0 m-2">
+            <div class="card text-center col-sm-3 col-12 p-0 m-2">
                 <div class="card-header">Delete {{ horcrux.name }}</div>
                 <div class="card-body">
                     <form method="POST" role="form" action="{% url 'horcrux_delete' horcrux.name %}">
                         {% csrf_token %}
                         <input class="form-control my-1" value="{{ horcrux.name }}" disabled>
-                        <input class="form-control my-1" value="{{ horcrux.horcrux }}" disabled>
+
+                        <div class="card-body horcrux-copy d-flex justify-content-center align-items-center">
+
+                            <div class="card-text mx-3 px-3" data-name="{{ horcrux.name }}"
+                                 data-value="{{ horcrux.horcrux }}">
+                                &#9679;&#9679;&#9679; <i class="fas fa-lock-open"></i> &#9679;&#9679;&#9679;
+                            </div>
+                        </div>
+
                         <input class="form-control my-1" value="{{ horcrux.site }}" disabled>
                         <input class="btn btn-danger" type="submit" value="Delete"/>
                     </form>
                 </div>
             </div>
 
-            <div class="card text-center col-sm-4 col-12 p-0 m-2">
+            <div class="card text-center col-sm-3 col-12 p-0 m-2">
                 <div class="card-header">{{ horcrux.name }} grantees</div>
                 <div class="card-body row justify-content-center align-items-center">
 
                     <ul class="list-group list-group-flush col-12 friend-scroll p-0">
 
-                        {% for username in grantees %}
+                        <p class="font-weight-bold">The following grantees will lose access to this horcrux:</p>
+
+                        {% for obj in grantees %}
                             <li class="list-group-item d-flex justify-content-center">
-                                {{ username }}
+                                {{ obj.grantee }}
                             </li>
                         {% empty %}
                             <li class="list-group-item">
@@ -51,3 +61,10 @@
     </div>
 
 {% endblock content %}
+
+{% block js %}
+
+    {% load static %}
+    <script src="{% static 'js/crypto/decrypt.js' %}"></script>
+
+{% endblock js %}

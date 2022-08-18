@@ -1,7 +1,7 @@
 {% extends 'authenticated.html' %}
 
 {% block title %}
-    noxcrux - Share {{ horcrux }}
+    noxcrux - Share {{ horcrux.name }}
 {% endblock title %}
 
 {% block content %}
@@ -10,38 +10,57 @@
 
         <div class="d-flex flex-wrap justify-content-center align-items-center px-3 h-i">
 
-            <div class="card text-center col-sm-4 col-12 p-0 m-2">
-                <div class="card-header">Share {{ horcrux }}</div>
-                <div class="card-body">
-                    <p class="card-text">
-                        Enter the username of your friend
-                    </p>
-                    <form method="POST" role="form" action="{% url 'horcrux_share' horcrux %}">
-                        {% include 'form.html' %}
-                        <input class="btn btn-main" type="submit" value="Share {{ horcrux }}"/>
-                    </form>
+            <div class="card text-center col-sm-3 col-12 p-0 m-2">
+
+                <div class="card-header d-flex">
+
+                    <div class="col">{{ horcrux.name }}</div>
+                </div>
+
+                <div class="card-body horcrux-copy d-flex justify-content-center align-items-center">
+
+                    <div class="card-text mx-3 px-3" data-name="{{ horcrux.name }}" data-value="{{ horcrux.horcrux }}">
+                        &#9679;&#9679;&#9679; <i class="fas fa-lock-open"></i> &#9679;&#9679;&#9679;
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <a href="{{ horcrux.site }}" class="color-warm" target="_blank">{{ horcrux.site }}</a>
                 </div>
             </div>
 
-            <div class="card text-center col-sm-4 col-12 p-0 m-2">
-                <div class="card-header">{{ horcrux }} grantees</div>
+            <div class="card text-center col-sm-3 col-12 p-0 m-2">
+                <div class="card-header">{{ horcrux.name }} grantees</div>
                 <div class="card-body row justify-content-center align-items-center">
+
+                    <div>
+
+                        <p class="card-text">
+                            Select a friend
+                        </p>
+                        <form method="POST" role="form" class="form-inline"
+                              data-url="{% url 'users' %}"
+                              action="{% url 'horcrux_share' horcrux.name %}">
+                            {% include 'form.html' %}
+                            <input class="btn btn-main mx-3" type="submit" value="Share {{ horcrux.name }}"/>
+                        </form>
+                    </div>
 
                     <ul class="list-group list-group-flush col-12 friend-scroll">
 
-                        {% for username in grantees %}
+                        {% for obj in grantees %}
 
                             <li class="list-group-item d-flex justify-content-between">
-                                {{ username }}
+                                {{ obj.grantee }}
                                 <div>
-                                    <a href="{% url 'horcrux_unshare' horcrux username %}" class="m-2">
+                                    <a href="{% url 'horcrux_unshare' horcrux.name obj.grantee %}" class="m-2">
                                         <i class="fas fa-user-times color-red"></i>
                                     </a>
                                 </div>
                             </li>
                         {% empty %}
                             <li class="list-group-item">
-                                No friend grantees to show for {{ horcrux }}.
+                                No friend grantees to show for {{ horcrux.name }}.
                             </li>
                         {% endfor %}
                     </ul>
@@ -57,3 +76,11 @@
     </div>
 
 {% endblock content %}
+
+{% block js %}
+
+    {% load static %}
+    <script src="{% static 'js/crypto/decrypt.js' %}"></script>
+    <script src="{% static 'js/crypto/share.js' %}"></script>
+
+{% endblock js %}

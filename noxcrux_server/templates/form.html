@@ -52,6 +52,23 @@
 
             </div>
 
+        {% elif field|is_select %}
+
+            <div class="form-check">
+
+                <select class="form-control"
+                        type="{{ field.field.widget.input_type }}"
+                        name="{{ field.html_name }}"
+                        {% if field.field.required %} required {% endif %}>
+
+                    {% for k, v in field.field.choices %}
+                        <option>{{ v }}</option>
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
         {% else %}
 
             {% if field|is_password or field.label == "Horcrux" %}
@@ -63,6 +80,7 @@
                    name="{{ field.html_name }}"
                    placeholder="{{ field.label }}"
                    maxlength="{{ field.field.max_length }}"
+                   minlength="{{ field.field.min_length }}"
                     {% if field.value %} value="{{ field.value }}" {% endif %}
                     {% if field.field.required %} required {% endif %}
                     {% if field.field.disabled %} disabled {% endif %}

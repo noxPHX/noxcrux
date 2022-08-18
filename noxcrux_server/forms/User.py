@@ -4,6 +4,11 @@ from django.contrib.auth import password_validation
 from django.contrib.auth.forms import AuthenticationForm, UsernameField
 from django.conf import settings
 from noxcrux_api.views.OTP import get_user_totp_device
+from noxcrux_api.models.UserKeysContainer import UserKeysContainer
+from noxcrux_api.validators import Base64Validator
+from django.contrib.auth.forms import PasswordChangeForm
+from noxcrux_api.views.Friend import FriendList
+from noxcrux_api.models.SharedHorcrux import SharedHorcrux
 
 
 class LoginForm(AuthenticationForm):
@@ -37,15 +42,19 @@ class RegisterForm(forms.ModelForm):
 
     password = forms.CharField(
         label="Password",
+        min_length=8,
+        max_length=128,
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
-        help_text=password_validation.password_validators_help_text_html(),
+        help_text=Base64Validator().get_help_text(),
     )
 
     password2 = forms.CharField(
         label="Password confirmation",
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+        min_length=8,
+        max_length=128,
         strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         help_text="Enter the same password as before, for verification.",
     )
 
@@ -83,14 +92,54 @@ class RegisterForm(forms.ModelForm):
         return user
 
 
+class KeysContainerForm(forms.ModelForm):
+    class Meta:
+        model = UserKeysContainer
+        fields = ['public_key', 'protected_key', 'iv']
+
+    public_key = forms.CharField(widget=forms.HiddenInput())
+    protected_key = forms.CharField(widget=forms.HiddenInput())
+    iv = forms.CharField(widget=forms.HiddenInput())
+
+
 class UsernameForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username']
+        fields = ['username', 'old_password', 'new_password', 'protected_key']
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
 
     username = forms.CharField(max_length=255, required=True, label="New username",
                                help_text="Enter your new desired username.",
                                widget=forms.TextInput(attrs={'autofocus': True}))
+
+    old_password = forms.CharField(
+        label="Password",
+        min_length=8,
+        max_length=128,
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'password'}),
+        help_text="To confirm your action, please enter your current password.",
+    )
+
+    new_password = forms.CharField(widget=forms.HiddenInput())
+
+    protected_key = forms.CharField(widget=forms.HiddenInput(), required=True)
+
+    def clean_old_password(self):
+        old_password = self.cleaned_data["old_password"]
+        if not self.user.check_password(old_password):
+            raise forms.ValidationError(
+                "Your password was entered incorrectly. Please enter it again.",
+                code='password_incorrect',
+            )
+        return old_password
+
+
+class PasswordUpdateForm(PasswordChangeForm):
+    protected_key = forms.CharField(widget=forms.HiddenInput(), required=True)
 
 
 class DeleteUserForm(forms.Form):
@@ -157,15 +206,32 @@ class FriendForm(forms.Form):
         return self.cleaned_data['friend']
 
 
-class ShareForm(FriendForm):
+class ShareForm(forms.Form):
 
-    def clean_friend(self):
+    grantee = forms.ChoiceField(required=True)
+    shared_horcrux = forms.CharField(max_length=8192, required=True, widget=forms.HiddenInput())
+
+    def __init__(self, request, horcrux, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.horcrux = horcrux
+        self.request = request
+        self.request.method = 'GET'
+        res = FriendList().as_view()(self.request).data
+        friends = []
+        for friend in res:
+            friends.append([friend['friend'], friend['friend']])
+        self.fields['grantee'].choices = friends
+
+    def clean_grantee(self):
+        # FIXME raises not working?
         try:
-            friend = User.objects.get(username=self.cleaned_data['friend'])
+            grantee = User.objects.get(username=self.cleaned_data.get('grantee'))
         except User.DoesNotExist:
             raise forms.ValidationError("User with that username does not exists")
-        if self.request.user == friend:
+        if self.request.user == grantee:
             raise forms.ValidationError("Users cannot grant themselves horcruxes.")
-        if not self.request.user.friends.filter(friend=friend, validated=True).exists():
-            raise forms.ValidationError(f"You are not friend with {friend}")
-        return self.cleaned_data['friend']
+        if not self.request.user.friends.filter(friend=grantee, validated=True).exists():
+            raise forms.ValidationError(f"You are not friend with {grantee}")
+        if SharedHorcrux.objects.filter(grantee=grantee, horcrux__name=self.horcrux).exists():
+            raise forms.ValidationError(f"{self.horcrux} already shared with {grantee}")
+        return self.cleaned_data.get('grantee')
