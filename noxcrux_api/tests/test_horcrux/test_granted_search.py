@@ -2,6 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from noxcrux_api.models.Horcrux import Horcrux
+from noxcrux_api.models.SharedHorcrux import SharedHorcrux
 from noxcrux_api.models.Friend import Friend
 from noxcrux_api.views.Horcrux import HorcruxGrantedSearch
 from django.contrib.auth.models import User
@@ -15,7 +16,7 @@ class TestHorcruxGrantedSearch(APITestCase):
         cls.friend = User.objects.create_user(username='test_friend', password='test_friend')
         Friend.objects.create(user=cls.test_user, friend=cls.friend, validated=True)
         horcrux = Horcrux.objects.create(**{'name': 'Google', 'horcrux': 'a5v8t4d', 'site': 'https://google.com', 'owner': cls.friend})
-        horcrux.grantees.add(cls.test_user)
+        SharedHorcrux.objects.create(horcrux=horcrux, grantee=cls.test_user)
         cls.url = reverse('api-horcruxes-granted-search', args=('goo',))
 
     @classmethod

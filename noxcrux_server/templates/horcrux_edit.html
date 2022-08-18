@@ -13,6 +13,7 @@
             <div class="card-body">
                 <form method="POST" role="form" action="{% url 'horcrux_edit' form.instance.name %}">
                     {% include 'form.html' %}
+                    <div class="font-weight-bold my-3"> Warning: <br> Editing a horcrux will revoke its access to any grantees.</div>
                     <input class="btn btn-main" type="submit" value="Submit"/>
                 </form>
             </div>

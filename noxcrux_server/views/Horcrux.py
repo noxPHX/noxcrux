@@ -61,10 +61,10 @@ class HorcruxDelete(LoginRequiredView):
 
     def get(self, request, *args, **kwargs):
         horcrux = HorcruxDetail().get_horcrux(self.kwargs['name'], self.request.user)
-        context = {'horcrux': horcrux}
-        grantees = HorcruxGrant().as_view()(self.request, name=self.kwargs['name']).data
-        if 'grantees' in grantees:
-            context['grantees'] = grantees['grantees']
+        context = {
+            'horcrux': horcrux,
+            'grantees': HorcruxGrant().as_view()(self.request, name=self.kwargs['name']).data
+        }
         return render(self.request, 'horcrux_delete.html', context)
 
     def post(self, request, *args, **kwargs):

@@ -7,6 +7,7 @@
 # Python files
 __pycache__
 *.sqlite*
+.coverage
 
 # CSS
 noxcrux_server/static/css

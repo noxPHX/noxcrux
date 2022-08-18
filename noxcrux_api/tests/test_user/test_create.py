@@ -10,7 +10,13 @@ class TestUserCreate(APITestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.data = {'username': 'new', 'password': 'new'}
+        cls.data = {
+            'username': 'test',
+            'password': 'qugoT6EOPW9PU3bfBB4pUc0n/+IrHd6OdNjJCRP2b1A=',
+            'public_key': 'public_key',
+            'protected_key': 'protected_key',
+            'iv': 'iv',
+        }
         cls.url = reverse('users')
 
     @classmethod
@@ -47,4 +53,12 @@ class TestUserCreate(APITestCase):
         data['password'] = ''
         response = self.client.post(self.url, data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(User.objects.count(), 0)
+
+    def test_create_user_anomalous_password(self):
+        data = self.data.copy()
+        data['password'] = 'a'
+        response = self.client.post(self.url, data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("Anomalous", response.data['password'][0])
         self.assertEqual(User.objects.count(), 0)

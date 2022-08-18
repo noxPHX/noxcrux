@@ -1,11 +1,8 @@
-from rest_framework import status
 from noxcrux_api.serializers.Horcrux import HorcruxSerializer, GranteeSerializer
 from noxcrux_api.models.Horcrux import Horcrux
 from noxcrux_api.models.SharedHorcrux import SharedHorcrux
 from django.http import Http404
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, DestroyAPIView
-from rest_framework.response import Response
-from django.contrib.auth.models import User
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from django.db.models import Q
 
@@ -33,7 +30,7 @@ class HorcruxSearch(ListAPIView):
 
 @extend_schema_view(
     get=extend_schema(description='Retrieve an horcrux instance.'),
-    put=extend_schema(description='Update an horcrux instance.'),
+    put=extend_schema(description='Update an horcrux instance, revoking all grantees.'),
     delete=extend_schema(description='Remove an horcrux instance.'),
 )
 class HorcruxDetail(RetrieveUpdateDestroyAPIView):
@@ -88,8 +85,13 @@ class HorcruxGrant(ListCreateAPIView):
     serializer_class = GranteeSerializer
 
     def get_serializer_context(self):
+        try:
+            horcrux = Horcrux.objects.get(owner=self.request.user, name=self.kwargs['name'])
+        except Horcrux.DoesNotExist:
+            raise Http404
+
         return {
-            'horcrux': Horcrux.objects.get(owner=self.request.user, name=self.kwargs['name']),
+            'horcrux': horcrux,
             'request': self.request,
             'format': self.format_kwarg,
             'view': self
